@@ -20,18 +20,9 @@ find_package(Qt6Widgets REQUIRED)
 set(FORMS_DIR "${CMAKE_SOURCE_DIR}/forms")
 set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
 set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
-set(IEC61850_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/iec61850/inc"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/iec61850/inc_private"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/common/inc"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/goose"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/sampled_values"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/mms/inc"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/mms/inc_private"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/mms/iso_mms/asn1c"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/src/logging"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/hal/inc"
-                         "${CMAKE_SOURCE_DIR}/lib/libiec61850/config")
-#set(LIB_DIR "${CMAKE_SOURCE_DIR}/lib/build")
+set(IEC61850_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/libiec61850/include/libiec61850")
+#set(LIB_DIR "${CMAKE_SOURCE_DIR}/libiec61850/lib")
+#set(BIN_DIR "${CMAKE_SOURCE_DIR}/libiec61850/bin")
 
 include_directories(${FORMS_DIR})
 include_directories(${INCLUDE_DIR})
@@ -43,6 +34,7 @@ file(GLOB_RECURSE SOURCES
     "${FORMS_DIR}/*.qrc"
     "${INCLUDE_DIR}/*.h"
     "${SOURCE_DIR}/*.cpp"
+    "${IEC61850_INCLUDE_DIR}/*.h"
 )
 
 #=================== SETUP EXECTUABLE ====================#
@@ -70,6 +62,7 @@ target_include_directories(MY_PROJECT PRIVATE ${IEC61850_INCLUDE_DIR})
 #===================== LINKING LIBRARIES =======================#
 target_link_libraries(MY_PROJECT Qt6::Widgets)
 #target_link_libraries(MY_PROJECT ${LIB_DIR})
+#target_link_libraries(MY_PROJECT ${BIN_DIR})
 
 
 #C:\TEMP\Code\IEC61850_Qt\examples\QtWidgets\Qt6CMake-main\build;
