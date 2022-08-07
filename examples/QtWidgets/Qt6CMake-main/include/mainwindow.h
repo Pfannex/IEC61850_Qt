@@ -5,6 +5,10 @@
 #include <QString>
 #include <QMessageBox>
 
+#include "iec61850_client.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 
 namespace Ui {
 class MainWindow;
@@ -26,3 +30,5 @@ private:
 };
 
 #endif // MAINWINDOW_H
+
+

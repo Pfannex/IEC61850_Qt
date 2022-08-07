@@ -21,7 +21,7 @@ void MainWindow::on_pushButton_clicked() {
     IedClientError error;
 
     IedConnection con = IedConnection_create();
-
+    
     IedConnection_connect(con, &error, "localhost", 102);
 
     if (error == IED_ERROR_OK) {
