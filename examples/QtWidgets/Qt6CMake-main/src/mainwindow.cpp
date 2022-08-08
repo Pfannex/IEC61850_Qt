@@ -13,10 +13,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked() {
+void MainWindow::on_bu_connect_clicked() {
     
     QString txt = "HelloWorld!";
-
+    
     
     IedClientError error;
 

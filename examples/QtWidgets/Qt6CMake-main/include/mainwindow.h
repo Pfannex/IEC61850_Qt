@@ -23,7 +23,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_bu_connect_clicked();
 
 private:
     Ui::MainWindow *ui;
