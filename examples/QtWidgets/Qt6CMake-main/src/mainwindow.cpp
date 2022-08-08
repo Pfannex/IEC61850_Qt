@@ -17,7 +17,7 @@ void MainWindow::on_pushButton_clicked() {
     
     QString txt = "HelloWorld!";
 
-    /*
+    
     IedClientError error;
 
     IedConnection con = IedConnection_create();
@@ -33,7 +33,7 @@ void MainWindow::on_pushButton_clicked() {
     }
 
     IedConnection_destroy(con);
-    */
+    /**/
 
     QMessageBox::about(this, "Title", txt);
 }
