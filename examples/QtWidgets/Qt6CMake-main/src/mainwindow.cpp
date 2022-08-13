@@ -10,23 +10,84 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    client.close_client();
     delete ui;
 }
 
 void MainWindow::on_bu_connect_clicked() {
-    
+    int res = client.connect_to_server("127.0.0.1", 102);
+    ui->tb_serverLog->append((QString::number(res)));
+}
+
+void MainWindow::on_bu_on_clicked() {
+    ui->tb_controlLog->append("control -> ON");
+    //printf("IEC61850_Client::control\n");
+    //client.xcontrol();
+    //control("", 2);
+    //ui->tb_controlLog->append(control("ON", 2));
+    //Thread_sleep(1000);
+
+
+    IedConnection con;
     IedClientError error;
-    IedConnection con = IedConnection_create();
+
+    con = IedConnection_create();
     IedConnection_connect(con, &error, "127.0.0.1", 102);
 
-    if (error == IED_ERROR_OK) {
-        ui->tb_serverLog->append("connected to server: 127.0.0.1");
-        IedConnection_close(con);
-        ui->tb_serverLog->append("connection closed");
+    ControlObjectClient control = ControlObjectClient_create("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos", con);
+
+    //ControlObjectClient_setCommandTerminationHandler(control, commandTerminationHandler, NULL);
+
+    MmsValue* ctlVal = MmsValue_newBoolean(true);
+    //MmsValue* ctlVal = MmsValue_newBitString(2);            ;
+
+    ControlObjectClient_setOrigin(control, NULL, 3);
+
+    if (ControlObjectClient_operate(control, ctlVal, 0 /* operate now */)) {
+        printf("operated successfully\n");
     }
     else {
-        ui->tb_serverLog->append("failed to connect");
+        printf("failed to operate\n");
     }
 
-    IedConnection_destroy(con);
+
 }
+void MainWindow::on_bu_off_clicked() {
+    ui->tb_controlLog->append("control -> OFF");
+    ui->tb_controlLog->append("control -> ON");
+    //printf("IEC61850_Client::control\n");
+    //client.xcontrol();
+    //control("", 2);
+    //ui->tb_controlLog->append(control("ON", 2));
+    //Thread_sleep(1000);
+
+
+    IedConnection con;
+    IedClientError error;
+
+    con = IedConnection_create();
+    IedConnection_connect(con, &error, "127.0.0.1", 102);
+
+    ControlObjectClient control = ControlObjectClient_create("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos", con);
+
+    //ControlObjectClient_setCommandTerminationHandler(control, commandTerminationHandler, NULL);
+
+    MmsValue* ctlVal = MmsValue_newBoolean(false);
+    //MmsValue* ctlVal = MmsValue_newBitString(2);            ;
+
+    ControlObjectClient_setOrigin(control, NULL, 3);
+
+    if (ControlObjectClient_operate(control, ctlVal, 0 /* operate now */)) {
+        printf("operated successfully\n");
+    }
+    else {
+        printf("failed to operate\n");
+    }
+
+}
+
+
+//------------------------------------------------------------------------------------------------------------------
+
+
+
