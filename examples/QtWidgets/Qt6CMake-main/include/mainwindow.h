@@ -24,10 +24,13 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void on_commandTermination(string result);
+
 private slots:
     void on_bu_connect_clicked();
     void on_bu_on_clicked();
     void on_bu_off_clicked();
+    void on_bu_state_clicked();
 
 private:
     Ui::MainWindow *ui;

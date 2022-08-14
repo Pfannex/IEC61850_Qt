@@ -6,88 +6,48 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    client.set_callback(std::bind(&MainWindow::on_commandTermination, this, std::placeholders::_1));
+}
+
+void MainWindow::on_commandTermination(string result) {
+    ui->tb_serverLog->append(QString::fromStdString(result));
 }
 
 MainWindow::~MainWindow()
 {
-    client.close_client();
+    client.close();
     delete ui;
 }
 
 void MainWindow::on_bu_connect_clicked() {
-    int res = client.connect_to_server("127.0.0.1", 102);
-    ui->tb_serverLog->append((QString::number(res)));
+    int ret = client.connect_to_server("127.0.0.1", 102);
+    ui->tb_serverLog->append((QString::number(ret)));
 }
 
 void MainWindow::on_bu_on_clicked() {
     ui->tb_controlLog->append("control -> ON");
-    //printf("IEC61850_Client::control\n");
-    //client.xcontrol();
-    //control("", 2);
-    //ui->tb_controlLog->append(control("ON", 2));
-    //Thread_sleep(1000);
-
-
-    IedConnection con;
-    IedClientError error;
-
-    con = IedConnection_create();
-    IedConnection_connect(con, &error, "127.0.0.1", 102);
-
-    ControlObjectClient control = ControlObjectClient_create("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos", con);
-
-    //ControlObjectClient_setCommandTerminationHandler(control, commandTerminationHandler, NULL);
-
-    MmsValue* ctlVal = MmsValue_newBoolean(true);
-    //MmsValue* ctlVal = MmsValue_newBitString(2);            ;
-
-    ControlObjectClient_setOrigin(control, NULL, 3);
-
-    if (ControlObjectClient_operate(control, ctlVal, 0 /* operate now */)) {
-        printf("operated successfully\n");
+    if (client.control_switch("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos", true)) {
+        ui->tb_controlLog->append("control successfull");
+        ui->tb_controlLog->append(QString::fromStdString(client.read_state("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos.stVal")));
     }
     else {
-        printf("failed to operate\n");
-    }
-
-
-}
+        ui->tb_controlLog->append("control failed");
+    };
+ }
 void MainWindow::on_bu_off_clicked() {
     ui->tb_controlLog->append("control -> OFF");
-    ui->tb_controlLog->append("control -> ON");
-    //printf("IEC61850_Client::control\n");
-    //client.xcontrol();
-    //control("", 2);
-    //ui->tb_controlLog->append(control("ON", 2));
-    //Thread_sleep(1000);
-
-
-    IedConnection con;
-    IedClientError error;
-
-    con = IedConnection_create();
-    IedConnection_connect(con, &error, "127.0.0.1", 102);
-
-    ControlObjectClient control = ControlObjectClient_create("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos", con);
-
-    //ControlObjectClient_setCommandTerminationHandler(control, commandTerminationHandler, NULL);
-
-    MmsValue* ctlVal = MmsValue_newBoolean(false);
-    //MmsValue* ctlVal = MmsValue_newBitString(2);            ;
-
-    ControlObjectClient_setOrigin(control, NULL, 3);
-
-    if (ControlObjectClient_operate(control, ctlVal, 0 /* operate now */)) {
-        printf("operated successfully\n");
+    if (client.control_switch("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos", false)) {
+        ui->tb_controlLog->append("control successfull");
+        ui->tb_controlLog->append(QString::fromStdString(client.read_state("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos.stVal")));
     }
     else {
-        printf("failed to operate\n");
-    }
-
+        ui->tb_controlLog->append("control failed");
+    };
 }
 
-
-//------------------------------------------------------------------------------------------------------------------
-
+void MainWindow::on_bu_state_clicked() {
+    ui->tb_controlLog->append(QString::fromStdString(client.read_state("WA22_Q06_B1_B42Steuerung/LSCSWI1.Pos.stVal")));
+}
 
 
