@@ -1,7 +1,12 @@
 #include <iec61850_control.h>
 
 int IEC61850_Client::connect_to_server(string ip, int port) {
-	return 0;
+
+    con = IedConnection_create();
+    IedConnection_connect(con, &error, ip.c_str(), port);
+
+    IedConnection_destroy(con);
+	return error;
 }
 
 void IEC61850_Client::close() {
