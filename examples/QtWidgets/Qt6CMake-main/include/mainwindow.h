@@ -24,7 +24,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void on_commandTermination(string result);
+    //void on_commandTermination(string result);
 
 private slots:
     void on_bu_connect_clicked();

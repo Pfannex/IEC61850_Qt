@@ -7,12 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    client.set_callback(std::bind(&MainWindow::on_commandTermination, this, std::placeholders::_1));
+    //client.set_callback(std::bind(&MainWindow::on_commandTermination, this, std::placeholders::_1));
 }
 
-void MainWindow::on_commandTermination(string result) {
-    ui->tb_serverLog->append(QString::fromStdString(result));
-}
+//void MainWindow::on_commandTermination(string result) {
+//    ui->tb_serverLog->append(QString::fromStdString(result));
+//}
 
 MainWindow::~MainWindow()
 {
