@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_bu_connect_clicked() {
-    int ret = client.connect_to_server("127.0.0.1", 102);
+    int ret = client.connect_to_server("192.168.2.61", 102);
     ui->tb_serverLog->append((QString::number(ret)));
 }
 
