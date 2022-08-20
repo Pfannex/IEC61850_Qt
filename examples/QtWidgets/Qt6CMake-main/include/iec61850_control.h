@@ -15,8 +15,9 @@ class IEC61850_Client {
 
 public:
 	int connect_to_server(string ip, int port);
+	bool is_connected = false;
 	void close();
-	bool control_switch(string path, bool cmd);
-
+	bool control_switch(string path, bool cmd, int wait);
+	static void commandTerminationHandler(void* parameter, ControlObjectClient connection);
 	string read_state(string state);
 };
