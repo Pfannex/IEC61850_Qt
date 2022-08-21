@@ -8,12 +8,17 @@ using namespace std;
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <functional>
+typedef std::function<void(string&)> String_CallbackFunction;
+String_CallbackFunction on_wifi_scan_result;
+
 
 class IEC61850_Client {
+public:
+
 	IedClientError error;
 	IedConnection con;
 
-public:
 	int connect_to_server(string ip, int port);
 	bool is_connected = false;
 	void close();
@@ -21,3 +26,5 @@ public:
 	static void commandTerminationHandler(void* parameter, ControlObjectClient connection);
 	string read_state(string state);
 };
+
+void cmd_ter_callback(string addCause);

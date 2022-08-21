@@ -1,5 +1,6 @@
 #include <iec61850_control.h>
 
+
 int IEC61850_Client::connect_to_server(string ip, int port) {
 
     con = IedConnection_create();
@@ -15,10 +16,13 @@ void IEC61850_Client::close() {
     is_connected = false;
 }
 
+void cmd_ter_callback(string addCause){
+
+}
+
 void IEC61850_Client::commandTerminationHandler(void* parameter, ControlObjectClient connection){
-
-    printf("commandTerminationHandler\n");
-
+    cmd_ter_callback("HelloWorld!");
+    
     LastApplError lastApplError = ControlObjectClient_getLastApplError(connection);
 
     /* if lastApplError.error != 0 this indicates a CommandTermination- */
@@ -30,8 +34,6 @@ void IEC61850_Client::commandTerminationHandler(void* parameter, ControlObjectCl
     else
         printf("Received CommandTermination+.\n");
 }
-
-
 
 bool IEC61850_Client::control_switch(string path, bool cmd, int wait) {
     bool ret = false;
