@@ -10,14 +10,21 @@ using namespace std;
 
 #include <functional>
 typedef std::function<void(string&)> String_CallbackFunction;
-String_CallbackFunction on_wifi_scan_result;
 
+class Callback {
+public:
+	void set_callback(String_CallbackFunction cmd_ter_callback);
+	String_CallbackFunction on_cmd_ter_callback;
+	void newLine(string line);
+};
 
 class IEC61850_Client {
 public:
 
 	IedClientError error;
 	IedConnection con;
+	ControlObjectClient control;
+	Callback cb;
 
 	int connect_to_server(string ip, int port);
 	bool is_connected = false;
@@ -27,4 +34,4 @@ public:
 	string read_state(string state);
 };
 
-void cmd_ter_callback(string addCause);
+

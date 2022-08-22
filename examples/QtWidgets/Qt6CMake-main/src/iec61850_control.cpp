@@ -1,8 +1,19 @@
 #include <iec61850_control.h>
 
 
+void Callback::set_callback(String_CallbackFunction cmd_ter_callback) {
+    on_cmd_ter_callback = cmd_ter_callback;
+}
+void Callback::newLine(string line) {
+    if (on_cmd_ter_callback != nullptr)
+        on_cmd_ter_callback(line);
+}
+
+//---------------------------------------------------------------
+
 int IEC61850_Client::connect_to_server(string ip, int port) {
 
+ 
     con = IedConnection_create();
     IedConnection_connect(con, &error, ip.c_str(), port);
 
@@ -16,31 +27,34 @@ void IEC61850_Client::close() {
     is_connected = false;
 }
 
-void cmd_ter_callback(string addCause){
-
-}
 
 void IEC61850_Client::commandTerminationHandler(void* parameter, ControlObjectClient connection){
-    cmd_ter_callback("HelloWorld!");
-    
-    LastApplError lastApplError = ControlObjectClient_getLastApplError(connection);
+    //if (parameter != nullptr)
+    Callback* log = (Callback*)parameter;
 
+    LastApplError lastApplError = ControlObjectClient_getLastApplError(connection);
+    log->newLine("CommandTermination");
     /* if lastApplError.error != 0 this indicates a CommandTermination- */
     if (lastApplError.error != 0) {
-        printf("Received CommandTermination-.\n");
-        printf(" LastApplError: %i\n", lastApplError.error);
-        printf("      addCause: %i\n", lastApplError.addCause);
+        log->newLine("BF--");
+        log->newLine("Error");
+        log->newLine("addCause");
+        //printf("Received CommandTermination-.\n");
+        //printf(" LastApplError: %i\n", lastApplError.error);
+        //printf("      addCause: %i\n", lastApplError.addCause);
     }
     else
-        printf("Received CommandTermination+.\n");
+        log->newLine("BF++");
+        //printf("Received CommandTermination+.\n");
 }
 
 bool IEC61850_Client::control_switch(string path, bool cmd, int wait) {
     bool ret = false;
     if (is_connected) {
 
-        ControlObjectClient control = ControlObjectClient_create(path.c_str(), con);
-        ControlObjectClient_setCommandTerminationHandler(control, commandTerminationHandler, NULL);
+        control = ControlObjectClient_create(path.c_str(), con);
+
+        ControlObjectClient_setCommandTerminationHandler(control, commandTerminationHandler, &cb);
 
         MmsValue* ctlVal = MmsValue_newBoolean(cmd);
 

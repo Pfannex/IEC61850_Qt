@@ -7,8 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string>
-using namespace std;
+
 
 #include <iec61850_control.h>
 
@@ -24,7 +23,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    //void on_commandTermination(string result);
+    void on_commandTermination(string result);
 
 private slots:
     void on_bu_connect_clicked();
