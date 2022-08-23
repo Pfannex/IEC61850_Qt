@@ -31,9 +31,9 @@ void IEC61850_Client::close() {
 void IEC61850_Client::commandTerminationHandler(void* parameter, ControlObjectClient connection){
     //if (parameter != nullptr)
     Callback* log = (Callback*)parameter;
+    log->newLine("CommandTermination");
 
     LastApplError lastApplError = ControlObjectClient_getLastApplError(connection);
-    log->newLine("CommandTermination");
     /* if lastApplError.error != 0 this indicates a CommandTermination- */
     if (lastApplError.error != 0) {
         log->newLine("BF--");

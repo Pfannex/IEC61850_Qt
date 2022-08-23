@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::on_commandTermination(string result) {
+    ui->tb_controlLog->append("callback received");
     ui->tb_controlLog->append(QString::fromStdString(result));
 }
 
