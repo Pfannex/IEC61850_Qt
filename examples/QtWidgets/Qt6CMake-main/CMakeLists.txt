@@ -15,19 +15,25 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 find_package(Qt6Core REQUIRED)
 find_package(Qt6Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Network Widgets)
+
+#find_package(libiec61850 REQUIRED)
+message("found!!")
 
 #=================== INCLUSION OF Project Files ====================#
 set(FORMS_DIR "${CMAKE_SOURCE_DIR}/forms")
 set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
 set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
-#set(IEC61850_INCLUDE_DIR "C:/Program Files/libiec61850/include/libiec61850")
-#set(LIB_DIR "C:/Program Files/libiec61850/lib")
-set(IEC61850_INCLUDE_DIR "T:/Coding/repos/libs/iec61850/include/libiec61850")
-set(LIB_DIR "T:/Coding/repos/libs/iec61850/lib")
+set(IEC61850_INCLUDE_DIR "C:/Program Files/libiec61850/include/libiec61850")
+set(LIB_DIR "C:/Program Files/libiec61850/lib")
+#set(IEC61850_INCLUDE_DIR "T:/Coding/repos/libs/iec61850/include/libiec61850")
+#set(LIB_DIR "T:/Coding/repos/libs/iec61850/lib")
 
 include_directories(${FORMS_DIR})
 include_directories(${INCLUDE_DIR})
 include_directories(${SOURCE_DIR})
+
+
 
 file(GLOB_RECURSE SOURCES
     "${FORMS_DIR}/*.ui"
@@ -63,5 +69,10 @@ target_include_directories(MY_PROJECT PRIVATE ${IEC61850_INCLUDE_DIR})
 target_link_libraries(MY_PROJECT ${LIB_DIR}/iec61850.lib )
 target_link_libraries(MY_PROJECT ${LIB_DIR}/hal.lib )
 #target_link_libraries(MY_PROJECT ${LIB_DIR}/hal-shared.lib )
-target_link_libraries(MY_PROJECT Qt6::Widgets)
-
+target_link_libraries(MY_PROJECT 
+    Qt6::Widgets
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Network
+    Qt6::Widgets
+)

@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="/">
+    <file>KITT.png</file>
+    <file>TEST.png</file>
+    <file>on.png</file>
+    <file>off.png</file>
+    <file>online.png</file>
+    <file>offline.png</file>
+    <file>plus.png</file>
+    <file>minus.png</file>
+  </qresource>
+  <qresource prefix="icons"/>
+</RCC>
