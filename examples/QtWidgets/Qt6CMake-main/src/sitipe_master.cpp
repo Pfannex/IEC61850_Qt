@@ -58,7 +58,7 @@ void TcpSocket::disconnected(){
 }
 
 void TcpSocket::readyRead(){
-    qDebug() << "reading...";
+    //qDebug() << "reading...";
     //emit do_writeTCPLog("reading...");
 
     QByteArray data;
@@ -138,6 +138,7 @@ void SITIPE_Master::receiveFrame(QByteArray data) {
     Header h;
 
     if (getHeader(data, h)) {
+        /*
         qDebug() << "------------------------------";
         qDebug() << "Typ:     " << h.type;
         qDebug() << "Size:    " << h.size;
@@ -145,7 +146,7 @@ void SITIPE_Master::receiveFrame(QByteArray data) {
         //qDebug() << "ts_ms:   " << h.ts_ms;
         qDebug() << h.str_ts;
         qDebug() << "------------------------------";
-
+        */
         if (h.type == 4)
             slaveInitResponse_0004(data, h);
         else if (h.type == 5)
@@ -288,6 +289,9 @@ void SITIPE_Master::masterInitRequest_0000() {
 }
 
 void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bool value) {
+    
+    //check if PTM is connected
+    
     if (socketOnline and slaveConnected) {
         emit do_writeTCPLog("<-- [0001] masterTransmit", color_master, Qt::white);
 
@@ -318,9 +322,12 @@ void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bo
         data.insert(2, getHex_fromInt(length, 4));
         emit sendFrame(data);
 
+        qDebug() << "ptmIndex" << ptmIndex;
+
         QString strState = " -> ";
         strState.append((value) ? "ON" : "OFF");
-        emit do_writeTCPLog("                   I/O: " + QString::number(channel) + strState, color_masterSub, Qt::black);
+        emit do_writeTCPLog("       PTM: " + ptm.id[ptmIndex].str_ptmID + "  I/O: "
+            + QString::number(channel) + strState, color_masterSub, Qt::black);
 
     }
     else {
@@ -331,9 +338,9 @@ void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bo
 
 void SITIPE_Master::masterKeepAlive_0002() {
     if (socketOnline and slaveConnected) {
-        emit do_writeTCPLog("<-- [0002] masterKeepAlive", color_master, Qt::white);
+        //emit do_writeTCPLog("<-- [0002] masterKeepAlive", color_master, Qt::white);
 
-        qDebug() << "KeepAllive";
+        //qDebug() << "KeepAllive";
         QByteArray data;
         data = QByteArray::fromHex("00020000001000000000e1f13d5cf7e5"
             "080000000000");
@@ -378,7 +385,7 @@ void SITIPE_Master::slaveInitResponse_0004(QByteArray data, Header h) {
 }
 
 void SITIPE_Master::slaveKeepAlive_0005(QByteArray data, Header h) {
-    emit do_writeTCPLog("--> [0005] slaveKeepAlive", color_slave, Qt::white);
+    //emit do_writeTCPLog("--> [0005] slaveKeepAlive", color_slave, Qt::white);
 }
 
 void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
@@ -398,12 +405,18 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
 void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
     emit do_writeTCPLog("--> [0007] slaveTransmit", color_slave, Qt::white);
 
+    int ptmIndex = getInt_fromData(data.mid(22, 2));
     qint16 io = getInt_fromData(data.mid(24, 2)) +1;
     qint8 state = data[35];
     QString strState = " -> ";
     strState.append((state) ? "ON" : "OFF");
-    emit do_writeTCPLog("                   I/O: " + QString::number(io) + strState, color_slaveSub, Qt::black);
 
+    qDebug() << "slave index: " << ptmIndex;
+    qDebug() << "slave ptm: " << ptm.id[ptmIndex].str_ptmID;
+
+    emit do_writeTCPLog("       PTM: " + ptm.id[ptmIndex].str_ptmID + "  I/O: " 
+        + QString::number(io) + strState, color_slaveSub, Qt::black);
+ 
 
     qDebug() << "IO: " << io << " | state: " << state;
 

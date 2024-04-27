@@ -1372,6 +1372,9 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="autoScroll">
+         <bool>true</bool>
+        </property>
         <property name="itemAlignment">
          <set>Qt::AlignRight</set>
         </property>

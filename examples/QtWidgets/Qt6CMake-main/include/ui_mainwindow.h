@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowpKDGdt.ui'
+** Form generated from reading UI file 'mainwindowBYktgm.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWPKDGDT_H
-#define MAINWINDOWPKDGDT_H
+#ifndef MAINWINDOWBYKTGM_H
+#define MAINWINDOWBYKTGM_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -618,6 +618,7 @@ public:
         font2.setFamilies({QString::fromUtf8("Calibri")});
         font2.setPointSize(10);
         lw_serverLog->setFont(font2);
+        lw_serverLog->setAutoScroll(true);
         lw_serverLog->setItemAlignment(Qt::AlignRight);
         cb_ptmonline = new QCheckBox(SITIPEMaster);
         cb_ptmonline->setObjectName(QString::fromUtf8("cb_ptmonline"));
@@ -740,4 +741,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWPKDGDT_H
+#endif // MAINWINDOWBYKTGM_H

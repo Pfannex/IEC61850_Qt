@@ -68,6 +68,9 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
     ui->lw_serverLog->addItem(txt);
     ui->lw_serverLog->item(ui->lw_serverLog->count() - 1)->setForeground(bColor);
     ui->lw_serverLog->item(ui->lw_serverLog->count() - 1)->setBackground(fColor);
+
+    ui->lw_serverLog->scrollToBottom();
+
     //ui->lw_serverLog->setAutoScroll(true);
 }
 
@@ -75,7 +78,7 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
 
 void MainWindow::setIO(int io, bool state) {
     if (io == 1) {
-        ui->IO_1->setEnabled(true);
+        //ui->IO_1->setEnabled(true);
         ui->IO_1->setChecked(state);
     }
     if (io == 2) ui->IO_2->setChecked(state);
@@ -241,25 +244,13 @@ void MainWindow::on_bu_delPTM_clicked() {
     */
 }
 
-void MainWindow::on_setIO(int channel, bool value) {
-
-}
-
 
 void MainWindow::on_IO_1_clicked() {
     ui->IO_1->setChecked(ui->IO_1->isChecked());
-    ui->IO_1->setEnabled(false);
-    QListWidgetItem* item = ui->lw_PTM->currentItem();
-    QString qitem = item->text();
-    int id = qitem.toInt();
-    qDebug() << "##############################" ;
-    qDebug() << "row: " << id;
-    qDebug() << "##############################";
-
-    sitipe_master.masterTransmit_0001(0,id, 1, ui->IO_1->isChecked());
-
-    //use ID from selected List entry
+    //ui->IO_1->setEnabled(false);
+    emit on_setIO(1, ui->IO_1->isChecked());
 }
+
 
 
 
