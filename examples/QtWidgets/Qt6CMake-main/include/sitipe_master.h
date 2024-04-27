@@ -83,6 +83,7 @@ private:
     struct PTM {
         int ptm_index;
         int ptmID;
+        QString str_ptmID;
         IOSet io[48];
         bool connected = false;
     };
@@ -119,6 +120,7 @@ public slots:
     void receiveFrame(QByteArray data);
     void KeepAllive();
     void updateSocketState(bool online);
+    void setIO(int channel, bool value);
     void KITT();
     void TEST();
     void ptm_change(int ptmID);
@@ -143,13 +145,10 @@ private:
     };
 
  
-
-
     bool socketOnline = false;
     bool slaveConnected = false;
     int activePTM = 0;
     int activePTM_index = 0;
-    //QList<int> modules;
 
     //Master->Slave
     void masterInitRequest_0000();

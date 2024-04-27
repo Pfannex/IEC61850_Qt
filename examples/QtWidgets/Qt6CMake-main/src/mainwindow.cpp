@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&sitipe_master, SIGNAL(do_setIO(int, bool)), this, SLOT(setIO(int, bool)));
     connect(&sitipe_master, SIGNAL(do_setPTMConnectionStatus(bool)), this, SLOT(setPTMConnectionStatus(bool)));
     //mainwindow -> sitipe MASTER
+    connect(this, SIGNAL(on_setIO(int, bool)), &sitipe_master, SLOT(setIO(int, bool)));
     connect(this, SIGNAL(on_bu_KITT_clicked()), &sitipe_master, SLOT(KITT()));
     connect(this, SIGNAL(on_bu_TEST_clicked()), &sitipe_master, SLOT(TEST()));
 
@@ -239,6 +240,11 @@ void MainWindow::on_bu_delPTM_clicked() {
     emit on_update_ptm(modules);
     */
 }
+
+void MainWindow::on_setIO(int channel, bool value) {
+
+}
+
 
 void MainWindow::on_IO_1_clicked() {
     ui->IO_1->setChecked(ui->IO_1->isChecked());

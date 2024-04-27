@@ -53,6 +53,9 @@ private slots:
 
 signals:
     void on_ptm_change(int ptmID);
+    void on_setIO(int channel, bool value);
+
+
     void on_bu_KITT_clicked();
     void on_bu_TEST_clicked();
 

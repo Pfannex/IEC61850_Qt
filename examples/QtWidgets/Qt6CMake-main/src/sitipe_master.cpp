@@ -107,6 +107,7 @@ SITIPE_PTM::SITIPE_PTM(QObject* parent) :
 void SITIPE_PTM::add(int ptmID) {
     PTM x;
     x.ptmID = ptmID;
+    x.str_ptmID = QString::number(ptmID);
     id.append(x);
 }
 void SITIPE_PTM::del(int index) {
@@ -178,7 +179,7 @@ void SITIPE_Master::ptm_change(int ptmID) {
         if (activePTM != ptmID) {
             activePTM = ptmID;
             activePTM_index = ptm.getIndexfromPtmID(ptmID);
-            if (slaveConnected) masterInitRequest_0000();
+            //if (slaveConnected) masterInitRequest_0000();
         }
      }
      else {
@@ -189,6 +190,13 @@ void SITIPE_Master::ptm_change(int ptmID) {
      qDebug() << "activePTM:       " << activePTM;
      qDebug() << "activePTM_index: " << activePTM_index;
 
+}
+
+void SITIPE_Master::setIO(int channel, bool value) {
+
+    if (ptm.id.count() > 0) {
+        masterTransmit_0001(activePTM_index, activePTM, channel, value);
+    }
 }
 
 
@@ -251,14 +259,14 @@ void SITIPE_Master::masterInitRequest_0000() {
         data.append(getHex_fromInt(0, 8));                                     //Time
         length = length + 16;
 
-        if (modules.count() > 0) {
-            data.append(getHex_fromInt(modules.count(), 4));                   //PTMs count
+        if (ptm.id.count() > 0) {
+            data.append(getHex_fromInt(ptm.id.count(), 4));                    //PTMs count
             length = length + 4;
 
-            for (int i = 0; i < modules.count(); i++) {
+            for (int i = 0; i < ptm.id.count(); i++) {
                 data.append(getHex_fromInt(5, 4));                              //legth PTM ID String
                 length = length + 4;
-                data.append(getHex_fromStr(modules[i], 5));                     //PTM ID String
+                data.append(getHex_fromStr(ptm.id[i].ptmID, 5));                //PTM ID String
                 length = length + 5;
             }
         }
