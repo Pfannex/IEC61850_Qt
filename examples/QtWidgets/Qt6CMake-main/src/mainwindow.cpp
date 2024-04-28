@@ -76,6 +76,9 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
 
 //----------------------------
 
+
+change to array
+
 void MainWindow::setIO(int io, bool state) {
     if (io == 1) {
         //ui->IO_1->setEnabled(true);

@@ -74,18 +74,18 @@ public:
     void add(int ptmID);
     void del(int index);
     int getIndexfromPtmID(int ptmID);
+    void printPTM(int ptmID);
 
 private:
     struct IOSet {
-        int channel;
-        int value;
+        bool value = false;
     };
     struct PTM {
         int ptm_index;
         int ptmID;
+        bool connected = false;
         QString str_ptmID;
         IOSet io[48];
-        bool connected = false;
     };
 
 public:

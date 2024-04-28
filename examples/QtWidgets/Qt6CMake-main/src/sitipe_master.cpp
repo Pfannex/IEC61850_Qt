@@ -107,7 +107,8 @@ SITIPE_PTM::SITIPE_PTM(QObject* parent) :
 void SITIPE_PTM::add(int ptmID) {
     PTM x;
     x.ptmID = ptmID;
-    x.str_ptmID = QString::number(ptmID);
+    x.ptm_index = id.count();
+    x.str_ptmID = QStringLiteral("%1").arg(ptmID, 5, 10, QLatin1Char('0'));
     id.append(x);
 }
 void SITIPE_PTM::del(int index) {
@@ -119,6 +120,69 @@ int SITIPE_PTM::getIndexfromPtmID(int ptmID) {
         if (id[i].ptmID == ptmID) return i;
     }
     return 0;
+}
+
+void SITIPE_PTM::printPTM(int ptmID) {
+    int index = getIndexfromPtmID(ptmID);
+    qDebug() << "--< PTM " << id[index].str_ptmID << ">----------";
+    qDebug() << " Modul ID:    " << id[index].str_ptmID;
+    qDebug() << " Modul Index: " << id[index].ptm_index;
+    QString con = (id[index].connected) ? "connected" : "disconnected";
+    qDebug() << " connected:   " << con;
+    if (id[index].connected) {
+        QString val = "";
+        for (int i = 0; i < 5; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        val.append(" ");
+        for (int i = 5; i < 10; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        qDebug() << "     I/O  1-10" << val;
+        val.clear();
+
+        for (int i=10; i < 15; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        val.append(" ");
+        for (int i = 15; i < 20; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        qDebug() << "     I/O 11-20" << val;
+        val.clear();
+
+        for (int i=20; i < 25; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        val.append(" ");
+        for (int i = 25; i < 30; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        qDebug() << "     I/O 21-30" << val;
+        val.clear();
+
+        for (int i=30; i < 35; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        val.append(" ");
+        for (int i = 35; i < 40; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        qDebug() << "     I/O 31-40" << val;
+        val.clear();
+
+        for (int i=40; i < 45; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        val.append(" ");
+        for (int i = 45; i < 48; i++) {
+            val.append((id[index].io[i].value) ? "X" : "-");
+        }
+        qDebug() << "     I/O 41-48" << val;
+
+
+    }
+    qDebug() << "----------------------------";
 }
 
 
@@ -364,6 +428,11 @@ void SITIPE_Master::masterOutputs_0010() {
 void SITIPE_Master::slaveInitResponse_0004(QByteArray data, Header h) {
     int connections_accepted = getInt_fromData(data.mid(22, 2));
     int ptm_count = getInt_fromData(data.mid(24, 4));
+    int ptmID = 0;
+
+    for (int i = 0; i < ptm_count; i++) {
+        ptm.id[i].connected = false;
+    }
 
     emit do_writeTCPLog("--> [0004] slaveInitResponse", color_slave, Qt::white);
     if (connections_accepted != 0) {
@@ -378,9 +447,20 @@ void SITIPE_Master::slaveInitResponse_0004(QByteArray data, Header h) {
 
         emit do_writeTCPLog(QString("                    %1 PTMs connected").arg(ptm_count), color_slaveSub, Qt::black);
         for (int i = 0; i < ptm_count; i++) {
-            QString ptm = QString(data.mid(32 + (i*9), 5));
-            emit do_writeTCPLog("                       - " + ptm, color_slaveSub, Qt::black);
+            QString strPTM = QString(data.mid(32 + (i*9), 5));
+            int ptmID = strPTM.toInt();
+
+            int ptmIndex = ptm.getIndexfromPtmID(ptmID);
+            ptm.id[ptmIndex].connected = true;
+
+            emit do_writeTCPLog("                       - " + ptm.id[ptmIndex].str_ptmID,
+                color_slaveSub, Qt::black);
+        
         }   
+    }
+
+    for (int i = 0; i < ptm.id.count(); i++) {
+        ptm.printPTM(ptm.id[i].ptmID);
     }
 }
 
@@ -392,33 +472,55 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
     emit do_writeTCPLog("--> [0006] slavePTMStatus", color_slave, Qt::white);
     
     int ptm_count = getInt_fromData(data.mid(22, 4));
+    for (int i = 0; i < ptm_count; i++) {
+        ptm.id[i].connected = false;
+    }
+
     QString strPtm_count = QString::number(ptm_count);
     emit do_writeTCPLog("                    PTM count: " + strPtm_count, color_slaveSub, Qt::black);
     for (int i = 0; i < ptm_count; i++) {
-        QString ptm = QString(data.mid(30 + (i * 62), 5));
+        QString strPTM = QString(data.mid(30 + (i * 62), 5));
+        int ptmID = strPTM.toInt();
+        int ptmIndex = ptm.getIndexfromPtmID(ptmID);
+
         bool readOK = getInt_fromData(data.mid(35 + (i * 62), 1));
         QString result = (readOK) ? " -> read OK" : " -> read NOT OK";
-        emit do_writeTCPLog("                       - " + ptm + result, color_slaveSub, Qt::black);
+        if (readOK) ptm.id[ptmIndex].connected = true;
+        
+        emit do_writeTCPLog("                       - " + ptm.id[ptmIndex].str_ptmID
+            + result, color_slaveSub, Qt::black);
+        
+        ptm.printPTM(ptm.id[i].ptmID);
     }
 }
 
 void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
     emit do_writeTCPLog("--> [0007] slaveTransmit", color_slave, Qt::white);
 
+    QString strPTM = QString(data.mid(32, 5));
+    int ptmID = strPTM.toInt();
     int ptmIndex = getInt_fromData(data.mid(22, 2));
     qint16 io = getInt_fromData(data.mid(24, 2)) +1;
     qint8 state = data[35];
+
+    ptm.id[ptm.getIndexfromPtmID(ptmID)].ptm_index = ptmIndex;
+    ptm.id[ptmIndex].io[io-1].value = state;
+
+    ptm.printPTM(ptm.id[ptmIndex].ptmID);
+
+    //--------------
+
     QString strState = " -> ";
     strState.append((state) ? "ON" : "OFF");
 
-    qDebug() << "slave index: " << ptmIndex;
-    qDebug() << "slave ptm: " << ptm.id[ptmIndex].str_ptmID;
+    //qDebug() << "slave index: " << ptmIndex;
+    //qDebug() << "slave ptm: " << ptm.id[ptmIndex].str_ptmID;
 
     emit do_writeTCPLog("       PTM: " + ptm.id[ptmIndex].str_ptmID + "  I/O: " 
         + QString::number(io) + strState, color_slaveSub, Qt::black);
  
 
-    qDebug() << "IO: " << io << " | state: " << state;
+    //qDebug() << "IO: " << io << " | state: " << state;
 
     emit do_setIO(io, state);
 }

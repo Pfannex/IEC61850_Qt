@@ -39,6 +39,3 @@ QByteArray getHex_fromStr(int value, int bytes) {
 
 
 
-
-
-
