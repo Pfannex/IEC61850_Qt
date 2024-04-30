@@ -522,7 +522,9 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
 
     //qDebug() << "IO: " << io << " | state: " << state;
 
-    emit do_setIO(io, state);
+    if (ptmIndex == activePTM_index) {
+        emit do_setIO(activePTM_index);
+    }
 }
 
 void SITIPE_Master::slaveQuit_0008(QByteArray data, Header h) {

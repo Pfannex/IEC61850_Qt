@@ -108,10 +108,12 @@ public:
     void masterQuit_0003(int reason);
     void masterTransmit_0001(int ptmIndex, int ptmID, int channel, bool value);
     SITIPE_PTM ptm;
+    int activePTM = 0;
+    int activePTM_index = 0;
 
 signals:
     void sendFrame(QByteArray data);
-    void do_setIO(int, bool);
+    void do_setIO(int activePTM_index);
     void do_writeTCPLog(QString txt, QColor fColor, QColor bColor);
     void do_setPTMConnectionStatus(bool value);
 
@@ -147,8 +149,6 @@ private:
  
     bool socketOnline = false;
     bool slaveConnected = false;
-    int activePTM = 0;
-    int activePTM_index = 0;
 
     //Master->Slave
     void masterInitRequest_0000();
