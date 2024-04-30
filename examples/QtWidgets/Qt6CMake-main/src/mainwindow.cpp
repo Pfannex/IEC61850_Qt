@@ -82,6 +82,15 @@ void MainWindow::setIO() {
     if (sitipe_master.ptm.id.count() > 0) {
         int id = sitipe_master.activePTM_index;
 
+        for (int i = 0; i < 48; i++) {
+            QString cbName = "IO_";
+            cbName.append(QString::number(i + 1));
+            QCheckBox* cb = ui->SITIPEMaster->findChild<QCheckBox*>(cbName);
+
+            cb->setChecked(sitipe_master.ptm.id[id].io[i].value);
+        }
+
+        /*
         ui->IO_1->setChecked(sitipe_master.ptm.id[id].io[0].value);
         ui->IO_2->setChecked(sitipe_master.ptm.id[id].io[1].value);
         ui->IO_3->setChecked(sitipe_master.ptm.id[id].io[2].value);
@@ -130,7 +139,7 @@ void MainWindow::setIO() {
         ui->IO_46->setChecked(sitipe_master.ptm.id[id].io[45].value);
         ui->IO_47->setChecked(sitipe_master.ptm.id[id].io[46].value);
         ui->IO_48->setChecked(sitipe_master.ptm.id[id].io[47].value);
-
+        */
 
     }
 }
@@ -213,6 +222,15 @@ void MainWindow::on_bu_addPTM_clicked() {
     }
     */
 }
+
+void MainWindow::mousePressEvent(QMouseEvent* ev) {
+    
+    QWidget* const widget = childAt(ev->pos());
+
+    qDebug() << "child widget" << widget;
+
+}
+
 
 void MainWindow::on_bu_delPTM_clicked() {
     int ptmID = 0;

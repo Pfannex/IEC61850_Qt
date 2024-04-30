@@ -252,8 +252,8 @@ void SITIPE_Master::ptm_change(int ptmID) {
          activePTM_index = -1;
 
      }
-     qDebug() << "activePTM:       " << activePTM;
-     qDebug() << "activePTM_index: " << activePTM_index;
+     //qDebug() << "activePTM:       " << activePTM;
+     //qDebug() << "activePTM_index: " << activePTM_index;
 
 }
 

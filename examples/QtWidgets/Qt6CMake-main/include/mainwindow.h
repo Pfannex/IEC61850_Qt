@@ -12,6 +12,8 @@
 #include <QDataStream>
 #include <QDialog>
 #include <QTcpSocket>
+#include <QEvent>
+#include <QWidget>
 
 #include "ui_mainwindow.h"
 #include <iec61850_control.h>
@@ -35,6 +37,9 @@ public:
 //user interface
 private:
     Ui::MainWindow *ui;
+protected:
+    void mousePressEvent(QMouseEvent* ev);
+
 private slots:
     void on_bu_close_clicked();
     void on_bu_connect_clicked();
