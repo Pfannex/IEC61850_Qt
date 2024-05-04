@@ -81,7 +81,8 @@ private:
         bool value = false;
     };
     struct PTM {
-        int ptm_index;
+        int ptm_index = -1;
+        int ptm_Listindex = -1;
         int ptmID;
         bool connected = false;
         QString str_ptmID;

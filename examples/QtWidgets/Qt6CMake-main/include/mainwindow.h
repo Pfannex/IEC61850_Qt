@@ -14,6 +14,8 @@
 #include <QTcpSocket>
 #include <QEvent>
 #include <QWidget>
+#include <QButtonGroup>
+
 
 #include "ui_mainwindow.h"
 #include <iec61850_control.h>
@@ -37,8 +39,8 @@ public:
 //user interface
 private:
     Ui::MainWindow *ui;
-protected:
-    void mousePressEvent(QMouseEvent* ev);
+    QButtonGroup *ioGroup;
+
 
 private slots:
     void on_bu_close_clicked();
@@ -52,6 +54,9 @@ private slots:
     void on_bu_addPTM_clicked();
     void on_bu_delPTM_clicked();
 
+    void on_ioGroup_clicked(int id);
+
+    /*
     void on_IO_1_clicked();
     void on_IO_2_clicked();
     void on_IO_3_clicked();
@@ -100,7 +105,7 @@ private slots:
     void on_IO_46_clicked();
     void on_IO_47_clicked();
     void on_IO_48_clicked();
-
+    */
 
 
 signals:

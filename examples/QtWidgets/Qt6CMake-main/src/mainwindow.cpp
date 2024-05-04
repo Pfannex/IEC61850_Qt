@@ -37,6 +37,21 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&sitipe_socket, SIGNAL(do_receiveFrame(QByteArray)), &sitipe_master, SLOT(receiveFrame(QByteArray)));
     //sitipe MASTER -> sitipe SOCKET
     connect(&sitipe_master, SIGNAL(sendFrame(QByteArray)), &sitipe_socket, SLOT(write(QByteArray)));
+
+    ioGroup = new QButtonGroup(this);
+    //ioGroup->addButton(ui->IO_1);
+    
+    for (int i = 0; i < 48; i++) {
+        QString cbName = "IO_";
+        cbName.append(QString::number(i + 1));
+        QCheckBox* cb = ui->SITIPEMaster->findChild<QCheckBox*>(cbName);
+
+        ioGroup->addButton(cb, i);
+    }
+    connect(ioGroup, SIGNAL(idClicked(int)), this, SLOT(on_ioGroup_clicked(int)));
+
+    //connect(ioGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_ioGroup_clicked(int)(int)));
+    //connect(ioGroup, &QButtonGroup::idClicked, this, &MainWindow::on_ioGroup_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -44,6 +59,8 @@ MainWindow::~MainWindow()
     client.close();
     delete ui;
 }
+
+
 
 void MainWindow::on_bu_close_clicked() {
     close();
@@ -77,18 +94,47 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
 //----------------------------
 
 
+void MainWindow::on_ioGroup_clicked(int id) {
+    qDebug() << "[MainWindow::on_ioGroup_clicked]----------------";
+    qDebug() << "  id clicked " << id;
+
+    QAbstractButton* cb = ioGroup->button(id);
+    cb->setChecked(cb->isChecked());
+
+    qDebug() << "  Object     " << cb->objectName();
+    qDebug() << "  buttonID   " << id + 1;
+
+    emit on_setIO(id + 1, cb->isChecked());
+}
 
 void MainWindow::setIO() {
     if (sitipe_master.ptm.id.count() > 0) {
         int id = sitipe_master.activePTM_index;
+        qDebug() << "[MainWindow::setIO]-------------------------";
+        qDebug() << "active PTM: " << id;
+        /*
+        for (int i = 0; i < 48; i++) {
+            QAbstractButton* cb = ioGroup->button(i);
+            qDebug() << "    IO:  " << cb->objectName();
+            qDebug() << "    val: " << sitipe_master.ptm.id[id].io[i].value;
 
+
+            cb->setChecked(sitipe_master.ptm.id[id].io[i].value);
+        }
+        */
+        
         for (int i = 0; i < 48; i++) {
             QString cbName = "IO_";
             cbName.append(QString::number(i + 1));
             QCheckBox* cb = ui->SITIPEMaster->findChild<QCheckBox*>(cbName);
 
+            //qDebug() << "    IO:  " << cb->objectName();
+            //qDebug() << "    val: " << sitipe_master.ptm.id[id].io[i].value;
+
             cb->setChecked(sitipe_master.ptm.id[id].io[i].value);
         }
+        
+
 
         /*
         ui->IO_1->setChecked(sitipe_master.ptm.id[id].io[0].value);
@@ -223,13 +269,9 @@ void MainWindow::on_bu_addPTM_clicked() {
     */
 }
 
-void MainWindow::mousePressEvent(QMouseEvent* ev) {
-    
-    QWidget* const widget = childAt(ev->pos());
 
-    qDebug() << "child widget" << widget;
 
-}
+
 
 
 void MainWindow::on_bu_delPTM_clicked() {
@@ -271,6 +313,8 @@ void MainWindow::on_bu_delPTM_clicked() {
 }
 
 // add PTM Index
+
+/*
 void MainWindow::on_IO_1_clicked() {
     ui->IO_1->setChecked(ui->IO_1->isChecked());
     emit on_setIO(1, ui->IO_1->isChecked());
@@ -464,7 +508,7 @@ void MainWindow::on_IO_48_clicked() {
     emit on_setIO(48, ui->IO_48->isChecked());
 }
 
-
+*/
 
 
 

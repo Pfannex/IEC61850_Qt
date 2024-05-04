@@ -124,7 +124,7 @@ int SITIPE_PTM::getIndexfromPtmID(int ptmID) {
 
 void SITIPE_PTM::printPTM(int ptmID) {
     int index = getIndexfromPtmID(ptmID);
-    qDebug() << "--< PTM " << id[index].str_ptmID << ">----------";
+    qDebug() << "[PTM " << id[index].str_ptmID << "]-------------";
     qDebug() << " Modul ID:    " << id[index].str_ptmID;
     qDebug() << " Modul Index: " << id[index].ptm_index;
     QString con = (id[index].connected) ? "connected" : "disconnected";
@@ -182,7 +182,6 @@ void SITIPE_PTM::printPTM(int ptmID) {
 
 
     }
-    qDebug() << "----------------------------";
 }
 
 
@@ -240,6 +239,9 @@ void SITIPE_Master::updateSocketState(bool online) {
 }
 
 void SITIPE_Master::ptm_change(int ptmID) {
+    qDebug() << "[SITIPE_Master::ptm_change]------------------";
+
+
      if (ptmID > 0) {
         if (activePTM != ptmID) {
             activePTM = ptmID;
@@ -252,8 +254,8 @@ void SITIPE_Master::ptm_change(int ptmID) {
          activePTM_index = -1;
 
      }
-     //qDebug() << "activePTM:       " << activePTM;
-     //qDebug() << "activePTM_index: " << activePTM_index;
+     qDebug() << "  activePTM:       " << activePTM;
+     qDebug() << "  activePTM_index: " << activePTM_index;
 
 }
 
@@ -355,7 +357,16 @@ void SITIPE_Master::masterInitRequest_0000() {
 void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bool value) {
     
     //check if PTM is connected
-    
+
+    qDebug() << "[masterTransmit_0001]----------------";
+    qDebug() << "  ptmIndex" << ptmIndex;
+    qDebug() << "  ptmID   " << ptmID;
+    qDebug() << "  channel " << channel;
+    qDebug() << "  value   " << value;
+
+
+
+
     if (socketOnline and slaveConnected) {
         emit do_writeTCPLog("<-- [0001] masterTransmit", color_master, Qt::white);
 
@@ -386,7 +397,6 @@ void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bo
         data.insert(2, getHex_fromInt(length, 4));
         emit sendFrame(data);
 
-        qDebug() << "ptmIndex" << ptmIndex;
 
         QString strState = " -> ";
         strState.append((value) ? "ON" : "OFF");
