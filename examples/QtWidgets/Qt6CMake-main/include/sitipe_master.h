@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QTime>
+#include <QtWidgets/QListWidget>
+
 
 
 #include <stdlib.h>
@@ -39,12 +41,6 @@ signals:
     void do_setConnectionStatus(bool value);
     void do_receiveFrame(QByteArray data);
 
-signals:
-    void transmit_to_gui(bool value);
-
-private slots:
-    void receive_from_gui(bool value);
-
 public slots:
     void connected();
     void disconnected();
@@ -71,9 +67,15 @@ class SITIPE_PTM : public QObject
 
 public:
     explicit SITIPE_PTM(QObject* parent = 0);
-    void add(int ptmID);
+    void add(int ptmID, int listIndex);
     void del(int index);
-    int getIndexfromPtmID(int ptmID);
+    int active_ptmID = -1;
+    int active_ptmIndex = -1;        //from PTM Slave
+    int active_ptmListIndex = -1;    //from QListWidget = QList
+
+    int getptmIndexfromPtmID(int ptmID);
+    int getListIndexfromPtmID(int ptmID);
+    void printInfo();
     void printPTM(int ptmID);
 
 private:
@@ -81,18 +83,17 @@ private:
         bool value = false;
     };
     struct PTM {
-        int ptm_index = -1;
-        int ptm_Listindex = -1;
-        int ptmID;
+        int ptmIndex = -1;
+        int ptmListIndex = -1;
+        int ptmID = -1;
         bool connected = false;
-        QString str_ptmID;
+        QString str_ptmID = "-----";
         IOSet io[48];
     };
 
 public:
-    QList<PTM> id;
+    QList<PTM> index;
 
-public:
 };
 
 //#############################################################################
@@ -102,19 +103,15 @@ class SITIPE_Master : public QObject
 {
     Q_OBJECT
 
-
-
 public:
     explicit SITIPE_Master(QObject* parent = 0);
     void masterQuit_0003(int reason);
     void masterTransmit_0001(int ptmIndex, int ptmID, int channel, bool value);
     SITIPE_PTM ptm;
-    int activePTM = 0;
-    int activePTM_index = 0;
-
+ 
 signals:
     void sendFrame(QByteArray data);
-    void do_setIO(int activePTM_index);
+    void do_setIO();
     void do_writeTCPLog(QString txt, QColor fColor, QColor bColor);
     void do_setPTMConnectionStatus(bool value);
 

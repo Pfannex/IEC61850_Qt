@@ -7,14 +7,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
 {
     ui->setupUi(this);
-    client.cb.set_callback(std::bind(&MainWindow::on_commandTermination, this, std::placeholders::_1));
  
     //Dialog Events
     QObject::connect(ui->lw_PTM, SIGNAL(itemSelectionChanged()),this, SLOT(on_lw_PTM_selection_changed()));
-
-    //DEMO
-    connect(&sitipe_socket, SIGNAL(transmit_to_gui(bool)), this, SLOT(receive_from_object(bool)));
-    connect(this, SIGNAL(transmit_to_object(bool)), &sitipe_socket, SLOT(receive_from_gui(bool)));
 
     //sitipe SOCKET -> mainwindow
     connect(&sitipe_socket, SIGNAL(do_writeTCPLog(QString, QColor, QColor)), this, SLOT(writeTCPLog(QString, QColor, QColor)));
@@ -25,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     //sitipe MASTER -> mainwindow 
     connect(&sitipe_master, SIGNAL(do_writeTCPLog(QString, QColor, QColor)), this, SLOT(writeTCPLog(QString, QColor, QColor)));
-    connect(&sitipe_master, SIGNAL(do_setIO(int)), this, SLOT(setIO(int)));
+    connect(&sitipe_master, SIGNAL(do_setIO()), this, SLOT(setIO()));
     connect(&sitipe_master, SIGNAL(do_setPTMConnectionStatus(bool)), this, SLOT(setPTMConnectionStatus(bool)));
     //mainwindow -> sitipe MASTER
     connect(this, SIGNAL(on_setIO(int, bool)), &sitipe_master, SLOT(setIO(int, bool)));
@@ -39,6 +34,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&sitipe_master, SIGNAL(sendFrame(QByteArray)), &sitipe_socket, SLOT(write(QByteArray)));
 
     ioGroup = new QButtonGroup(this);
+    ioGroup->setExclusive(false);
     //ioGroup->addButton(ui->IO_1);
     
     for (int i = 0; i < 48; i++) {
@@ -52,6 +48,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     //connect(ioGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_ioGroup_clicked(int)(int)));
     //connect(ioGroup, &QButtonGroup::idClicked, this, &MainWindow::on_ioGroup_clicked);
+
 }
 
 MainWindow::~MainWindow()
@@ -108,20 +105,11 @@ void MainWindow::on_ioGroup_clicked(int id) {
 }
 
 void MainWindow::setIO() {
-    if (sitipe_master.ptm.id.count() > 0) {
-        int id = sitipe_master.activePTM_index;
-        qDebug() << "[MainWindow::setIO]-------------------------";
-        qDebug() << "active PTM: " << id;
-        /*
-        for (int i = 0; i < 48; i++) {
-            QAbstractButton* cb = ioGroup->button(i);
-            qDebug() << "    IO:  " << cb->objectName();
-            qDebug() << "    val: " << sitipe_master.ptm.id[id].io[i].value;
-
-
-            cb->setChecked(sitipe_master.ptm.id[id].io[i].value);
-        }
-        */
+    qDebug() << "[MainWindow::setIO]-------------------------";
+    qDebug() << "  ptmCount: " << sitipe_master.ptm.index.count();
+    if (sitipe_master.ptm.index.count() > 0) {
+        int active_ptmListIndex = sitipe_master.ptm.active_ptmListIndex;
+        qDebug() << "  active PTMListIndex: " << active_ptmListIndex;
         
         for (int i = 0; i < 48; i++) {
             QString cbName = "IO_";
@@ -129,89 +117,45 @@ void MainWindow::setIO() {
             QCheckBox* cb = ui->SITIPEMaster->findChild<QCheckBox*>(cbName);
 
             //qDebug() << "    IO:  " << cb->objectName();
-            //qDebug() << "    val: " << sitipe_master.ptm.id[id].io[i].value;
+            //qDebug() << "    val: " << sitipe_master.ptm.index[active_ptmIndex].io[i].value;
 
-            cb->setChecked(sitipe_master.ptm.id[id].io[i].value);
+            //cb->setChecked(true);
+            cb->setChecked(sitipe_master.ptm.index[active_ptmListIndex].io[i].value);
         }
-        
-
-
-        /*
-        ui->IO_1->setChecked(sitipe_master.ptm.id[id].io[0].value);
-        ui->IO_2->setChecked(sitipe_master.ptm.id[id].io[1].value);
-        ui->IO_3->setChecked(sitipe_master.ptm.id[id].io[2].value);
-        ui->IO_4->setChecked(sitipe_master.ptm.id[id].io[3].value);
-        ui->IO_5->setChecked(sitipe_master.ptm.id[id].io[4].value);
-        ui->IO_6->setChecked(sitipe_master.ptm.id[id].io[5].value);
-        ui->IO_7->setChecked(sitipe_master.ptm.id[id].io[6].value);
-        ui->IO_8->setChecked(sitipe_master.ptm.id[id].io[7].value);
-        ui->IO_9->setChecked(sitipe_master.ptm.id[id].io[8].value);
-        ui->IO_10->setChecked(sitipe_master.ptm.id[id].io[9].value);
-        ui->IO_11->setChecked(sitipe_master.ptm.id[id].io[10].value);
-        ui->IO_12->setChecked(sitipe_master.ptm.id[id].io[11].value);
-        ui->IO_13->setChecked(sitipe_master.ptm.id[id].io[12].value);
-        ui->IO_14->setChecked(sitipe_master.ptm.id[id].io[13].value);
-        ui->IO_15->setChecked(sitipe_master.ptm.id[id].io[14].value);
-        ui->IO_16->setChecked(sitipe_master.ptm.id[id].io[15].value);
-        ui->IO_17->setChecked(sitipe_master.ptm.id[id].io[16].value);
-        ui->IO_18->setChecked(sitipe_master.ptm.id[id].io[17].value);
-        ui->IO_19->setChecked(sitipe_master.ptm.id[id].io[18].value);
-        ui->IO_20->setChecked(sitipe_master.ptm.id[id].io[19].value);
-        ui->IO_21->setChecked(sitipe_master.ptm.id[id].io[20].value);
-        ui->IO_22->setChecked(sitipe_master.ptm.id[id].io[21].value);
-        ui->IO_23->setChecked(sitipe_master.ptm.id[id].io[22].value);
-        ui->IO_24->setChecked(sitipe_master.ptm.id[id].io[23].value);
-        ui->IO_25->setChecked(sitipe_master.ptm.id[id].io[24].value);
-        ui->IO_26->setChecked(sitipe_master.ptm.id[id].io[25].value);
-        ui->IO_27->setChecked(sitipe_master.ptm.id[id].io[26].value);
-        ui->IO_28->setChecked(sitipe_master.ptm.id[id].io[27].value);
-        ui->IO_29->setChecked(sitipe_master.ptm.id[id].io[28].value);
-        ui->IO_30->setChecked(sitipe_master.ptm.id[id].io[29].value);
-        ui->IO_31->setChecked(sitipe_master.ptm.id[id].io[30].value);
-        ui->IO_32->setChecked(sitipe_master.ptm.id[id].io[31].value);
-        ui->IO_33->setChecked(sitipe_master.ptm.id[id].io[32].value);
-        ui->IO_34->setChecked(sitipe_master.ptm.id[id].io[33].value);
-        ui->IO_35->setChecked(sitipe_master.ptm.id[id].io[34].value);
-        ui->IO_36->setChecked(sitipe_master.ptm.id[id].io[35].value);
-        ui->IO_37->setChecked(sitipe_master.ptm.id[id].io[36].value);
-        ui->IO_38->setChecked(sitipe_master.ptm.id[id].io[37].value);
-        ui->IO_39->setChecked(sitipe_master.ptm.id[id].io[38].value);
-        ui->IO_40->setChecked(sitipe_master.ptm.id[id].io[39].value);
-        ui->IO_41->setChecked(sitipe_master.ptm.id[id].io[40].value);
-        ui->IO_42->setChecked(sitipe_master.ptm.id[id].io[41].value);
-        ui->IO_43->setChecked(sitipe_master.ptm.id[id].io[42].value);
-        ui->IO_44->setChecked(sitipe_master.ptm.id[id].io[43].value);
-        ui->IO_45->setChecked(sitipe_master.ptm.id[id].io[44].value);
-        ui->IO_46->setChecked(sitipe_master.ptm.id[id].io[45].value);
-        ui->IO_47->setChecked(sitipe_master.ptm.id[id].io[46].value);
-        ui->IO_48->setChecked(sitipe_master.ptm.id[id].io[47].value);
-        */
-
+ 
     }
 }
 
-void MainWindow::on_lw_PTM_clicked() {
-}
 void MainWindow::on_lw_PTM_selection_changed() {
-    int ptmID = 0;
+    int ptmID = -1;
 
-    if (ui->lw_PTM->selectedItems().count() > 0) {
+    if ((ui->lw_PTM->selectedItems().count() > 0) and 
+        (sitipe_master.ptm.index.count() == ui->lw_PTM->count())) {
 
         int row = ui->lw_PTM->currentRow();
         //qDebug() << "row: " << row;
 
         QListWidgetItem* item = ui->lw_PTM->item(row);
         ptmID = item->text().toInt();
-        emit on_ptm_change(ptmID);
-        
-        setIO();
 
+        qDebug() << "[MainWindow::on_lw_PTM_selection_changed]------------------";
+        qDebug() << "  ptmID:        " << ptmID;
+        qDebug() << "  list count:   " << ui->lw_PTM->count();
+        qDebug() << "  ptm count:    " << sitipe_master.ptm.index.count();
+
+        //update index
+        for (int i = 0; i < ui->lw_PTM->count(); i++) {
+            qDebug() << "  index: " << i
+                << " List: " << ui->lw_PTM->item(i)->text()
+                << " PTM: " << sitipe_master.ptm.index[i].str_ptmID;
+        }
+        emit on_ptm_change(ptmID);
+        setIO();
     }
     else {
         ui->lw_PTM->setCurrentRow(ui->lw_PTM->count() - 1);
     }
 }
-
 
 void MainWindow::on_bu_addPTM_clicked() {
     int ptmID = ui->tb_ptmID->text().toInt();
@@ -224,92 +168,53 @@ void MainWindow::on_bu_addPTM_clicked() {
         ui->lw_PTM->setCurrentRow(ui->lw_PTM->count() - 1);
 
         //PTM 
-        sitipe_master.ptm.add(ptmID);
+        sitipe_master.ptm.add(ptmID, ui->lw_PTM->currentRow());
         emit on_ptm_change(ptmID);
-
-        //qDebug() << "on_bu_addPTM_clicked----------------------- ";
-        //qDebug() << "count: " << sitipe_master.ptm.id.count();
-
-        //for (int i = 0; i < sitipe_master.ptm.id.count(); ++i) {
-        //    qDebug() << "iterate ID: " << sitipe_master.ptm.id[i].ptmID;
-        //}
-
     }
     else {
         QMessageBox msgBox;
         msgBox.critical(nullptr, "Inputerror!",
             "Fehlerhafte PTM-ID oder PTM-ID bereits vorhanden!");
-
     }
- 
-
-    /*
-    QList<QListWidgetItem*> items = ui->lw_PTM->findItems(str_ptmID, Qt::MatchExactly);
-    if (items.size() == 0 and ptmID != 0) {
-        ui->lw_PTM->addItem(str_ptmID);
-        ui->tb_ptmID->clear();
- 
-        QList<int> modules;
-        for (int i = 0; i < ui->lw_PTM->count(); ++i) {
-            QListWidgetItem* item = ui->lw_PTM->item(i);
-            QString qitem = item->text();
-
-            qDebug() << "PTM: " << qitem;
-            modules.append(qitem.toInt());
-            ui->lw_PTM->setCurrentItem(item);
-        }
-        emit on_update_ptm(modules);
-
-    }
-    else {
-        QMessageBox msgBox;
-        msgBox.critical(nullptr, "Inputerror!", 
-            "Fehlerhafte PTM-ID oder PTM-ID bereits vorhanden!");
-    }
-    */
+    ui->tb_ptmID->setFocus();
 }
 
-
-
-
-
-
 void MainWindow::on_bu_delPTM_clicked() {
-    int ptmID = 0;
+    int ptmID = -1;
     if (ui->lw_PTM->selectedItems().size() > 0) {
-        int row = ui->lw_PTM->currentRow();
-        ui->lw_PTM->takeItem(row);
+        int index = ui->lw_PTM->currentRow();
+        QString delPTM = ui->lw_PTM->item(index)->text();
+        ui->lw_PTM->takeItem(index);
+
+        qDebug() << "[MainWindow::on_bu_delPTM_clicked]-----------------";
+        qDebug() << "  del Index: " << index;
+        qDebug() << "  del PTM:   " << delPTM;
 
         //PTM 
-        sitipe_master.ptm.del(row);
-        if (ui->lw_PTM->selectedItems().size() > 0) 
-            ptmID = sitipe_master.ptm.id[ui->lw_PTM->count() - 1].ptmID;
+        sitipe_master.ptm.del(index);
+
+        /*
+        qDebug() << "  ---------" ;
+        qDebug() << "  list count:   " << ui->lw_PTM->count();
+        qDebug() << "  ptm count:    " << sitipe_master.ptm.id.count();
+
+        //update index
+        for (int i = 0; i < ui->lw_PTM->count(); i++) {
+            qDebug() << "  index: " << i 
+                << " List: " << ui->lw_PTM->item(i)->text()
+                << " PTM: " << sitipe_master.ptm.id[i].str_ptmID;
+        }
+        */
+
+        if (ui->lw_PTM->selectedItems().size() > 0) {
+            ui->lw_PTM->setCurrentRow(0);
+
+            ptmID = sitipe_master.ptm.index[0].ptmID;
+            on_lw_PTM_selection_changed();
+        }
     }
-        emit on_ptm_change(ptmID);
+    //emit on_ptm_change(ptmID);
 
-
-    //qDebug() << "on_bu_delPTM_clicked----------------------- ";
-    //qDebug() << "count: " << sitipe_master.ptm.id.count();
-
-    //for (int i = 0; i < sitipe_master.ptm.id.count(); ++i) {
-    //    qDebug() << "iterate ID: " << sitipe_master.ptm.id[i].ptmID;
-    //}
-
-
-
-    /*
-    QList<int> modules;
-    for (int i = 0; i < ui->lw_PTM->count(); ++i) {
-        QListWidgetItem* item = ui->lw_PTM->item(i);
-        QString qitem = item->text();
-
-        qDebug() << "PTM: " << qitem;
-        modules.append(qitem.toInt());
-        ui->lw_PTM->setCurrentItem(item);
-
-    }
-    emit on_update_ptm(modules);
-    */
 }
 
 // add PTM Index
@@ -510,35 +415,54 @@ void MainWindow::on_IO_48_clicked() {
 
 */
 
+/*
+ ui->IO_1->setChecked(sitipe_master.ptm.id[id].io[0].value);
+ ui->IO_2->setChecked(sitipe_master.ptm.id[id].io[1].value);
+ ui->IO_3->setChecked(sitipe_master.ptm.id[id].io[2].value);
+ ui->IO_4->setChecked(sitipe_master.ptm.id[id].io[3].value);
+ ui->IO_5->setChecked(sitipe_master.ptm.id[id].io[4].value);
+ ui->IO_6->setChecked(sitipe_master.ptm.id[id].io[5].value);
+ ui->IO_7->setChecked(sitipe_master.ptm.id[id].io[6].value);
+ ui->IO_8->setChecked(sitipe_master.ptm.id[id].io[7].value);
+ ui->IO_9->setChecked(sitipe_master.ptm.id[id].io[8].value);
+ ui->IO_10->setChecked(sitipe_master.ptm.id[id].io[9].value);
+ ui->IO_11->setChecked(sitipe_master.ptm.id[id].io[10].value);
+ ui->IO_12->setChecked(sitipe_master.ptm.id[id].io[11].value);
+ ui->IO_13->setChecked(sitipe_master.ptm.id[id].io[12].value);
+ ui->IO_14->setChecked(sitipe_master.ptm.id[id].io[13].value);
+ ui->IO_15->setChecked(sitipe_master.ptm.id[id].io[14].value);
+ ui->IO_16->setChecked(sitipe_master.ptm.id[id].io[15].value);
+ ui->IO_17->setChecked(sitipe_master.ptm.id[id].io[16].value);
+ ui->IO_18->setChecked(sitipe_master.ptm.id[id].io[17].value);
+ ui->IO_19->setChecked(sitipe_master.ptm.id[id].io[18].value);
+ ui->IO_20->setChecked(sitipe_master.ptm.id[id].io[19].value);
+ ui->IO_21->setChecked(sitipe_master.ptm.id[id].io[20].value);
+ ui->IO_22->setChecked(sitipe_master.ptm.id[id].io[21].value);
+ ui->IO_23->setChecked(sitipe_master.ptm.id[id].io[22].value);
+ ui->IO_24->setChecked(sitipe_master.ptm.id[id].io[23].value);
+ ui->IO_25->setChecked(sitipe_master.ptm.id[id].io[24].value);
+ ui->IO_26->setChecked(sitipe_master.ptm.id[id].io[25].value);
+ ui->IO_27->setChecked(sitipe_master.ptm.id[id].io[26].value);
+ ui->IO_28->setChecked(sitipe_master.ptm.id[id].io[27].value);
+ ui->IO_29->setChecked(sitipe_master.ptm.id[id].io[28].value);
+ ui->IO_30->setChecked(sitipe_master.ptm.id[id].io[29].value);
+ ui->IO_31->setChecked(sitipe_master.ptm.id[id].io[30].value);
+ ui->IO_32->setChecked(sitipe_master.ptm.id[id].io[31].value);
+ ui->IO_33->setChecked(sitipe_master.ptm.id[id].io[32].value);
+ ui->IO_34->setChecked(sitipe_master.ptm.id[id].io[33].value);
+ ui->IO_35->setChecked(sitipe_master.ptm.id[id].io[34].value);
+ ui->IO_36->setChecked(sitipe_master.ptm.id[id].io[35].value);
+ ui->IO_37->setChecked(sitipe_master.ptm.id[id].io[36].value);
+ ui->IO_38->setChecked(sitipe_master.ptm.id[id].io[37].value);
+ ui->IO_39->setChecked(sitipe_master.ptm.id[id].io[38].value);
+ ui->IO_40->setChecked(sitipe_master.ptm.id[id].io[39].value);
+ ui->IO_41->setChecked(sitipe_master.ptm.id[id].io[40].value);
+ ui->IO_42->setChecked(sitipe_master.ptm.id[id].io[41].value);
+ ui->IO_43->setChecked(sitipe_master.ptm.id[id].io[42].value);
+ ui->IO_44->setChecked(sitipe_master.ptm.id[id].io[43].value);
+ ui->IO_45->setChecked(sitipe_master.ptm.id[id].io[44].value);
+ ui->IO_46->setChecked(sitipe_master.ptm.id[id].io[45].value);
+ ui->IO_47->setChecked(sitipe_master.ptm.id[id].io[46].value);
+ ui->IO_48->setChecked(sitipe_master.ptm.id[id].io[47].value);
+ */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//.....................................................
-void MainWindow::on_commandTermination(string result) {
-    //ui->tb_serverLog->append("callback received");
-    //ui->tb_serverLog->append(QString::fromStdString(result));
-}
-//.....................................................
-void MainWindow::receive_from_object(bool value) {
-    qDebug() << "connecting... from client";
-    //if (value) {
-        //ui->tb_serverLog->append("receive true");
-    //}
-    //else {
-        //ui->tb_serverLog->append("receive false");
-    //}
-}
