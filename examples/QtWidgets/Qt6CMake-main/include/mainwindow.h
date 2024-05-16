@@ -37,7 +37,8 @@ public:
 //user interface
 private:
     Ui::MainWindow *ui;
-    QButtonGroup* ioGroup;
+    QButtonGroup* outputGroup;
+    QButtonGroup* inputGroup;
     QButtonGroup* ioUpdate;
 
 private slots:
@@ -51,7 +52,7 @@ private slots:
     void on_bu_addPTM_clicked();
     void on_bu_delPTM_clicked();
 
-    void on_ioGroup_clicked(int id);
+    void on_outputGroup_clicked(int id);
     void on_ioUpdate_clicked(int id);
     void on_bu_setGroup_clicked();
 

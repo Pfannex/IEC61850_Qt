@@ -32,17 +32,33 @@ MainWindow::MainWindow(QWidget* parent) :
     //sitipe MASTER -> sitipe SOCKET
     connect(&sitipe_master, SIGNAL(sendFrame(QByteArray)), &sitipe_socket, SLOT(write(QByteArray)));
 
-    ioGroup = new QButtonGroup(this);
-    ioGroup->setExclusive(false);
     
+    //OUTPUT
+    outputGroup = new QButtonGroup(this);
+    outputGroup->setExclusive(false);
     for (int i = 0; i < 48; i++) {
-        QString cbName = "IO_";
+        QString cbName = "out_";
+        cbName.append(QString::number(i + 1));
+        QPushButton* cb = ui->SITIPEMaster->findChild<QPushButton*>(cbName);
+
+        outputGroup->addButton(cb, i);
+    }
+    //inputGroup->addButton(ui->bu_IO_1, 100);
+    connect(outputGroup, SIGNAL(idClicked(int)), this, SLOT(on_outputGroup_clicked(int)));
+
+    /*
+    //INPUT
+    inputGroup = new QButtonGroup(this);
+    //inputGroup->setExclusive(false);
+    for (int i = 0; i < 48; i++) {
+        QString cbName = "in_";
         cbName.append(QString::number(i + 1));
         QCheckBox* cb = ui->SITIPEMaster->findChild<QCheckBox*>(cbName);
 
-        ioGroup->addButton(cb, i);
+        inputGroup->addButton(cb, i);
     }
-    connect(ioGroup, SIGNAL(idClicked(int)), this, SLOT(on_ioGroup_clicked(int)));
+    */
+
 
     ioUpdate = new QButtonGroup(this);
     ioUpdate->addButton(ui->rb_singleTransmit, 0);
@@ -90,11 +106,22 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
 //----------------------------
 
 
-void MainWindow::on_ioGroup_clicked(int id) {
+void MainWindow::on_outputGroup_clicked(int id) {
     qDebug() << "[MainWindow::on_ioGroup_clicked]----------------";
     qDebug() << "  id clicked " << id;
 
-    QAbstractButton* cb = ioGroup->button(id);
+    QAbstractButton* cb = outputGroup->button(id);
+    qDebug() << "  class      " << cb->metaObject()->className();
+
+    /*
+    if (cb->metaObject()->className() == QString("QPushButton")) {
+        qDebug() << "isPushButton";
+    }
+    else if (cb->metaObject()->className() == QString("QCheckBox")) {
+        qDebug() << "isCheckBox";
+    }
+    */
+  
     cb->setChecked(cb->isChecked());
 
     qDebug() << "  Object     " << cb->objectName();
@@ -119,8 +146,9 @@ void MainWindow::on_bu_setGroup_clicked() {
 
     QByteArray io;
     for (int i = 0; i < 48; i++) {
-        QAbstractButton* cb = ioGroup->button(i);
+        QAbstractButton* cb = inputGroup->button(i);
         io.append(cb->isChecked());
+
     }
     emit on_setIO(io);
 }

@@ -441,14 +441,21 @@ void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bo
 
 void SITIPE_Master::masterKeepAlive_0002() {
     if (socketOnline and slaveConnected) {
-        //emit do_writeTCPLog("<-- [0002] masterKeepAlive", color_master, Qt::white);
 
         //qDebug() << "KeepAllive";
         QByteArray data;
-        data = QByteArray::fromHex("00020000001000000000e1f13d5cf7e5"
-            "080000000000");
+        QString hex;
+        int length = 0;
+
+        data.append(getHex_fromInt(2, 2));                                     //Type 0010
+        data.append(getHex_fromInt(QDateTime::currentSecsSinceEpoch(), 8));    //Time 
+        data.append(getHex_fromInt(0, 8));                                     //Time
+        length = length + 16;
+
+        data.insert(2, getHex_fromInt(length, 4));
         emit sendFrame(data);
-        data = 0;
+
+        //emit do_writeTCPLog("<-- [0002] masterKeepAlive", color_master, Qt::white);
     }
 }
 
@@ -487,8 +494,6 @@ void SITIPE_Master::masterOutputs_0010(int ptmID, QByteArray io) {
     data.insert(2, getHex_fromInt(length, 4));
     emit sendFrame(data);
 
-
-
     emit do_writeTCPLog("<-- [0010] masterOutputs", color_master, Qt::white);
     emit do_writeTCPLog("       PTM: " + ptm.index[ptmListIndex].str_ptmID, color_masterSub, Qt::black);
 }
@@ -526,7 +531,6 @@ void SITIPE_Master::slaveInitResponse_0004(QByteArray data, Header h) {
 
             emit do_writeTCPLog("                       - " + ptm.index[ptmListIndex].str_ptmID,
                 color_slaveSub, Qt::black);
-        
         }   
     }
 
@@ -617,9 +621,7 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
             }
             emit do_writeTCPLog("                         I/O 41-48  " + val, color_slaveSub, Qt::black);
         }
-
         emit do_setPTMstate();
-
         ptm.printPTM(ptm.index[i].ptmID);
     }
 }
