@@ -111,7 +111,7 @@ public:
  
 signals:
     void sendFrame(QByteArray data);
-    void do_setIO();
+    void do_setPTMstate();
     void do_writeTCPLog(QString txt, QColor fColor, QColor bColor);
     void do_setPTMConnectionStatus(bool value);
 
@@ -121,7 +121,7 @@ public slots:
     void KeepAllive();
     void updateSocketState(bool online);
     void setIO(int channel, bool value);
-    void KITT();
+    void setIO(QByteArray io);
     void TEST();
     void ptm_change(int ptmID);
 
@@ -151,7 +151,7 @@ private:
     //Master->Slave
     void masterInitRequest_0000();
     void masterKeepAlive_0002();
-    void masterOutputs_0010();
+    void masterOutputs_0010(int ptmID, QByteArray io);
     //Slave->Master
     void slaveInitResponse_0004(QByteArray data, Header h);
     void slaveKeepAlive_0005(QByteArray data, Header h);

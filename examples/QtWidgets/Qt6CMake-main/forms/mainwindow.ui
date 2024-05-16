@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>850</width>
+    <width>862</width>
     <height>516</height>
    </rect>
   </property>
@@ -1289,47 +1289,10 @@
          </size>
         </property>
        </widget>
-       <widget class="QPushButton" name="bu_KITT">
-        <property name="geometry">
-         <rect>
-          <x>620</x>
-          <y>20</y>
-          <width>121</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>KITT</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>115</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-        <property name="default">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
        <widget class="QPushButton" name="bu_TEST">
         <property name="geometry">
          <rect>
-          <x>750</x>
+          <x>760</x>
           <y>20</y>
           <width>61</width>
           <height>51</height>
@@ -1401,6 +1364,76 @@
          </size>
         </property>
        </widget>
+       <widget class="QGroupBox" name="gb_ioUpdate">
+        <property name="geometry">
+         <rect>
+          <x>560</x>
+          <y>0</y>
+          <width>181</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>IO update settings</string>
+        </property>
+        <widget class="QRadioButton" name="rb_singleTransmit">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>25</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>single Transmit</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="rb_groupTransmit">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>45</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>group Transmit</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="bu_setGroup">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>122</x>
+           <y>24</y>
+           <width>51</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>SET</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>106</width>
+           <height>49</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
       </widget>
       <widget class="QWidget" name="MMSServer">
        <attribute name="title">
@@ -1416,7 +1449,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>850</width>
+     <width>862</width>
      <height>22</height>
     </rect>
    </property>

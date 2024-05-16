@@ -37,27 +37,30 @@ public:
 //user interface
 private:
     Ui::MainWindow *ui;
-    QButtonGroup *ioGroup;
+    QButtonGroup* ioGroup;
+    QButtonGroup* ioUpdate;
 
 private slots:
     void on_bu_close_clicked();
     void on_bu_connect_clicked();
     void on_bu_disconnect_clicked();
     void on_lw_PTM_selection_changed();
+    //void on_bu_disconnect_clicked();
     void setConnectionStatus(bool value);
-    void setPTMConnectionStatus(bool value);
 
     void on_bu_addPTM_clicked();
     void on_bu_delPTM_clicked();
 
     void on_ioGroup_clicked(int id);
+    void on_ioUpdate_clicked(int id);
+    void on_bu_setGroup_clicked();
 
 signals:
     void on_ptm_change(int ptmID);
     void on_setIO(int channel, bool value);
+    void on_setIO(QByteArray);
 
 
-    void on_bu_KITT_clicked();
     void on_bu_TEST_clicked();
 
 
@@ -66,7 +69,7 @@ private:
     TcpSocket sitipe_socket;
 private slots:
     void writeTCPLog(QString txt, QColor fColor, QColor bColor);
-    void setIO();
+    void setPTMstate();
 
 //SITIPE Master
 private:

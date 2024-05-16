@@ -1,25 +1,27 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowBYktgm.ui'
+** Form generated from reading UI file 'mainwindowhfSwGy.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWBYKTGM_H
-#define MAINWINDOWBYKTGM_H
+#ifndef MAINWINDOWHFSWGY_H
+#define MAINWINDOWHFSWGY_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
@@ -97,10 +99,13 @@ public:
     QCheckBox *IO_40;
     QLineEdit *tb_ptmID;
     QCheckBox *cb_online;
-    QPushButton *bu_KITT;
     QPushButton *bu_TEST;
     QListWidget *lw_serverLog;
     QCheckBox *cb_ptmonline;
+    QGroupBox *gb_ioUpdate;
+    QRadioButton *rb_singleTransmit;
+    QRadioButton *rb_groupTransmit;
+    QPushButton *bu_setGroup;
     QWidget *MMSServer;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -109,7 +114,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(850, 516);
+        MainWindow->resize(862, 516);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -596,17 +601,9 @@ public:
         cb_online->setGeometry(QRect(13, 44, 60, 30));
         cb_online->setStyleSheet(QString::fromUtf8(""));
         cb_online->setIconSize(QSize(41, 30));
-        bu_KITT = new QPushButton(SITIPEMaster);
-        bu_KITT->setObjectName(QString::fromUtf8("bu_KITT"));
-        bu_KITT->setGeometry(QRect(620, 20, 121, 51));
-        bu_KITT->setFont(font);
-        bu_KITT->setStyleSheet(QString::fromUtf8(""));
-        bu_KITT->setIconSize(QSize(115, 60));
-        bu_KITT->setAutoDefault(false);
-        bu_KITT->setFlat(false);
         bu_TEST = new QPushButton(SITIPEMaster);
         bu_TEST->setObjectName(QString::fromUtf8("bu_TEST"));
-        bu_TEST->setGeometry(QRect(750, 20, 61, 51));
+        bu_TEST->setGeometry(QRect(760, 20, 61, 51));
         bu_TEST->setFont(font);
         bu_TEST->setStyleSheet(QString::fromUtf8(""));
         bu_TEST->setIconSize(QSize(106, 49));
@@ -625,6 +622,23 @@ public:
         cb_ptmonline->setGeometry(QRect(440, 40, 111, 30));
         cb_ptmonline->setStyleSheet(QString::fromUtf8(""));
         cb_ptmonline->setIconSize(QSize(41, 30));
+        gb_ioUpdate = new QGroupBox(SITIPEMaster);
+        gb_ioUpdate->setObjectName(QString::fromUtf8("gb_ioUpdate"));
+        gb_ioUpdate->setGeometry(QRect(560, 0, 181, 71));
+        rb_singleTransmit = new QRadioButton(gb_ioUpdate);
+        rb_singleTransmit->setObjectName(QString::fromUtf8("rb_singleTransmit"));
+        rb_singleTransmit->setGeometry(QRect(10, 25, 101, 20));
+        rb_singleTransmit->setChecked(true);
+        rb_groupTransmit = new QRadioButton(gb_ioUpdate);
+        rb_groupTransmit->setObjectName(QString::fromUtf8("rb_groupTransmit"));
+        rb_groupTransmit->setGeometry(QRect(10, 45, 101, 20));
+        bu_setGroup = new QPushButton(gb_ioUpdate);
+        bu_setGroup->setObjectName(QString::fromUtf8("bu_setGroup"));
+        bu_setGroup->setEnabled(false);
+        bu_setGroup->setGeometry(QRect(122, 24, 51, 41));
+        bu_setGroup->setStyleSheet(QString::fromUtf8(""));
+        bu_setGroup->setIconSize(QSize(106, 49));
+        bu_setGroup->setFlat(false);
         tabWidget->addTab(SITIPEMaster, QString());
         MMSServer = new QWidget();
         MMSServer->setObjectName(QString::fromUtf8("MMSServer"));
@@ -635,7 +649,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 850, 22));
+        menubar->setGeometry(QRect(0, 0, 862, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -645,7 +659,6 @@ public:
 
         tabWidget->setCurrentIndex(0);
         bu_disconnect->setDefault(false);
-        bu_KITT->setDefault(true);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -726,9 +739,12 @@ public:
         tb_ptmID->setText(QString());
         tb_ptmID->setPlaceholderText(QCoreApplication::translate("MainWindow", "00000", nullptr));
         cb_online->setText(QCoreApplication::translate("MainWindow", "TCP OK", nullptr));
-        bu_KITT->setText(QCoreApplication::translate("MainWindow", "KITT", nullptr));
         bu_TEST->setText(QCoreApplication::translate("MainWindow", "TEST", nullptr));
         cb_ptmonline->setText(QCoreApplication::translate("MainWindow", "PTM connected", nullptr));
+        gb_ioUpdate->setTitle(QCoreApplication::translate("MainWindow", "IO update settings", nullptr));
+        rb_singleTransmit->setText(QCoreApplication::translate("MainWindow", "single Transmit", nullptr));
+        rb_groupTransmit->setText(QCoreApplication::translate("MainWindow", "group Transmit", nullptr));
+        bu_setGroup->setText(QCoreApplication::translate("MainWindow", "SET", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SITIPEMaster), QCoreApplication::translate("MainWindow", "SITIPE-Master", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(MMSServer), QCoreApplication::translate("MainWindow", "MMS-Server", nullptr));
     } // retranslateUi
@@ -741,4 +757,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWBYKTGM_H
+#endif // MAINWINDOWHFSWGY_H

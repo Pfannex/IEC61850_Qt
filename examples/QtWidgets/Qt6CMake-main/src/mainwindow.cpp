@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->setupUi(this);
  
     //Dialog Events
-    QObject::connect(ui->lw_PTM, SIGNAL(itemSelectionChanged()),this, SLOT(on_lw_PTM_selection_changed()));
+    QObject::connect(ui->lw_PTM, SIGNAL(itemSelectionChanged()), this, SLOT(on_lw_PTM_selection_changed()));
 
     //sitipe SOCKET -> mainwindow
     connect(&sitipe_socket, SIGNAL(do_writeTCPLog(QString, QColor, QColor)), this, SLOT(writeTCPLog(QString, QColor, QColor)));
@@ -20,11 +20,10 @@ MainWindow::MainWindow(QWidget* parent) :
 
     //sitipe MASTER -> mainwindow 
     connect(&sitipe_master, SIGNAL(do_writeTCPLog(QString, QColor, QColor)), this, SLOT(writeTCPLog(QString, QColor, QColor)));
-    connect(&sitipe_master, SIGNAL(do_setIO()), this, SLOT(setIO()));
-    connect(&sitipe_master, SIGNAL(do_setPTMConnectionStatus(bool)), this, SLOT(setPTMConnectionStatus(bool)));
+    connect(&sitipe_master, SIGNAL(do_setPTMstate()), this, SLOT(setPTMstate()));
     //mainwindow -> sitipe MASTER
     connect(this, SIGNAL(on_setIO(int, bool)), &sitipe_master, SLOT(setIO(int, bool)));
-    connect(this, SIGNAL(on_bu_KITT_clicked()), &sitipe_master, SLOT(KITT()));
+    connect(this, SIGNAL(on_setIO(QByteArray)), &sitipe_master, SLOT(setIO(QByteArray)));
     connect(this, SIGNAL(on_bu_TEST_clicked()), &sitipe_master, SLOT(TEST()));
 
     //sitipe SOCKET -> sitipe MASTER
@@ -35,7 +34,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ioGroup = new QButtonGroup(this);
     ioGroup->setExclusive(false);
-    //ioGroup->addButton(ui->IO_1);
     
     for (int i = 0; i < 48; i++) {
         QString cbName = "IO_";
@@ -45,6 +43,11 @@ MainWindow::MainWindow(QWidget* parent) :
         ioGroup->addButton(cb, i);
     }
     connect(ioGroup, SIGNAL(idClicked(int)), this, SLOT(on_ioGroup_clicked(int)));
+
+    ioUpdate = new QButtonGroup(this);
+    ioUpdate->addButton(ui->rb_singleTransmit, 0);
+    ioUpdate->addButton(ui->rb_groupTransmit, 1);
+    connect(ioUpdate, SIGNAL(idClicked(int)), this, SLOT(on_ioUpdate_clicked(int)));
 
     //connect(ioGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_ioGroup_clicked(int)(int)));
     //connect(ioGroup, &QButtonGroup::idClicked, this, &MainWindow::on_ioGroup_clicked);
@@ -72,11 +75,7 @@ void MainWindow::on_bu_disconnect_clicked() {
 void MainWindow::setConnectionStatus(bool value) {
     ui->cb_online->setChecked(value);
 }
-void MainWindow::setPTMConnectionStatus(bool value) {
-    qDebug() << "PTM online: " << value;
 
-    ui->cb_ptmonline->setChecked(value);
-}
 
 void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
     ui->lw_serverLog->addItem(txt);
@@ -99,12 +98,35 @@ void MainWindow::on_ioGroup_clicked(int id) {
     cb->setChecked(cb->isChecked());
 
     qDebug() << "  Object     " << cb->objectName();
-    qDebug() << "  buttonID   " << id + 1;
+    qDebug() << "  buttonID   " << id;
 
-    emit on_setIO(id + 1, cb->isChecked());
+    if (ui->rb_singleTransmit->isChecked()) emit on_setIO(id + 1, cb->isChecked());
 }
 
-void MainWindow::setIO() {
+void MainWindow::on_ioUpdate_clicked(int id) {
+    qDebug() << "[MainWindow::on_ioUpdate_clicked]----------------";
+    qDebug() << "  id clicked " << id;
+
+    QAbstractButton* rb = ioUpdate->button(id);
+    qDebug() << "  Object     " << rb->objectName();
+    qDebug() << "  buttonID   " << id + 1;
+
+    if (ui->rb_groupTransmit->isChecked()) ui->bu_setGroup->setEnabled(true);
+    else ui->bu_setGroup->setEnabled(false);
+}
+void MainWindow::on_bu_setGroup_clicked() {
+    qDebug() << "[MainWindow::on_bu_setGroup_clicked]----------------";
+
+    QByteArray io;
+    for (int i = 0; i < 48; i++) {
+        QAbstractButton* cb = ioGroup->button(i);
+        io.append(cb->isChecked());
+    }
+    emit on_setIO(io);
+}
+
+
+void MainWindow::setPTMstate() {
     qDebug() << "[MainWindow::setIO]-------------------------";
     qDebug() << "  ptmCount: " << sitipe_master.ptm.index.count();
     if (sitipe_master.ptm.index.count() > 0) {
@@ -122,7 +144,7 @@ void MainWindow::setIO() {
             //cb->setChecked(true);
             cb->setChecked(sitipe_master.ptm.index[active_ptmListIndex].io[i].value);
         }
- 
+        ui->cb_ptmonline->setChecked(sitipe_master.ptm.index[active_ptmListIndex].connected);
     }
 }
 
@@ -150,7 +172,7 @@ void MainWindow::on_lw_PTM_selection_changed() {
                 << " PTM: " << sitipe_master.ptm.index[i].str_ptmID;
         }
         emit on_ptm_change(ptmID);
-        setIO();
+        setPTMstate();
     }
     else {
         ui->lw_PTM->setCurrentRow(ui->lw_PTM->count() - 1);

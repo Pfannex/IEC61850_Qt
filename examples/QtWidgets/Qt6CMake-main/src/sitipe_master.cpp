@@ -297,7 +297,7 @@ void SITIPE_Master::ptm_change(int ptmID) {
 }
 
 void SITIPE_Master::setIO(int channel, bool value) {
-    qDebug() << "[SITIPE_Master::setIO]------------------";
+    qDebug() << "[SITIPE_Master::setIO-Channel]------------------";
     qDebug() << "  channel: " << channel;
     qDebug() << "  value:   " << value;
 
@@ -305,27 +305,17 @@ void SITIPE_Master::setIO(int channel, bool value) {
         masterTransmit_0001(ptm.active_ptmIndex, ptm.active_ptmID, channel, value);
     }
 }
+void SITIPE_Master::setIO(QByteArray io) {
+    qDebug() << "[SITIPE_Master::setIO-all]------------------";
+    qDebug() << "  PTM: " << ptm.active_ptmID;
+    masterOutputs_0010(ptm.active_ptmID, io);
+}
 
 
 void SITIPE_Master::KeepAllive() {
     masterKeepAlive_0002();
 }
 
-void SITIPE_Master::KITT() {
-    qDebug() << "KITT...";
-    masterTransmit_0001(0,0, 1, 1);
-
-
-    /*
-    QByteArray data = QByteArray::fromHex("000a0000004d00000000e1f13d5c76e0"
-        "f0000000000000000005303032303100"
-        "00003001000100010001000100010001"
-        "00010001000100010001000100010001"
-        "00010001000100010001000100010001"
-        "000100");
-    emit sendFrame(data);
-    */
-}
 
 void SITIPE_Master::TEST() {
     qDebug() << "TEST...";
@@ -412,7 +402,7 @@ void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bo
         QString hex;
         int length = 0;
 
-        data.append(getHex_fromInt(1, 2));                                     //Type 0000
+        data.append(getHex_fromInt(1, 2));                                     //Type 0001
         data.append(getHex_fromInt(QDateTime::currentSecsSinceEpoch(), 8));    //Time 
         data.append(getHex_fromInt(0, 8));                                     //Time
         length = length + 16;
@@ -467,8 +457,40 @@ void SITIPE_Master::masterQuit_0003(int reason) {
     emit do_setPTMConnectionStatus(false);
 }
 
-void SITIPE_Master::masterOutputs_0010() {
+void SITIPE_Master::masterOutputs_0010(int ptmID, QByteArray io) {
+    int ptmListIndex = ptm.getListIndexfromPtmID(ptmID);
+    //int ptmIndex = ptm.index[ptmListIndex].ptmIndex;
+
+
+    QByteArray data;
+    QString hex;
+    int length = 0;
+
+    data.append(getHex_fromInt(10, 2));                                    //Type 0010
+    data.append(getHex_fromInt(QDateTime::currentSecsSinceEpoch(), 8));    //Time 
+    data.append(getHex_fromInt(0, 8));                                     //Time
+    length = length + 16;
+
+    data.append(getHex_fromInt(5, 4));                                     //length PTM ID String
+    length = length + 4;
+    data.append(getHex_fromStr(ptmID, 5));                                 //PTM ID String
+    length = length + 5;
+
+    data.append(getHex_fromInt(48, 4));                                    //length IOs
+    length = length + 4;
+
+    //for (int i = 0; i < 48; i++) {                                         //IOs state
+        data.append(io);
+    //}
+    length = length + 48;
+
+    data.insert(2, getHex_fromInt(length, 4));
+    emit sendFrame(data);
+
+
+
     emit do_writeTCPLog("<-- [0010] masterOutputs", color_master, Qt::white);
+    emit do_writeTCPLog("       PTM: " + ptm.index[ptmListIndex].str_ptmID, color_masterSub, Qt::black);
 }
 
 //-----------------------------------------------------------------------------
@@ -536,9 +558,68 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
         QString result = (readOK) ? " -> read OK" : " -> read NOT OK";
         if (readOK) ptm.index[ptmListIndex].connected = true;
         
+        for (int j = 0; j < 48; j++) {
+            bool ioVal = getInt_fromData(data.mid((40 + j) + (i * 62), 1));
+            ptm.index[ptmListIndex].io[i].value = ioVal;
+        }
+
         emit do_writeTCPLog("                       - " + ptm.index[ptmListIndex].str_ptmID
             + result, color_slaveSub, Qt::black);
-        
+
+        if (readOK == 1) {
+            QString val = "";
+            for (int i = 0; i < 5; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            val.append(" ");
+            for (int i = 5; i < 10; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            emit do_writeTCPLog("                         I/O   1-10  " + val, color_slaveSub, Qt::black);
+            val.clear();
+
+            for (int i = 10; i < 15; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            val.append(" ");
+            for (int i = 15; i < 20; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            emit do_writeTCPLog("                         I/O 11-20  " + val, color_slaveSub, Qt::black);
+            val.clear();
+
+            for (int i = 20; i < 25; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            val.append(" ");
+            for (int i = 25; i < 30; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            emit do_writeTCPLog("                         I/O 21-30  " + val, color_slaveSub, Qt::black);
+            val.clear();
+
+            for (int i = 30; i < 35; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            val.append(" ");
+            for (int i = 35; i < 40; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            emit do_writeTCPLog("                         I/O 31-40  " + val, color_slaveSub, Qt::black);
+            val.clear();
+
+            for (int i = 40; i < 45; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            val.append(" ");
+            for (int i = 45; i < 48; i++) {
+                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+            }
+            emit do_writeTCPLog("                         I/O 41-48  " + val, color_slaveSub, Qt::black);
+        }
+
+        emit do_setPTMstate();
+
         ptm.printPTM(ptm.index[i].ptmID);
     }
 }
@@ -566,10 +647,6 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
 
     ptm.printPTM(ptm.index[ptmListIndex].ptmID);
 
-    //--------------
-    // todo sync ptmIndex <-> in ListIndex
-    //--------------
-
     QString strState = " -> ";
     strState.append((state) ? "ON" : "OFF");
 
@@ -584,7 +661,7 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
     //qDebug() << "IO: " << io << " | state: " << state;
 
     if (ptmListIndex == ptm.active_ptmIndex) {
-        emit do_setIO();
+        emit do_setPTMstate();
     }
 }
 
