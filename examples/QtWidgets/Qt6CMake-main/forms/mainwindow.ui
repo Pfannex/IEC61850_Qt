@@ -343,6 +343,9 @@
          </item>
          <item row="5" column="9">
           <widget class="QCheckBox" name="in_45">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -353,12 +356,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="1" column="3">
           <widget class="QCheckBox" name="in_11">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -369,7 +375,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -441,6 +447,9 @@
          </item>
          <item row="3" column="7">
           <widget class="QCheckBox" name="in_33">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -451,12 +460,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="6" column="1">
           <widget class="QCheckBox" name="in_6">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -467,12 +479,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="7" column="7">
           <widget class="QCheckBox" name="in_37">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -483,7 +498,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -511,6 +526,9 @@
          </item>
          <item row="1" column="1">
           <widget class="QCheckBox" name="in_1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -527,7 +545,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="tristate">
             <bool>false</bool>
@@ -558,6 +576,9 @@
          </item>
          <item row="4" column="3">
           <widget class="QCheckBox" name="in_14">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -568,12 +589,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="8" column="1">
           <widget class="QCheckBox" name="in_8">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -584,12 +608,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="10" column="1">
           <widget class="QCheckBox" name="in_10">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -600,7 +627,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -628,6 +655,9 @@
          </item>
          <item row="2" column="5">
           <widget class="QCheckBox" name="in_22">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -638,12 +668,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="5" column="7">
           <widget class="QCheckBox" name="in_35">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -654,7 +687,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -682,6 +715,9 @@
          </item>
          <item row="3" column="9">
           <widget class="QCheckBox" name="in_43">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -692,7 +728,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -720,6 +756,9 @@
          </item>
          <item row="3" column="3">
           <widget class="QCheckBox" name="in_13">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -730,7 +769,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -758,6 +797,9 @@
          </item>
          <item row="1" column="7">
           <widget class="QCheckBox" name="in_31">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -768,7 +810,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -796,6 +838,9 @@
          </item>
          <item row="4" column="5">
           <widget class="QCheckBox" name="in_24">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -806,12 +851,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="10" column="7">
           <widget class="QCheckBox" name="in_40">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -822,7 +870,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -850,6 +898,9 @@
          </item>
          <item row="7" column="5">
           <widget class="QCheckBox" name="in_27">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -860,12 +911,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="9" column="7">
           <widget class="QCheckBox" name="in_39">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -876,12 +930,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="8" column="7">
           <widget class="QCheckBox" name="in_38">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -892,7 +949,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -964,6 +1021,9 @@
          </item>
          <item row="2" column="7">
           <widget class="QCheckBox" name="in_32">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -974,12 +1034,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="8" column="5">
           <widget class="QCheckBox" name="in_28">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -990,12 +1053,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="8" column="9">
           <widget class="QCheckBox" name="in_48">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1006,7 +1072,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1056,6 +1122,9 @@
          </item>
          <item row="8" column="3">
           <widget class="QCheckBox" name="in_18">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1066,7 +1135,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1116,6 +1185,9 @@
          </item>
          <item row="1" column="9">
           <widget class="QCheckBox" name="in_41">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1126,12 +1198,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="2" column="3">
           <widget class="QCheckBox" name="in_12">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1142,7 +1217,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1214,6 +1289,9 @@
          </item>
          <item row="9" column="5">
           <widget class="QCheckBox" name="in_29">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1224,12 +1302,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
           <widget class="QCheckBox" name="in_3">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1240,7 +1321,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1290,6 +1371,9 @@
          </item>
          <item row="3" column="5">
           <widget class="QCheckBox" name="in_23">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1300,7 +1384,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1328,6 +1412,9 @@
          </item>
          <item row="6" column="3">
           <widget class="QCheckBox" name="in_16">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1338,7 +1425,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1388,6 +1475,9 @@
          </item>
          <item row="10" column="3">
           <widget class="QCheckBox" name="in_20">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1398,12 +1488,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
           <widget class="QCheckBox" name="in_5">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1414,12 +1507,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="4" column="1">
           <widget class="QCheckBox" name="in_4">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1430,12 +1526,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="6" column="9">
           <widget class="QCheckBox" name="in_46">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1446,7 +1545,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1474,6 +1573,9 @@
          </item>
          <item row="7" column="9">
           <widget class="QCheckBox" name="in_47">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1484,12 +1586,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="9" column="1">
           <widget class="QCheckBox" name="in_9">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1500,12 +1605,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="9" column="3">
           <widget class="QCheckBox" name="in_19">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1516,12 +1624,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="6" column="5">
           <widget class="QCheckBox" name="in_26">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1532,7 +1643,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1560,6 +1671,9 @@
          </item>
          <item row="4" column="7">
           <widget class="QCheckBox" name="in_34">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1570,12 +1684,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="7" column="1">
           <widget class="QCheckBox" name="in_7">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1586,7 +1703,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1614,6 +1731,9 @@
          </item>
          <item row="1" column="5">
           <widget class="QCheckBox" name="in_21">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1624,12 +1744,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="5" column="5">
           <widget class="QCheckBox" name="in_25">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1640,7 +1763,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1668,6 +1791,9 @@
          </item>
          <item row="10" column="5">
           <widget class="QCheckBox" name="in_30">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1678,7 +1804,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1728,6 +1854,9 @@
          </item>
          <item row="6" column="7">
           <widget class="QCheckBox" name="in_36">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1738,7 +1867,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1766,6 +1895,9 @@
          </item>
          <item row="4" column="9">
           <widget class="QCheckBox" name="in_44">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1776,12 +1908,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="2" column="9">
           <widget class="QCheckBox" name="in_42">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1792,12 +1927,15 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <widget class="QCheckBox" name="in_2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1808,7 +1946,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1836,6 +1974,9 @@
          </item>
          <item row="7" column="3">
           <widget class="QCheckBox" name="in_17">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1846,7 +1987,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1918,6 +2059,9 @@
          </item>
          <item row="5" column="3">
           <widget class="QCheckBox" name="in_15">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -1928,7 +2072,7 @@
             </size>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>

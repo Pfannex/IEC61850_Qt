@@ -105,6 +105,10 @@ void SITIPE_PTM::add(int ptmID, int listIndex) {
     PTM x;
     x.ptmID = ptmID;
     x.ptmListIndex = listIndex;
+
+    //active_ptmID = ptmID;
+    //active_ptmListIndex = listIndex;
+     
     //x.ptmIndex = id.count();
     x.str_ptmID = QStringLiteral("%1").arg(ptmID, 5, 10, QLatin1Char('0'));
     index.append(x);
@@ -159,51 +163,51 @@ void SITIPE_PTM::printPTM(int ptmID) {
     if (index[ptmListIndex].connected) {
         QString val = "";
         for (int i = 0; i < 5; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         val.append(" ");
         for (int i = 5; i < 10; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         qDebug() << "         I/O  1-10" << val;
         val.clear();
 
         for (int i=10; i < 15; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         val.append(" ");
         for (int i = 15; i < 20; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         qDebug() << "         I/O 11-20" << val;
         val.clear();
 
         for (int i=20; i < 25; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         val.append(" ");
         for (int i = 25; i < 30; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         qDebug() << "         I/O 21-30" << val;
         val.clear();
 
         for (int i=30; i < 35; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         val.append(" ");
         for (int i = 35; i < 40; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         qDebug() << "         I/O 31-40" << val;
         val.clear();
 
         for (int i=40; i < 45; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         val.append(" ");
         for (int i = 45; i < 48; i++) {
-            val.append((index[ptmListIndex].io[i].value) ? "X" : "-");
+            val.append((index[ptmListIndex].io[i].inValue) ? "X" : "-");
         }
         qDebug() << "         I/O 41-48" << val;
 
@@ -297,11 +301,12 @@ void SITIPE_Master::ptm_change(int ptmID) {
 }
 
 void SITIPE_Master::setIO(int channel, bool value) {
-    qDebug() << "[SITIPE_Master::setIO-Channel]------------------";
+    qDebug() << "[SITIPE_Master::setIO]------------------";
     qDebug() << "  channel: " << channel;
     qDebug() << "  value:   " << value;
 
     if (ptm.index.count() > 0) {
+        ptm.index[ptm.active_ptmIndex].io[channel - 1].outValue = value;
         masterTransmit_0001(ptm.active_ptmIndex, ptm.active_ptmID, channel, value);
     }
 }
@@ -564,7 +569,7 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
         
         for (int j = 0; j < 48; j++) {
             bool ioVal = getInt_fromData(data.mid((40 + j) + (i * 62), 1));
-            ptm.index[ptmListIndex].io[i].value = ioVal;
+            ptm.index[ptmListIndex].io[i].inValue = ioVal;
         }
 
         emit do_writeTCPLog("                       - " + ptm.index[ptmListIndex].str_ptmID
@@ -573,51 +578,51 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
         if (readOK == 1) {
             QString val = "";
             for (int i = 0; i < 5; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             val.append(" ");
             for (int i = 5; i < 10; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             emit do_writeTCPLog("                         I/O   1-10  " + val, color_slaveSub, Qt::black);
             val.clear();
 
             for (int i = 10; i < 15; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             val.append(" ");
             for (int i = 15; i < 20; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             emit do_writeTCPLog("                         I/O 11-20  " + val, color_slaveSub, Qt::black);
             val.clear();
 
             for (int i = 20; i < 25; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             val.append(" ");
             for (int i = 25; i < 30; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             emit do_writeTCPLog("                         I/O 21-30  " + val, color_slaveSub, Qt::black);
             val.clear();
 
             for (int i = 30; i < 35; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             val.append(" ");
             for (int i = 35; i < 40; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             emit do_writeTCPLog("                         I/O 31-40  " + val, color_slaveSub, Qt::black);
             val.clear();
 
             for (int i = 40; i < 45; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             val.append(" ");
             for (int i = 45; i < 48; i++) {
-                val.append((ptm.index[ptmListIndex].io[i].value) ? "X" : "-");
+                val.append((ptm.index[ptmListIndex].io[i].inValue) ? "X" : "-");
             }
             emit do_writeTCPLog("                         I/O 41-48  " + val, color_slaveSub, Qt::black);
         }
@@ -640,12 +645,15 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
     qDebug() << "  ptmIndex:     " << ptmIndex;
 
     qint16 io = getInt_fromData(data.mid(24, 2)) +1;
+    qint8 outputEvent = data[34];
     qint8 state = data[35];
 
     int ptmListIndex = ptm.getListIndexfromPtmID(ptmID);
 
     ptm.index[ptmListIndex].ptmIndex = ptmIndex;
-    ptm.index[ptmListIndex].io[io-1].value = state;
+
+    if (!outputEvent)
+        ptm.index[ptmListIndex].io[io - 1].inValue = state;
 
     ptm.printPTM(ptm.index[ptmListIndex].ptmID);
 
@@ -661,8 +669,12 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
  
 
     //qDebug() << "IO: " << io << " | state: " << state;
+    qDebug() << "emit ptmListIndex " << ptmListIndex;
+    qDebug() << "ptm.active_ptmIndex " << ptm.active_ptmIndex;
 
-    if (ptmListIndex == ptm.active_ptmIndex) {
+    if (ptmListIndex == ptm.active_ptmListIndex) {
+        qDebug() << "emit do_setPTMstate()";
+
         emit do_setPTMstate();
     }
 }

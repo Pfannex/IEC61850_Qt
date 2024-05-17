@@ -80,7 +80,8 @@ public:
 
 private:
     struct IOSet {
-        bool value = false;
+        bool inValue = false;
+        bool outValue = false;
     };
     struct PTM {
         int ptmIndex = -1;

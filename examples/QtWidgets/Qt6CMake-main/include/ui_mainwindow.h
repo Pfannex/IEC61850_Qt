@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowCqpqBL.ui'
+** Form generated from reading UI file 'mainwindowVrIarF.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWCQPQBL_H
-#define MAINWINDOWCQPQBL_H
+#ifndef MAINWINDOWVRIARF_H
+#define MAINWINDOWVRIARF_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -262,17 +262,19 @@ public:
 
         in_45 = new QCheckBox(layoutWidget);
         in_45->setObjectName(QString::fromUtf8("in_45"));
+        in_45->setEnabled(false);
         in_45->setStyleSheet(QString::fromUtf8(""));
         in_45->setIconSize(QSize(30, 30));
-        in_45->setCheckable(false);
+        in_45->setCheckable(true);
 
         IO_grid->addWidget(in_45, 5, 9, 1, 1);
 
         in_11 = new QCheckBox(layoutWidget);
         in_11->setObjectName(QString::fromUtf8("in_11"));
+        in_11->setEnabled(false);
         in_11->setStyleSheet(QString::fromUtf8(""));
         in_11->setIconSize(QSize(30, 30));
-        in_11->setCheckable(false);
+        in_11->setCheckable(true);
 
         IO_grid->addWidget(in_11, 1, 3, 1, 1);
 
@@ -302,25 +304,28 @@ public:
 
         in_33 = new QCheckBox(layoutWidget);
         in_33->setObjectName(QString::fromUtf8("in_33"));
+        in_33->setEnabled(false);
         in_33->setStyleSheet(QString::fromUtf8(""));
         in_33->setIconSize(QSize(30, 30));
-        in_33->setCheckable(false);
+        in_33->setCheckable(true);
 
         IO_grid->addWidget(in_33, 3, 7, 1, 1);
 
         in_6 = new QCheckBox(layoutWidget);
         in_6->setObjectName(QString::fromUtf8("in_6"));
+        in_6->setEnabled(false);
         in_6->setStyleSheet(QString::fromUtf8(""));
         in_6->setIconSize(QSize(30, 30));
-        in_6->setCheckable(false);
+        in_6->setCheckable(true);
 
         IO_grid->addWidget(in_6, 6, 1, 1, 1);
 
         in_37 = new QCheckBox(layoutWidget);
         in_37->setObjectName(QString::fromUtf8("in_37"));
+        in_37->setEnabled(false);
         in_37->setStyleSheet(QString::fromUtf8(""));
         in_37->setIconSize(QSize(30, 30));
-        in_37->setCheckable(false);
+        in_37->setCheckable(true);
 
         IO_grid->addWidget(in_37, 7, 7, 1, 1);
 
@@ -334,6 +339,7 @@ public:
 
         in_1 = new QCheckBox(layoutWidget);
         in_1->setObjectName(QString::fromUtf8("in_1"));
+        in_1->setEnabled(false);
         QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -341,7 +347,7 @@ public:
         in_1->setSizePolicy(sizePolicy2);
         in_1->setStyleSheet(QString::fromUtf8(""));
         in_1->setIconSize(QSize(30, 30));
-        in_1->setCheckable(false);
+        in_1->setCheckable(true);
         in_1->setTristate(false);
 
         IO_grid->addWidget(in_1, 1, 1, 1, 1);
@@ -356,25 +362,28 @@ public:
 
         in_14 = new QCheckBox(layoutWidget);
         in_14->setObjectName(QString::fromUtf8("in_14"));
+        in_14->setEnabled(false);
         in_14->setStyleSheet(QString::fromUtf8(""));
         in_14->setIconSize(QSize(30, 30));
-        in_14->setCheckable(false);
+        in_14->setCheckable(true);
 
         IO_grid->addWidget(in_14, 4, 3, 1, 1);
 
         in_8 = new QCheckBox(layoutWidget);
         in_8->setObjectName(QString::fromUtf8("in_8"));
+        in_8->setEnabled(false);
         in_8->setStyleSheet(QString::fromUtf8(""));
         in_8->setIconSize(QSize(30, 30));
-        in_8->setCheckable(false);
+        in_8->setCheckable(true);
 
         IO_grid->addWidget(in_8, 8, 1, 1, 1);
 
         in_10 = new QCheckBox(layoutWidget);
         in_10->setObjectName(QString::fromUtf8("in_10"));
+        in_10->setEnabled(false);
         in_10->setStyleSheet(QString::fromUtf8(""));
         in_10->setIconSize(QSize(30, 30));
-        in_10->setCheckable(false);
+        in_10->setCheckable(true);
 
         IO_grid->addWidget(in_10, 10, 1, 1, 1);
 
@@ -388,17 +397,19 @@ public:
 
         in_22 = new QCheckBox(layoutWidget);
         in_22->setObjectName(QString::fromUtf8("in_22"));
+        in_22->setEnabled(false);
         in_22->setStyleSheet(QString::fromUtf8(""));
         in_22->setIconSize(QSize(30, 30));
-        in_22->setCheckable(false);
+        in_22->setCheckable(true);
 
         IO_grid->addWidget(in_22, 2, 5, 1, 1);
 
         in_35 = new QCheckBox(layoutWidget);
         in_35->setObjectName(QString::fromUtf8("in_35"));
+        in_35->setEnabled(false);
         in_35->setStyleSheet(QString::fromUtf8(""));
         in_35->setIconSize(QSize(30, 30));
-        in_35->setCheckable(false);
+        in_35->setCheckable(true);
 
         IO_grid->addWidget(in_35, 5, 7, 1, 1);
 
@@ -412,9 +423,10 @@ public:
 
         in_43 = new QCheckBox(layoutWidget);
         in_43->setObjectName(QString::fromUtf8("in_43"));
+        in_43->setEnabled(false);
         in_43->setStyleSheet(QString::fromUtf8(""));
         in_43->setIconSize(QSize(30, 30));
-        in_43->setCheckable(false);
+        in_43->setCheckable(true);
 
         IO_grid->addWidget(in_43, 3, 9, 1, 1);
 
@@ -428,9 +440,10 @@ public:
 
         in_13 = new QCheckBox(layoutWidget);
         in_13->setObjectName(QString::fromUtf8("in_13"));
+        in_13->setEnabled(false);
         in_13->setStyleSheet(QString::fromUtf8(""));
         in_13->setIconSize(QSize(30, 30));
-        in_13->setCheckable(false);
+        in_13->setCheckable(true);
 
         IO_grid->addWidget(in_13, 3, 3, 1, 1);
 
@@ -444,9 +457,10 @@ public:
 
         in_31 = new QCheckBox(layoutWidget);
         in_31->setObjectName(QString::fromUtf8("in_31"));
+        in_31->setEnabled(false);
         in_31->setStyleSheet(QString::fromUtf8(""));
         in_31->setIconSize(QSize(30, 30));
-        in_31->setCheckable(false);
+        in_31->setCheckable(true);
 
         IO_grid->addWidget(in_31, 1, 7, 1, 1);
 
@@ -460,17 +474,19 @@ public:
 
         in_24 = new QCheckBox(layoutWidget);
         in_24->setObjectName(QString::fromUtf8("in_24"));
+        in_24->setEnabled(false);
         in_24->setStyleSheet(QString::fromUtf8(""));
         in_24->setIconSize(QSize(30, 30));
-        in_24->setCheckable(false);
+        in_24->setCheckable(true);
 
         IO_grid->addWidget(in_24, 4, 5, 1, 1);
 
         in_40 = new QCheckBox(layoutWidget);
         in_40->setObjectName(QString::fromUtf8("in_40"));
+        in_40->setEnabled(false);
         in_40->setStyleSheet(QString::fromUtf8(""));
         in_40->setIconSize(QSize(30, 30));
-        in_40->setCheckable(false);
+        in_40->setCheckable(true);
 
         IO_grid->addWidget(in_40, 10, 7, 1, 1);
 
@@ -484,25 +500,28 @@ public:
 
         in_27 = new QCheckBox(layoutWidget);
         in_27->setObjectName(QString::fromUtf8("in_27"));
+        in_27->setEnabled(false);
         in_27->setStyleSheet(QString::fromUtf8(""));
         in_27->setIconSize(QSize(30, 30));
-        in_27->setCheckable(false);
+        in_27->setCheckable(true);
 
         IO_grid->addWidget(in_27, 7, 5, 1, 1);
 
         in_39 = new QCheckBox(layoutWidget);
         in_39->setObjectName(QString::fromUtf8("in_39"));
+        in_39->setEnabled(false);
         in_39->setStyleSheet(QString::fromUtf8(""));
         in_39->setIconSize(QSize(30, 30));
-        in_39->setCheckable(false);
+        in_39->setCheckable(true);
 
         IO_grid->addWidget(in_39, 9, 7, 1, 1);
 
         in_38 = new QCheckBox(layoutWidget);
         in_38->setObjectName(QString::fromUtf8("in_38"));
+        in_38->setEnabled(false);
         in_38->setStyleSheet(QString::fromUtf8(""));
         in_38->setIconSize(QSize(30, 30));
-        in_38->setCheckable(false);
+        in_38->setCheckable(true);
 
         IO_grid->addWidget(in_38, 8, 7, 1, 1);
 
@@ -532,25 +551,28 @@ public:
 
         in_32 = new QCheckBox(layoutWidget);
         in_32->setObjectName(QString::fromUtf8("in_32"));
+        in_32->setEnabled(false);
         in_32->setStyleSheet(QString::fromUtf8(""));
         in_32->setIconSize(QSize(30, 30));
-        in_32->setCheckable(false);
+        in_32->setCheckable(true);
 
         IO_grid->addWidget(in_32, 2, 7, 1, 1);
 
         in_28 = new QCheckBox(layoutWidget);
         in_28->setObjectName(QString::fromUtf8("in_28"));
+        in_28->setEnabled(false);
         in_28->setStyleSheet(QString::fromUtf8(""));
         in_28->setIconSize(QSize(30, 30));
-        in_28->setCheckable(false);
+        in_28->setCheckable(true);
 
         IO_grid->addWidget(in_28, 8, 5, 1, 1);
 
         in_48 = new QCheckBox(layoutWidget);
         in_48->setObjectName(QString::fromUtf8("in_48"));
+        in_48->setEnabled(false);
         in_48->setStyleSheet(QString::fromUtf8(""));
         in_48->setIconSize(QSize(30, 30));
-        in_48->setCheckable(false);
+        in_48->setCheckable(true);
 
         IO_grid->addWidget(in_48, 8, 9, 1, 1);
 
@@ -572,9 +594,10 @@ public:
 
         in_18 = new QCheckBox(layoutWidget);
         in_18->setObjectName(QString::fromUtf8("in_18"));
+        in_18->setEnabled(false);
         in_18->setStyleSheet(QString::fromUtf8(""));
         in_18->setIconSize(QSize(30, 30));
-        in_18->setCheckable(false);
+        in_18->setCheckable(true);
 
         IO_grid->addWidget(in_18, 8, 3, 1, 1);
 
@@ -596,17 +619,19 @@ public:
 
         in_41 = new QCheckBox(layoutWidget);
         in_41->setObjectName(QString::fromUtf8("in_41"));
+        in_41->setEnabled(false);
         in_41->setStyleSheet(QString::fromUtf8(""));
         in_41->setIconSize(QSize(30, 30));
-        in_41->setCheckable(false);
+        in_41->setCheckable(true);
 
         IO_grid->addWidget(in_41, 1, 9, 1, 1);
 
         in_12 = new QCheckBox(layoutWidget);
         in_12->setObjectName(QString::fromUtf8("in_12"));
+        in_12->setEnabled(false);
         in_12->setStyleSheet(QString::fromUtf8(""));
         in_12->setIconSize(QSize(30, 30));
-        in_12->setCheckable(false);
+        in_12->setCheckable(true);
 
         IO_grid->addWidget(in_12, 2, 3, 1, 1);
 
@@ -636,17 +661,19 @@ public:
 
         in_29 = new QCheckBox(layoutWidget);
         in_29->setObjectName(QString::fromUtf8("in_29"));
+        in_29->setEnabled(false);
         in_29->setStyleSheet(QString::fromUtf8(""));
         in_29->setIconSize(QSize(30, 30));
-        in_29->setCheckable(false);
+        in_29->setCheckable(true);
 
         IO_grid->addWidget(in_29, 9, 5, 1, 1);
 
         in_3 = new QCheckBox(layoutWidget);
         in_3->setObjectName(QString::fromUtf8("in_3"));
+        in_3->setEnabled(false);
         in_3->setStyleSheet(QString::fromUtf8(""));
         in_3->setIconSize(QSize(30, 30));
-        in_3->setCheckable(false);
+        in_3->setCheckable(true);
 
         IO_grid->addWidget(in_3, 3, 1, 1, 1);
 
@@ -668,9 +695,10 @@ public:
 
         in_23 = new QCheckBox(layoutWidget);
         in_23->setObjectName(QString::fromUtf8("in_23"));
+        in_23->setEnabled(false);
         in_23->setStyleSheet(QString::fromUtf8(""));
         in_23->setIconSize(QSize(30, 30));
-        in_23->setCheckable(false);
+        in_23->setCheckable(true);
 
         IO_grid->addWidget(in_23, 3, 5, 1, 1);
 
@@ -684,9 +712,10 @@ public:
 
         in_16 = new QCheckBox(layoutWidget);
         in_16->setObjectName(QString::fromUtf8("in_16"));
+        in_16->setEnabled(false);
         in_16->setStyleSheet(QString::fromUtf8(""));
         in_16->setIconSize(QSize(30, 30));
-        in_16->setCheckable(false);
+        in_16->setCheckable(true);
 
         IO_grid->addWidget(in_16, 6, 3, 1, 1);
 
@@ -708,33 +737,37 @@ public:
 
         in_20 = new QCheckBox(layoutWidget);
         in_20->setObjectName(QString::fromUtf8("in_20"));
+        in_20->setEnabled(false);
         in_20->setStyleSheet(QString::fromUtf8(""));
         in_20->setIconSize(QSize(30, 30));
-        in_20->setCheckable(false);
+        in_20->setCheckable(true);
 
         IO_grid->addWidget(in_20, 10, 3, 1, 1);
 
         in_5 = new QCheckBox(layoutWidget);
         in_5->setObjectName(QString::fromUtf8("in_5"));
+        in_5->setEnabled(false);
         in_5->setStyleSheet(QString::fromUtf8(""));
         in_5->setIconSize(QSize(30, 30));
-        in_5->setCheckable(false);
+        in_5->setCheckable(true);
 
         IO_grid->addWidget(in_5, 5, 1, 1, 1);
 
         in_4 = new QCheckBox(layoutWidget);
         in_4->setObjectName(QString::fromUtf8("in_4"));
+        in_4->setEnabled(false);
         in_4->setStyleSheet(QString::fromUtf8(""));
         in_4->setIconSize(QSize(30, 30));
-        in_4->setCheckable(false);
+        in_4->setCheckable(true);
 
         IO_grid->addWidget(in_4, 4, 1, 1, 1);
 
         in_46 = new QCheckBox(layoutWidget);
         in_46->setObjectName(QString::fromUtf8("in_46"));
+        in_46->setEnabled(false);
         in_46->setStyleSheet(QString::fromUtf8(""));
         in_46->setIconSize(QSize(30, 30));
-        in_46->setCheckable(false);
+        in_46->setCheckable(true);
 
         IO_grid->addWidget(in_46, 6, 9, 1, 1);
 
@@ -748,33 +781,37 @@ public:
 
         in_47 = new QCheckBox(layoutWidget);
         in_47->setObjectName(QString::fromUtf8("in_47"));
+        in_47->setEnabled(false);
         in_47->setStyleSheet(QString::fromUtf8(""));
         in_47->setIconSize(QSize(30, 30));
-        in_47->setCheckable(false);
+        in_47->setCheckable(true);
 
         IO_grid->addWidget(in_47, 7, 9, 1, 1);
 
         in_9 = new QCheckBox(layoutWidget);
         in_9->setObjectName(QString::fromUtf8("in_9"));
+        in_9->setEnabled(false);
         in_9->setStyleSheet(QString::fromUtf8(""));
         in_9->setIconSize(QSize(30, 30));
-        in_9->setCheckable(false);
+        in_9->setCheckable(true);
 
         IO_grid->addWidget(in_9, 9, 1, 1, 1);
 
         in_19 = new QCheckBox(layoutWidget);
         in_19->setObjectName(QString::fromUtf8("in_19"));
+        in_19->setEnabled(false);
         in_19->setStyleSheet(QString::fromUtf8(""));
         in_19->setIconSize(QSize(30, 30));
-        in_19->setCheckable(false);
+        in_19->setCheckable(true);
 
         IO_grid->addWidget(in_19, 9, 3, 1, 1);
 
         in_26 = new QCheckBox(layoutWidget);
         in_26->setObjectName(QString::fromUtf8("in_26"));
+        in_26->setEnabled(false);
         in_26->setStyleSheet(QString::fromUtf8(""));
         in_26->setIconSize(QSize(30, 30));
-        in_26->setCheckable(false);
+        in_26->setCheckable(true);
 
         IO_grid->addWidget(in_26, 6, 5, 1, 1);
 
@@ -788,17 +825,19 @@ public:
 
         in_34 = new QCheckBox(layoutWidget);
         in_34->setObjectName(QString::fromUtf8("in_34"));
+        in_34->setEnabled(false);
         in_34->setStyleSheet(QString::fromUtf8(""));
         in_34->setIconSize(QSize(30, 30));
-        in_34->setCheckable(false);
+        in_34->setCheckable(true);
 
         IO_grid->addWidget(in_34, 4, 7, 1, 1);
 
         in_7 = new QCheckBox(layoutWidget);
         in_7->setObjectName(QString::fromUtf8("in_7"));
+        in_7->setEnabled(false);
         in_7->setStyleSheet(QString::fromUtf8(""));
         in_7->setIconSize(QSize(30, 30));
-        in_7->setCheckable(false);
+        in_7->setCheckable(true);
 
         IO_grid->addWidget(in_7, 7, 1, 1, 1);
 
@@ -812,17 +851,19 @@ public:
 
         in_21 = new QCheckBox(layoutWidget);
         in_21->setObjectName(QString::fromUtf8("in_21"));
+        in_21->setEnabled(false);
         in_21->setStyleSheet(QString::fromUtf8(""));
         in_21->setIconSize(QSize(30, 30));
-        in_21->setCheckable(false);
+        in_21->setCheckable(true);
 
         IO_grid->addWidget(in_21, 1, 5, 1, 1);
 
         in_25 = new QCheckBox(layoutWidget);
         in_25->setObjectName(QString::fromUtf8("in_25"));
+        in_25->setEnabled(false);
         in_25->setStyleSheet(QString::fromUtf8(""));
         in_25->setIconSize(QSize(30, 30));
-        in_25->setCheckable(false);
+        in_25->setCheckable(true);
 
         IO_grid->addWidget(in_25, 5, 5, 1, 1);
 
@@ -836,9 +877,10 @@ public:
 
         in_30 = new QCheckBox(layoutWidget);
         in_30->setObjectName(QString::fromUtf8("in_30"));
+        in_30->setEnabled(false);
         in_30->setStyleSheet(QString::fromUtf8(""));
         in_30->setIconSize(QSize(30, 30));
-        in_30->setCheckable(false);
+        in_30->setCheckable(true);
 
         IO_grid->addWidget(in_30, 10, 5, 1, 1);
 
@@ -860,9 +902,10 @@ public:
 
         in_36 = new QCheckBox(layoutWidget);
         in_36->setObjectName(QString::fromUtf8("in_36"));
+        in_36->setEnabled(false);
         in_36->setStyleSheet(QString::fromUtf8(""));
         in_36->setIconSize(QSize(30, 30));
-        in_36->setCheckable(false);
+        in_36->setCheckable(true);
 
         IO_grid->addWidget(in_36, 6, 7, 1, 1);
 
@@ -876,25 +919,28 @@ public:
 
         in_44 = new QCheckBox(layoutWidget);
         in_44->setObjectName(QString::fromUtf8("in_44"));
+        in_44->setEnabled(false);
         in_44->setStyleSheet(QString::fromUtf8(""));
         in_44->setIconSize(QSize(30, 30));
-        in_44->setCheckable(false);
+        in_44->setCheckable(true);
 
         IO_grid->addWidget(in_44, 4, 9, 1, 1);
 
         in_42 = new QCheckBox(layoutWidget);
         in_42->setObjectName(QString::fromUtf8("in_42"));
+        in_42->setEnabled(false);
         in_42->setStyleSheet(QString::fromUtf8(""));
         in_42->setIconSize(QSize(30, 30));
-        in_42->setCheckable(false);
+        in_42->setCheckable(true);
 
         IO_grid->addWidget(in_42, 2, 9, 1, 1);
 
         in_2 = new QCheckBox(layoutWidget);
         in_2->setObjectName(QString::fromUtf8("in_2"));
+        in_2->setEnabled(false);
         in_2->setStyleSheet(QString::fromUtf8(""));
         in_2->setIconSize(QSize(30, 30));
-        in_2->setCheckable(false);
+        in_2->setCheckable(true);
 
         IO_grid->addWidget(in_2, 2, 1, 1, 1);
 
@@ -908,9 +954,10 @@ public:
 
         in_17 = new QCheckBox(layoutWidget);
         in_17->setObjectName(QString::fromUtf8("in_17"));
+        in_17->setEnabled(false);
         in_17->setStyleSheet(QString::fromUtf8(""));
         in_17->setIconSize(QSize(30, 30));
-        in_17->setCheckable(false);
+        in_17->setCheckable(true);
 
         IO_grid->addWidget(in_17, 7, 3, 1, 1);
 
@@ -940,9 +987,10 @@ public:
 
         in_15 = new QCheckBox(layoutWidget);
         in_15->setObjectName(QString::fromUtf8("in_15"));
+        in_15->setEnabled(false);
         in_15->setStyleSheet(QString::fromUtf8(""));
         in_15->setIconSize(QSize(30, 30));
-        in_15->setCheckable(false);
+        in_15->setCheckable(true);
 
         IO_grid->addWidget(in_15, 5, 3, 1, 1);
 
@@ -1194,4 +1242,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWCQPQBL_H
+#endif // MAINWINDOWVRIARF_H

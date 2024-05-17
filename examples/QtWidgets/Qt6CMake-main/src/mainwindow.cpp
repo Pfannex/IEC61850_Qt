@@ -46,10 +46,9 @@ MainWindow::MainWindow(QWidget* parent) :
     //inputGroup->addButton(ui->bu_IO_1, 100);
     connect(outputGroup, SIGNAL(idClicked(int)), this, SLOT(on_outputGroup_clicked(int)));
 
-    /*
     //INPUT
     inputGroup = new QButtonGroup(this);
-    //inputGroup->setExclusive(false);
+    inputGroup->setExclusive(false);
     for (int i = 0; i < 48; i++) {
         QString cbName = "in_";
         cbName.append(QString::number(i + 1));
@@ -57,7 +56,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
         inputGroup->addButton(cb, i);
     }
-    */
 
 
     ioUpdate = new QButtonGroup(this);
@@ -107,11 +105,11 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
 
 
 void MainWindow::on_outputGroup_clicked(int id) {
-    qDebug() << "[MainWindow::on_ioGroup_clicked]----------------";
+    qDebug() << "[MainWindow::on_outputGroup_clicked]----------------";
     qDebug() << "  id clicked " << id;
 
-    QAbstractButton* cb = outputGroup->button(id);
-    qDebug() << "  class      " << cb->metaObject()->className();
+    QAbstractButton* bu = outputGroup->button(id);
+    qDebug() << "  class      " << bu->metaObject()->className();
 
     /*
     if (cb->metaObject()->className() == QString("QPushButton")) {
@@ -122,12 +120,14 @@ void MainWindow::on_outputGroup_clicked(int id) {
     }
     */
   
-    cb->setChecked(cb->isChecked());
+    //bu->setChecked(bu->isChecked());
 
-    qDebug() << "  Object     " << cb->objectName();
-    qDebug() << "  buttonID   " << id;
+    qDebug() << "  Object              " << bu->objectName();
+    qDebug() << "  buttonID            " << id;
+    qDebug() << "  active_ptmListIndex " << sitipe_master.ptm.active_ptmListIndex;
 
-    if (ui->rb_singleTransmit->isChecked()) emit on_setIO(id + 1, cb->isChecked());
+    sitipe_master.ptm.index[sitipe_master.ptm.active_ptmListIndex].io[id].outValue = bu->isChecked();
+    if (ui->rb_singleTransmit->isChecked()) emit on_setIO(id + 1, bu->isChecked());
 }
 
 void MainWindow::on_ioUpdate_clicked(int id) {
@@ -141,13 +141,14 @@ void MainWindow::on_ioUpdate_clicked(int id) {
     if (ui->rb_groupTransmit->isChecked()) ui->bu_setGroup->setEnabled(true);
     else ui->bu_setGroup->setEnabled(false);
 }
+
 void MainWindow::on_bu_setGroup_clicked() {
     qDebug() << "[MainWindow::on_bu_setGroup_clicked]----------------";
 
     QByteArray io;
     for (int i = 0; i < 48; i++) {
-        QAbstractButton* cb = inputGroup->button(i);
-        io.append(cb->isChecked());
+        QAbstractButton* bu = outputGroup->button(i);
+        io.append(bu->isChecked());
 
     }
     emit on_setIO(io);
@@ -155,22 +156,33 @@ void MainWindow::on_bu_setGroup_clicked() {
 
 
 void MainWindow::setPTMstate() {
-    qDebug() << "[MainWindow::setIO]-------------------------";
+    qDebug() << "[MainWindow::setPTMstate]-------------------------";
     qDebug() << "  ptmCount: " << sitipe_master.ptm.index.count();
     if (sitipe_master.ptm.index.count() > 0) {
         int active_ptmListIndex = sitipe_master.ptm.active_ptmListIndex;
         qDebug() << "  active PTMListIndex: " << active_ptmListIndex;
         
         for (int i = 0; i < 48; i++) {
-            QString cbName = "IO_";
+            QString cbName = "in_";
             cbName.append(QString::number(i + 1));
             QCheckBox* cb = ui->SITIPEMaster->findChild<QCheckBox*>(cbName);
 
             //qDebug() << "    IO:  " << cb->objectName();
-            //qDebug() << "    val: " << sitipe_master.ptm.index[active_ptmIndex].io[i].value;
+            //qDebug() << "    val: " << sitipe_master.ptm.index[active_ptmListIndex].io[i].value;
 
             //cb->setChecked(true);
-            cb->setChecked(sitipe_master.ptm.index[active_ptmListIndex].io[i].value);
+            cb->setChecked(sitipe_master.ptm.index[active_ptmListIndex].io[i].inValue);
+
+            QString buName = "out_";
+            buName.append(QString::number(i + 1));
+            QPushButton* bu = ui->SITIPEMaster->findChild<QPushButton*>(buName);
+
+            //qDebug() << "    IO:  " << bu->objectName();
+            //qDebug() << "    val: " << sitipe_master.ptm.index[active_ptmListIndex].io[i].value;
+
+            //cb->setChecked(true);
+            bu->setChecked(sitipe_master.ptm.index[active_ptmListIndex].io[i].outValue);
+
         }
         ui->cb_ptmonline->setChecked(sitipe_master.ptm.index[active_ptmListIndex].connected);
     }
