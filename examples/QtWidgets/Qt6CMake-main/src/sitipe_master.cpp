@@ -398,10 +398,10 @@ void SITIPE_Master::masterInitRequest_0000() {
 void SITIPE_Master::masterTransmit_0001(int ptmID, int channel, bool value) {
     
     //check if PTM is connected
-    //if (ptmIndex < 0) ptmIndex = 0;
 
     int ptmIndex = ptm.getptmIndexfromPtmID(ptmID);
     int ptmListIndex = ptm.getListIndexfromPtmID(ptmID);
+    if (ptmIndex < 0) ptmIndex = ptmListIndex;
 
     qDebug() << "--------------------------------------------------------";
     qDebug() << "[masterTransmit_0001]";

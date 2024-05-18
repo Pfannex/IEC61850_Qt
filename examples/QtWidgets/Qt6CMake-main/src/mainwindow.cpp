@@ -80,7 +80,8 @@ void MainWindow::on_bu_close_clicked() {
     close();
 }
 void MainWindow::on_bu_connect_clicked() {
-    sitipe_socket.doConnect(ui->tb_serverIp->text(), ui->tb_port->text().toInt());
+    if (sitipe_master.ptm.index.count() > 0)
+        sitipe_socket.doConnect(ui->tb_serverIp->text(), ui->tb_port->text().toInt());
 }
 void MainWindow::on_bu_disconnect_clicked() {
     sitipe_master.masterQuit_0003(0);
