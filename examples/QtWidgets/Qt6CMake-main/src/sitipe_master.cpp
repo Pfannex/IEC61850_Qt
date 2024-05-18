@@ -118,31 +118,31 @@ void SITIPE_PTM::del(int index) {
 }
 
 int SITIPE_PTM::getptmIndexfromPtmID(int ptmID) {
-    qDebug() << "    [SITIPE_PTM::getptmIndexfromPtmID]------------------";
-    qDebug() << "      ptmID " << ptmID;
+    //qDebug() << "    [SITIPE_PTM::getptmIndexfromPtmID]------------------";
+    //qDebug() << "      ptmID " << ptmID;
 
 
     for (int i = 0; i < index.count(); i++) {
-        qDebug() << "      index " << i 
-            << "  ptmID  " << index[i].ptmID;
+        //qDebug() << "      index " << i 
+        //    << "  ptmID  " << index[i].ptmID;
 
         if (index[i].ptmID == ptmID) {
-            qDebug() << "      return " << index[i].ptmIndex;
+            //qDebug() << "      return " << index[i].ptmIndex;
             return index[i].ptmIndex;
         }
     }
     return 0;
 }
 int SITIPE_PTM::getListIndexfromPtmID(int ptmID) {
-    qDebug() << "    [SITIPE_PTM::getListIndexfromPtmID]------------------";
-    qDebug() << "      ptmID " << ptmID;
+    //qDebug() << "    [SITIPE_PTM::getListIndexfromPtmID]------------------";
+    //qDebug() << "      ptmID " << ptmID;
 
     for (int i = 0; i < index.count(); i++) {
-        qDebug() << "      index " << i 
-            << "  ptmID  " << index[i].ptmID;
+        //qDebug() << "      index " << i 
+        //    << "  ptmID  " << index[i].ptmID;
 
         if (index[i].ptmID == ptmID) {
-            qDebug() << "      return " << i;
+            //qDebug() << "      return " << i;
             return i;
         }
     }
@@ -154,7 +154,8 @@ void SITIPE_PTM::printInfo() {
 }
 void SITIPE_PTM::printPTM(int ptmID) {
     int ptmListIndex = getListIndexfromPtmID(ptmID);
-    qDebug() << "[PTM " << index[ptmListIndex].str_ptmID << "]-------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[PTM " << index[ptmListIndex].str_ptmID << "]";
     qDebug() << " Modul ID:        " << index[ptmListIndex].str_ptmID;
     qDebug() << " Modul Index:     " << index[ptmListIndex].ptmIndex;
     qDebug() << " Modul ListIndex: " << index[ptmListIndex].ptmListIndex;
@@ -270,7 +271,8 @@ void SITIPE_Master::updateSocketState(bool online) {
 }
 
 void SITIPE_Master::ptm_change(int ptmID) {
-    qDebug() << "[SITIPE_Master::ptm_change]------------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::ptm_change]";
     qDebug() << "  ptmID" << ptmID;
 
     //update index
@@ -301,17 +303,21 @@ void SITIPE_Master::ptm_change(int ptmID) {
 }
 
 void SITIPE_Master::setIO(int channel, bool value) {
-    qDebug() << "[SITIPE_Master::setIO]------------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::setIO]";
     qDebug() << "  channel: " << channel;
     qDebug() << "  value:   " << value;
 
     if (ptm.index.count() > 0) {
-        ptm.index[ptm.active_ptmIndex].io[channel - 1].outValue = value;
-        masterTransmit_0001(ptm.active_ptmIndex, ptm.active_ptmID, channel, value);
+        ptm.index[ptm.active_ptmListIndex].io[channel - 1].outValue = value;
+
+        if (ptm.index[ptm.active_ptmListIndex].connected)
+            masterTransmit_0001(ptm.active_ptmID, channel, value);
     }
 }
 void SITIPE_Master::setIO(QByteArray io) {
-    qDebug() << "[SITIPE_Master::setIO-all]------------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::setIO-all]";
     qDebug() << "  PTM: " << ptm.active_ptmID;
     masterOutputs_0010(ptm.active_ptmID, io);
 }
@@ -324,7 +330,7 @@ void SITIPE_Master::KeepAllive() {
 
 void SITIPE_Master::TEST() {
     qDebug() << "TEST...";
-    masterTransmit_0001(0,0, 1, 0);
+    masterTransmit_0001(0, 1, 0);
 
     
     /*
@@ -389,18 +395,23 @@ void SITIPE_Master::masterInitRequest_0000() {
     }
 }
 
-void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bool value) {
+void SITIPE_Master::masterTransmit_0001(int ptmID, int channel, bool value) {
     
     //check if PTM is connected
-    if (ptmIndex < 0) ptmIndex = 0;
+    //if (ptmIndex < 0) ptmIndex = 0;
 
-    qDebug() << "[masterTransmit_0001]----------------";
-    qDebug() << "  ptmIndex" << ptmIndex;
-    qDebug() << "  ptmID   " << ptmID;
+    int ptmIndex = ptm.getptmIndexfromPtmID(ptmID);
+    int ptmListIndex = ptm.getListIndexfromPtmID(ptmID);
+
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[masterTransmit_0001]";
+    qDebug() << "  ptmID        " << ptmID;
+    qDebug() << "  ptmIndex     " << ptmIndex;
+    qDebug() << "  ptmListIndex " << ptmListIndex;
     qDebug() << "  channel " << channel;
     qDebug() << "  value   " << value;
 
-    if (socketOnline and slaveConnected) {
+    if (socketOnline) {
         emit do_writeTCPLog("<-- [0001] masterTransmit", color_master, Qt::white);
 
         QByteArray data;
@@ -428,12 +439,11 @@ void SITIPE_Master::masterTransmit_0001(int ptmIndex, int ptmID, int channel, bo
         length = length + 5;
 
         data.insert(2, getHex_fromInt(length, 4));
-        emit sendFrame(data);
-
 
         QString strState = " -> ";
         strState.append((value) ? "ON" : "OFF");
-        int ptmListIndex = ptm.getListIndexfromPtmID(ptmID);
+
+        emit sendFrame(data);
         emit do_writeTCPLog("       PTM: " + ptm.index[ptmListIndex].str_ptmID + "  I/O: "
             + QString::number(channel) + strState, color_masterSub, Qt::black);
 
@@ -634,7 +644,8 @@ void SITIPE_Master::slavePTMStatus_0006(QByteArray data, Header h) {
 void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
     emit do_writeTCPLog("--> [0007] slaveTransmit", color_slave, Qt::white);
 
-    qDebug() << "[SITIPE_Master::slaveTransmit_0007]----------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::slaveTransmit_0007]";
 
     QString strPTM = QString(data.mid(40, 5));
     int ptmID = strPTM.toInt();
@@ -651,11 +662,12 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
     int ptmListIndex = ptm.getListIndexfromPtmID(ptmID);
 
     ptm.index[ptmListIndex].ptmIndex = ptmIndex;
+    ptm.index[ptmListIndex].ptmListIndex = ptmListIndex;
 
     if (!outputEvent)
         ptm.index[ptmListIndex].io[io - 1].inValue = state;
 
-    ptm.printPTM(ptm.index[ptmListIndex].ptmID);
+    //ptm.printPTM(ptm.index[ptmListIndex].ptmID);
 
     QString strState = " -> ";
     strState.append((state) ? "ON" : "OFF");
@@ -669,14 +681,16 @@ void SITIPE_Master::slaveTransmit_0007(QByteArray data, Header h) {
  
 
     //qDebug() << "IO: " << io << " | state: " << state;
-    qDebug() << "emit ptmListIndex " << ptmListIndex;
-    qDebug() << "ptm.active_ptmIndex " << ptm.active_ptmIndex;
+    qDebug() << "  ptm.active_ptmIndex " << ptm.active_ptmIndex;
+    qDebug() << "  ptm.active_ptmListIndex " << ptm.active_ptmListIndex;
 
     if (ptmListIndex == ptm.active_ptmListIndex) {
-        qDebug() << "emit do_setPTMstate()";
-
+        //qDebug() << "  emit do_setPTMstate()";
+        ptm_change(ptmID);
         emit do_setPTMstate();
     }
+    ptm.printPTM(ptm.index[ptmListIndex].ptmID);
+
 }
 
 void SITIPE_Master::slaveQuit_0008(QByteArray data, Header h) {

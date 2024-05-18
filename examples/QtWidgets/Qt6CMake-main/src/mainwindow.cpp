@@ -105,7 +105,8 @@ void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
 
 
 void MainWindow::on_outputGroup_clicked(int id) {
-    qDebug() << "[MainWindow::on_outputGroup_clicked]----------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::on_outputGroup_clicked]";
     qDebug() << "  id clicked " << id;
 
     QAbstractButton* bu = outputGroup->button(id);
@@ -131,7 +132,8 @@ void MainWindow::on_outputGroup_clicked(int id) {
 }
 
 void MainWindow::on_ioUpdate_clicked(int id) {
-    qDebug() << "[MainWindow::on_ioUpdate_clicked]----------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::on_ioUpdate_clicked]";
     qDebug() << "  id clicked " << id;
 
     QAbstractButton* rb = ioUpdate->button(id);
@@ -143,7 +145,8 @@ void MainWindow::on_ioUpdate_clicked(int id) {
 }
 
 void MainWindow::on_bu_setGroup_clicked() {
-    qDebug() << "[MainWindow::on_bu_setGroup_clicked]----------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::on_bu_setGroup_clicked]";
 
     QByteArray io;
     for (int i = 0; i < 48; i++) {
@@ -156,7 +159,8 @@ void MainWindow::on_bu_setGroup_clicked() {
 
 
 void MainWindow::setPTMstate() {
-    qDebug() << "[MainWindow::setPTMstate]-------------------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::setPTMstate]";
     qDebug() << "  ptmCount: " << sitipe_master.ptm.index.count();
     if (sitipe_master.ptm.index.count() > 0) {
         int active_ptmListIndex = sitipe_master.ptm.active_ptmListIndex;
@@ -200,7 +204,8 @@ void MainWindow::on_lw_PTM_selection_changed() {
         QListWidgetItem* item = ui->lw_PTM->item(row);
         ptmID = item->text().toInt();
 
-        qDebug() << "[MainWindow::on_lw_PTM_selection_changed]------------------";
+        qDebug() << "--------------------------------------------------------";
+        qDebug() << "[MainWindow::on_lw_PTM_selection_changed]";
         qDebug() << "  ptmID:        " << ptmID;
         qDebug() << "  list count:   " << ui->lw_PTM->count();
         qDebug() << "  ptm count:    " << sitipe_master.ptm.index.count();
@@ -248,7 +253,8 @@ void MainWindow::on_bu_delPTM_clicked() {
         QString delPTM = ui->lw_PTM->item(index)->text();
         ui->lw_PTM->takeItem(index);
 
-        qDebug() << "[MainWindow::on_bu_delPTM_clicked]-----------------";
+        qDebug() << "--------------------------------------------------------";
+        qDebug() << "[MainWindow::on_bu_delPTM_clicked]";
         qDebug() << "  del Index: " << index;
         qDebug() << "  del PTM:   " << delPTM;
 

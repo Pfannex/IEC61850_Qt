@@ -107,7 +107,7 @@ class SITIPE_Master : public QObject
 public:
     explicit SITIPE_Master(QObject* parent = 0);
     void masterQuit_0003(int reason);
-    void masterTransmit_0001(int ptmIndex, int ptmID, int channel, bool value);
+    void masterTransmit_0001(int ptmID, int channel, bool value);
     SITIPE_PTM ptm;
  
 signals:
