@@ -64,8 +64,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ioUpdate, SIGNAL(idClicked(int)), this, SLOT(on_ioUpdate_clicked(int)));
 
     //connect(ioGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_ioGroup_clicked(int)(int)));
-    //connect(ioGroup, &QButtonGroup::idClicked, this, &MainWindow::on_ioGroup_clicked);
-
+    //connect(ioGroup, &QButtonGroup::idClicked, this, &MainWindow::on_ioGroup_clicked); 
 }
 
 MainWindow::~MainWindow()

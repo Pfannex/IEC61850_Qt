@@ -16,7 +16,6 @@
 #include <QWidget>
 #include <QButtonGroup>
 
-
 #include "ui_mainwindow.h"
 #include <iec61850_control.h>
 #include <sitipe_master.h>

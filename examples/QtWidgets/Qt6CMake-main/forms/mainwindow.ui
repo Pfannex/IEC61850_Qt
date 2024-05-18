@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>848</width>
-    <height>517</height>
+    <width>844</width>
+    <height>514</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,11 +27,11 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="SITIPEMaster">
        <attribute name="title">
-        <string>SITIPE-Master</string>
+        <string>SITIPE-Master - Client</string>
        </attribute>
        <widget class="QPushButton" name="bu_connect">
         <property name="geometry">
@@ -2497,9 +2497,14 @@
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="MMSServer">
+      <widget class="QWidget" name="IEC104">
        <attribute name="title">
-        <string>MMS-Server</string>
+        <string>IEC61870-5-104 - Server</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Simulation</string>
        </attribute>
       </widget>
      </widget>
@@ -2511,7 +2516,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>848</width>
+     <width>844</width>
      <height>22</height>
     </rect>
    </property>

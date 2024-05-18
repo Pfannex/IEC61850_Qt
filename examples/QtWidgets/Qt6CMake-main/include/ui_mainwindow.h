@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowVrIarF.ui'
+** Form generated from reading UI file 'mainwindowMEcvfl.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWVRIARF_H
-#define MAINWINDOWVRIARF_H
+#ifndef MAINWINDOWMECVFL_H
+#define MAINWINDOWMECVFL_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -162,7 +162,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(848, 517);
+        MainWindow->resize(844, 514);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -1133,7 +1133,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 848, 22));
+        menubar->setGeometry(QRect(0, 0, 844, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -1242,4 +1242,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWVRIARF_H
+#endif // MAINWINDOWMECVFL_H
