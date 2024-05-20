@@ -789,3 +789,4 @@ bool SITIPE_Master::getHeader(QByteArray data, Header &h) {
 
  emit sendFrame(data);
  */
+

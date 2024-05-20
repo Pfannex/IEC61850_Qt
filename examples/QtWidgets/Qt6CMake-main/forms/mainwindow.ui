@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
+    <width>848</width>
     <height>514</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="SITIPEMaster">
        <attribute name="title">
@@ -2497,12 +2497,62 @@
         </widget>
        </widget>
       </widget>
+      <widget class="QWidget" name="SITIPESlave">
+       <attribute name="title">
+        <string>SITIPE-Slave - Server</string>
+       </attribute>
+      </widget>
       <widget class="QWidget" name="IEC104">
        <attribute name="title">
         <string>IEC61870-5-104 - Server</string>
        </attribute>
+       <widget class="QPushButton" name="bu_startServer">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>111</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>  Start Server</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../build/pic/test.png</normaloff>../build/pic/test.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="lw_serverLog_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>60</y>
+          <width>301</width>
+          <height>291</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="autoScroll">
+         <bool>true</bool>
+        </property>
+        <property name="itemAlignment">
+         <set>Qt::AlignRight</set>
+        </property>
+       </widget>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="SIM">
        <attribute name="title">
         <string>Simulation</string>
        </attribute>
@@ -2516,7 +2566,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>844</width>
+     <width>848</width>
      <height>22</height>
     </rect>
    </property>
