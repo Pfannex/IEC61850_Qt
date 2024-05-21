@@ -1,16 +1,15 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowwNckyJ.ui'
+** Form generated from reading UI file 'mainwindowqlqQsw.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWWNCKYJ_H
-#define MAINWINDOWWNCKYJ_H
+#ifndef MAINWINDOWQLQQSW_H
+#define MAINWINDOWQLQQSW_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
@@ -37,9 +36,9 @@ public:
     QTabWidget *tabWidget;
     QWidget *SITIPEMaster;
     QPushButton *bu_connect;
-    QLineEdit *tb_serverIp;
+    QLineEdit *tb_ptmServerIp;
     QLabel *label;
-    QLineEdit *tb_port;
+    QLineEdit *tb_ptmServerPort;
     QLabel *label_3;
     QPushButton *bu_disconnect;
     QListWidget *lw_PTM;
@@ -149,7 +148,7 @@ public:
     QLineEdit *tb_ptmID;
     QCheckBox *cb_online;
     QPushButton *bu_TEST;
-    QListWidget *lw_serverLog;
+    QListWidget *lw_PTMserverLog;
     QCheckBox *cb_ptmonline;
     QGroupBox *gb_ioUpdate;
     QRadioButton *rb_singleTransmit;
@@ -157,8 +156,12 @@ public:
     QPushButton *bu_setGroup;
     QWidget *SITIPESlave;
     QWidget *IEC104;
-    QPushButton *bu_startServer;
-    QListWidget *lw_serverLog_2;
+    QPushButton *bu_open104Server;
+    QCheckBox *cb_clientConnected;
+    QListWidget *lw_104serverLog;
+    QPushButton *bu_close104Server;
+    QLabel *label_2;
+    QLineEdit *tb_104port;
     QWidget *SIM;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -167,7 +170,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(848, 514);
+        MainWindow->resize(848, 519);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -189,11 +192,11 @@ public:
         font.setFamilies({QString::fromUtf8("Calibri")});
         font.setPointSize(14);
         bu_connect->setFont(font);
-        tb_serverIp = new QLineEdit(SITIPEMaster);
-        tb_serverIp->setObjectName(QString::fromUtf8("tb_serverIp"));
-        tb_serverIp->setGeometry(QRect(80, 16, 151, 22));
-        tb_serverIp->setFont(font);
-        tb_serverIp->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        tb_ptmServerIp = new QLineEdit(SITIPEMaster);
+        tb_ptmServerIp->setObjectName(QString::fromUtf8("tb_ptmServerIp"));
+        tb_ptmServerIp->setGeometry(QRect(80, 16, 151, 22));
+        tb_ptmServerIp->setFont(font);
+        tb_ptmServerIp->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         label = new QLabel(SITIPEMaster);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(10, 13, 81, 31));
@@ -201,12 +204,12 @@ public:
         font1.setFamilies({QString::fromUtf8("Calibri")});
         font1.setPointSize(12);
         label->setFont(font1);
-        tb_port = new QLineEdit(SITIPEMaster);
-        tb_port->setObjectName(QString::fromUtf8("tb_port"));
-        tb_port->setGeometry(QRect(240, 16, 71, 22));
-        tb_port->setFont(font);
-        tb_port->setCursorPosition(5);
-        tb_port->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        tb_ptmServerPort = new QLineEdit(SITIPEMaster);
+        tb_ptmServerPort->setObjectName(QString::fromUtf8("tb_ptmServerPort"));
+        tb_ptmServerPort->setGeometry(QRect(240, 16, 71, 22));
+        tb_ptmServerPort->setFont(font);
+        tb_ptmServerPort->setCursorPosition(5);
+        tb_ptmServerPort->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_3 = new QLabel(SITIPEMaster);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(233, 10, 21, 31));
@@ -1097,15 +1100,15 @@ public:
         bu_TEST->setStyleSheet(QString::fromUtf8(""));
         bu_TEST->setIconSize(QSize(106, 49));
         bu_TEST->setFlat(false);
-        lw_serverLog = new QListWidget(SITIPEMaster);
-        lw_serverLog->setObjectName(QString::fromUtf8("lw_serverLog"));
-        lw_serverLog->setGeometry(QRect(10, 80, 301, 291));
+        lw_PTMserverLog = new QListWidget(SITIPEMaster);
+        lw_PTMserverLog->setObjectName(QString::fromUtf8("lw_PTMserverLog"));
+        lw_PTMserverLog->setGeometry(QRect(10, 80, 301, 291));
         QFont font2;
         font2.setFamilies({QString::fromUtf8("Calibri")});
         font2.setPointSize(10);
-        lw_serverLog->setFont(font2);
-        lw_serverLog->setAutoScroll(true);
-        lw_serverLog->setItemAlignment(Qt::AlignRight);
+        lw_PTMserverLog->setFont(font2);
+        lw_PTMserverLog->setAutoScroll(true);
+        lw_PTMserverLog->setItemAlignment(Qt::AlignRight);
         cb_ptmonline = new QCheckBox(SITIPEMaster);
         cb_ptmonline->setObjectName(QString::fromUtf8("cb_ptmonline"));
         cb_ptmonline->setGeometry(QRect(440, 40, 111, 30));
@@ -1134,20 +1137,36 @@ public:
         tabWidget->addTab(SITIPESlave, QString());
         IEC104 = new QWidget();
         IEC104->setObjectName(QString::fromUtf8("IEC104"));
-        bu_startServer = new QPushButton(IEC104);
-        bu_startServer->setObjectName(QString::fromUtf8("bu_startServer"));
-        bu_startServer->setGeometry(QRect(10, 10, 111, 41));
-        bu_startServer->setStyleSheet(QString::fromUtf8(""));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8("../build/pic/test.png"), QSize(), QIcon::Normal, QIcon::Off);
-        bu_startServer->setIcon(icon);
-        bu_startServer->setCheckable(true);
-        lw_serverLog_2 = new QListWidget(IEC104);
-        lw_serverLog_2->setObjectName(QString::fromUtf8("lw_serverLog_2"));
-        lw_serverLog_2->setGeometry(QRect(10, 60, 301, 291));
-        lw_serverLog_2->setFont(font2);
-        lw_serverLog_2->setAutoScroll(true);
-        lw_serverLog_2->setItemAlignment(Qt::AlignRight);
+        bu_open104Server = new QPushButton(IEC104);
+        bu_open104Server->setObjectName(QString::fromUtf8("bu_open104Server"));
+        bu_open104Server->setGeometry(QRect(79, 42, 110, 30));
+        bu_open104Server->setFont(font);
+        cb_clientConnected = new QCheckBox(IEC104);
+        cb_clientConnected->setObjectName(QString::fromUtf8("cb_clientConnected"));
+        cb_clientConnected->setGeometry(QRect(13, 43, 60, 29));
+        cb_clientConnected->setStyleSheet(QString::fromUtf8(""));
+        cb_clientConnected->setIconSize(QSize(41, 30));
+        lw_104serverLog = new QListWidget(IEC104);
+        lw_104serverLog->setObjectName(QString::fromUtf8("lw_104serverLog"));
+        lw_104serverLog->setGeometry(QRect(10, 79, 301, 290));
+        lw_104serverLog->setFont(font2);
+        lw_104serverLog->setAutoScroll(true);
+        lw_104serverLog->setItemAlignment(Qt::AlignRight);
+        bu_close104Server = new QPushButton(IEC104);
+        bu_close104Server->setObjectName(QString::fromUtf8("bu_close104Server"));
+        bu_close104Server->setGeometry(QRect(200, 42, 110, 30));
+        bu_close104Server->setFont(font);
+        bu_close104Server->setFlat(false);
+        label_2 = new QLabel(IEC104);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setGeometry(QRect(10, 12, 81, 30));
+        label_2->setFont(font1);
+        tb_104port = new QLineEdit(IEC104);
+        tb_104port->setObjectName(QString::fromUtf8("tb_104port"));
+        tb_104port->setGeometry(QRect(97, 15, 71, 21));
+        tb_104port->setFont(font);
+        tb_104port->setCursorPosition(5);
+        tb_104port->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         tabWidget->addTab(IEC104, QString());
         SIM = new QWidget();
         SIM->setObjectName(QString::fromUtf8("SIM"));
@@ -1168,6 +1187,7 @@ public:
 
         tabWidget->setCurrentIndex(2);
         bu_disconnect->setDefault(false);
+        bu_close104Server->setDefault(false);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1177,11 +1197,11 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "SITIPE Master - MMS-Server", nullptr));
         bu_connect->setText(QCoreApplication::translate("MainWindow", "connect", nullptr));
-        tb_serverIp->setText(QCoreApplication::translate("MainWindow", "192.168.238.1", nullptr));
+        tb_ptmServerIp->setText(QCoreApplication::translate("MainWindow", "192.168.238.1", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Server IP:", nullptr));
-        tb_port->setInputMask(QString());
-        tb_port->setText(QCoreApplication::translate("MainWindow", "23000", nullptr));
-        tb_port->setPlaceholderText(QCoreApplication::translate("MainWindow", "33333", nullptr));
+        tb_ptmServerPort->setInputMask(QString());
+        tb_ptmServerPort->setText(QCoreApplication::translate("MainWindow", "23000", nullptr));
+        tb_ptmServerPort->setPlaceholderText(QCoreApplication::translate("MainWindow", "33333", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", ":", nullptr));
         bu_disconnect->setText(QCoreApplication::translate("MainWindow", "disconnect", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "PTM-Module", nullptr));
@@ -1257,7 +1277,13 @@ public:
         bu_setGroup->setText(QCoreApplication::translate("MainWindow", "SET", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SITIPEMaster), QCoreApplication::translate("MainWindow", "SITIPE-Master - Client", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SITIPESlave), QCoreApplication::translate("MainWindow", "SITIPE-Slave - Server", nullptr));
-        bu_startServer->setText(QCoreApplication::translate("MainWindow", "  Start Server", nullptr));
+        bu_open104Server->setText(QCoreApplication::translate("MainWindow", "open", nullptr));
+        cb_clientConnected->setText(QCoreApplication::translate("MainWindow", "TCP OK", nullptr));
+        bu_close104Server->setText(QCoreApplication::translate("MainWindow", "close", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Server Port:", nullptr));
+        tb_104port->setInputMask(QString());
+        tb_104port->setText(QCoreApplication::translate("MainWindow", "23000", nullptr));
+        tb_104port->setPlaceholderText(QCoreApplication::translate("MainWindow", "33333", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(IEC104), QCoreApplication::translate("MainWindow", "IEC61870-5-104 - Server", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SIM), QCoreApplication::translate("MainWindow", "Simulation", nullptr));
     } // retranslateUi
@@ -1270,4 +1296,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWWNCKYJ_H
+#endif // MAINWINDOWQLQQSW_H

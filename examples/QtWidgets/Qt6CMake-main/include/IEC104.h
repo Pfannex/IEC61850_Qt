@@ -1,3 +1,5 @@
+#pragma
+
 #include <QObject>
 #include <QTcpSocket>
 #include <QAbstractSocket>
@@ -16,22 +18,47 @@
 #include <helper.h>
 #include <format>
 
+#ifndef IEC104_Server_H
+#define IEC104_Server_H
 //#############################################################################
 // TCP Socket
 //#############################################################################
 
-class IEC104_Server //: public QObject
+class IEC104_Server : public QObject
 {
-   // Q_OBJECT
+    Q_OBJECT
 
 public:
-    //IEC104_Server(QObject* parent = 0);
+    explicit IEC104_Server(QObject* parent = 0);
 
-    void start();
+    void open(quint16 port);
+    void close();
 
-//public slots:
-    //void newConnection();
+    //Server
+public slots:
+    void newConnection();
+signals:
+    void do_write104Log(QString txt, QColor fColor, QColor bColor);
+
+    //Sockts
+public slots:
+    void disconnected();
+    void readyRead();
+    void errorOccurred();
+    void write(QByteArray data);
 
 private:
-    //QTcpSocket* socket;
+    QTcpServer* server104;
+    QTcpSocket* socket104;
+
+    //void appendToSocketList(QTcpSocket* socket);
+
+    //Helper
+    QColor color_out = QColor(84, 130, 53, 255);
+    QColor color_outSub = QColor(169, 208, 142, 255);
+    QColor color_in = QColor(48.84, 150, 255);
+    QColor color_inSub = QColor(142, 168, 219, 255);
+
 };
+
+#endif

@@ -1,3 +1,5 @@
+#pragma
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -20,7 +22,6 @@
 #include <iec61850_control.h>
 #include <sitipe_master.h>
 #include <IEC104.h>
-#include <helper.h>
 
 
 namespace Ui {
@@ -59,7 +60,8 @@ private slots:
     void on_bu_setGroup_clicked();
 
     //IEC104
-    void on_bu_startServer_clicked();
+    void on_bu_open104Server_clicked();
+    void on_bu_close104Server_clicked();
 
 
 signals:
@@ -75,7 +77,8 @@ signals:
 private:
     TcpSocket sitipe_socket;
 private slots:
-    void writeTCPLog(QString txt, QColor fColor, QColor bColor);
+    void writePTMLog(QString txt, QColor fColor, QColor bColor);
+    void write104Log(QString txt, QColor fColor, QColor bColor);
     void setPTMstate();
 
 //SITIPE Master

@@ -17,31 +17,3 @@
 uint64_t getInt_fromData(QByteArray data);
 QByteArray getHex_fromInt(uint64_t value, int bytes);
 QByteArray getHex_fromStr(int value, int bytes);
-
-
-//#############################################################################
-// TCP Socket
-//#############################################################################
-
-/*
-//#ifndef IEC104_Server_H
-//#define IEC104_Server_H
-
-class IEC104_Server : public QObject
-{
-    Q_OBJECT
-
-public:
-    //explicit IEC104_Server(QObject* parent = 0);
-
-    void start();
-
-public slots:
-    //void newConnection();
-
-
-private:
-    //QTcpServer* server104;
-};
-*/
-//#endif

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>848</width>
-    <height>514</height>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,7 +52,7 @@
          <string>connect</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="tb_serverIp">
+       <widget class="QLineEdit" name="tb_ptmServerIp">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -93,7 +93,7 @@
          <string>Server IP:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="tb_port">
+       <widget class="QLineEdit" name="tb_ptmServerPort">
         <property name="geometry">
          <rect>
           <x>240</x>
@@ -2382,7 +2382,7 @@
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QListWidget" name="lw_serverLog">
+       <widget class="QListWidget" name="lw_PTMserverLog">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -2506,36 +2506,54 @@
        <attribute name="title">
         <string>IEC61870-5-104 - Server</string>
        </attribute>
-       <widget class="QPushButton" name="bu_startServer">
+       <widget class="QPushButton" name="bu_open104Server">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>111</width>
-          <height>41</height>
+          <x>79</x>
+          <y>42</y>
+          <width>110</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>open</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cb_clientConnected">
+        <property name="geometry">
+         <rect>
+          <x>13</x>
+          <y>43</y>
+          <width>60</width>
+          <height>29</height>
          </rect>
         </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>  Start Server</string>
+         <string>TCP OK</string>
         </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../build/pic/test.png</normaloff>../build/pic/test.png</iconset>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
+        <property name="iconSize">
+         <size>
+          <width>41</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
-       <widget class="QListWidget" name="lw_serverLog_2">
+       <widget class="QListWidget" name="lw_104serverLog">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>60</y>
+          <y>79</y>
           <width>301</width>
-          <height>291</height>
+          <height>290</height>
          </rect>
         </property>
         <property name="font">
@@ -2549,6 +2567,81 @@
         </property>
         <property name="itemAlignment">
          <set>Qt::AlignRight</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="bu_close104Server">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>42</y>
+          <width>110</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>close</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>12</y>
+          <width>81</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Server Port:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="tb_104port">
+        <property name="geometry">
+         <rect>
+          <x>97</x>
+          <y>15</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="inputMask">
+         <string/>
+        </property>
+        <property name="text">
+         <string>23000</string>
+        </property>
+        <property name="cursorPosition">
+         <number>5</number>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string>33333</string>
         </property>
        </widget>
       </widget>

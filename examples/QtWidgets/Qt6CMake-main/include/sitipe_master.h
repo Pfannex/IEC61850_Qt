@@ -1,3 +1,5 @@
+#pragma
+
 #include <QObject>
 #include <QTcpSocket>
 #include <QAbstractSocket>
@@ -35,7 +37,7 @@ public:
 
 
 signals:
-    void do_writeTCPLog(QString txt, QColor fColor, QColor bColor);
+    void do_writePTMLog(QString txt, QColor fColor, QColor bColor);
     void do_setConnectionStatus(bool value);
     void do_receiveFrame(QByteArray data);
 
@@ -111,7 +113,7 @@ public:
 signals:
     void sendFrame(QByteArray data);
     void do_setPTMstate();
-    void do_writeTCPLog(QString txt, QColor fColor, QColor bColor);
+    void do_writePTMLog(QString txt, QColor fColor, QColor bColor);
     void do_setPTMConnectionStatus(bool value);
 
 

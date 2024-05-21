@@ -12,15 +12,16 @@ MainWindow::MainWindow(QWidget* parent) :
     //Dialog Events
     QObject::connect(ui->lw_PTM, SIGNAL(itemSelectionChanged()), this, SLOT(on_lw_PTM_selection_changed()));
 
+  //----[ SITIPE Client ]-----------------------
     //sitipe SOCKET -> mainwindow
-    connect(&sitipe_socket, SIGNAL(do_writeTCPLog(QString, QColor, QColor)), this, SLOT(writeTCPLog(QString, QColor, QColor)));
+    connect(&sitipe_socket, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
     connect(&sitipe_socket, SIGNAL(do_setConnectionStatus(bool)), this, SLOT(setConnectionStatus(bool)));
     //mainwindow -> sitipe SOCKET
     connect(this, SIGNAL(on_ptm_change(int)), &sitipe_master, SLOT(ptm_change(int)));
 
 
     //sitipe MASTER -> mainwindow 
-    connect(&sitipe_master, SIGNAL(do_writeTCPLog(QString, QColor, QColor)), this, SLOT(writeTCPLog(QString, QColor, QColor)));
+    connect(&sitipe_master, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
     connect(&sitipe_master, SIGNAL(do_setPTMstate()), this, SLOT(setPTMstate()));
     //mainwindow -> sitipe MASTER
     connect(this, SIGNAL(on_setIO(int, bool)), &sitipe_master, SLOT(setIO(int, bool)));
@@ -33,7 +34,16 @@ MainWindow::MainWindow(QWidget* parent) :
     //sitipe MASTER -> sitipe SOCKET
     connect(&sitipe_master, SIGNAL(sendFrame(QByteArray)), &sitipe_socket, SLOT(write(QByteArray)));
 
-    
+    //----[ 104 Server ]-----------------------
+    //104Server -> mainwindow
+    connect(&iec104, &IEC104_Server::do_write104Log, this, &MainWindow::write104Log);
+    //connect(&sitipe_master, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
+    //connect(&sitipe_socket, SIGNAL(do_setConnectionStatus(bool)), this, SLOT(setConnectionStatus(bool)));
+    //mainwindow -> 104ServerT
+    //connect(this, SIGNAL(on_ptm_change(int)), &sitipe_master, SLOT(ptm_change(int)));
+
+
+
     //OUTPUT
     outputGroup = new QButtonGroup(this);
     outputGroup->setExclusive(false);
@@ -86,7 +96,7 @@ void MainWindow::on_bu_close_clicked() {
 }
 void MainWindow::on_bu_connect_clicked() {
     if (sitipe_master.ptm.index.count() > 0)
-        sitipe_socket.doConnect(ui->tb_serverIp->text(), ui->tb_port->text().toInt());
+        sitipe_socket.doConnect(ui->tb_ptmServerIp->text(), ui->tb_ptmServerPort->text().toInt());
 }
 void MainWindow::on_bu_disconnect_clicked() {
     sitipe_master.masterQuit_0003(0);
@@ -97,12 +107,12 @@ void MainWindow::setConnectionStatus(bool value) {
 }
 
 
-void MainWindow::writeTCPLog(QString txt, QColor fColor, QColor bColor) {
-    ui->lw_serverLog->addItem(txt);
-    ui->lw_serverLog->item(ui->lw_serverLog->count() - 1)->setForeground(bColor);
-    ui->lw_serverLog->item(ui->lw_serverLog->count() - 1)->setBackground(fColor);
+void MainWindow::writePTMLog(QString txt, QColor fColor, QColor bColor) {
+    ui->lw_PTMserverLog->addItem(txt);
+    ui->lw_PTMserverLog->item(ui->lw_PTMserverLog->count() - 1)->setForeground(bColor);
+    ui->lw_PTMserverLog->item(ui->lw_PTMserverLog->count() - 1)->setBackground(fColor);
 
-    ui->lw_serverLog->scrollToBottom();
+    ui->lw_PTMserverLog->scrollToBottom();
 
     //ui->lw_serverLog->setAutoScroll(true);
 }
@@ -295,11 +305,30 @@ void MainWindow::on_bu_delPTM_clicked() {
 //#############################################################################
 // IEC 61870-5-104 Server handle
 //#############################################################################
+void MainWindow::write104Log(QString txt, QColor fColor, QColor bColor) {
+    ui->lw_104serverLog->addItem(txt);
+    ui->lw_104serverLog->item(ui->lw_104serverLog->count() - 1)->setForeground(bColor);
+    ui->lw_104serverLog->item(ui->lw_104serverLog->count() - 1)->setBackground(fColor);
 
-void MainWindow::on_bu_startServer_clicked() {
+    ui->lw_104serverLog->scrollToBottom();
+
+    //ui->lw_serverLog->setAutoScroll(true);
+
+}
+
+void MainWindow::on_bu_open104Server_clicked() {
     qDebug() << "--------------------------------------------------------";
-    qDebug() << "[MainWindow::on_bu_bu_startServer_clicked()]";
-    iec104.start();
+    qDebug() << "[MainWindow::on_bu_open104Server_clicked()]";
+    quint16 port = ui->tb_104port->text().toUInt();
+    qDebug() << "Port to open: " << port;
+
+    iec104.open(port);
+
+}
+void MainWindow::on_bu_close104Server_clicked() {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::on_bu_close104Server_clicked()]";
+    iec104.close();
 
 }
 
