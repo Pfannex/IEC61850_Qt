@@ -27,7 +27,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="SITIPEMaster">
        <attribute name="title">
@@ -2501,6 +2501,144 @@
        <attribute name="title">
         <string>SITIPE-Slave - Server</string>
        </attribute>
+       <widget class="QListWidget" name="lw_STSserverLog">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>79</y>
+          <width>301</width>
+          <height>290</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="autoScroll">
+         <bool>true</bool>
+        </property>
+        <property name="itemAlignment">
+         <set>Qt::AlignRight</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="bu_openSTSServer">
+        <property name="geometry">
+         <rect>
+          <x>79</x>
+          <y>42</y>
+          <width>110</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>open</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="tb_STSport">
+        <property name="geometry">
+         <rect>
+          <x>97</x>
+          <y>15</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="inputMask">
+         <string/>
+        </property>
+        <property name="text">
+         <string>23000</string>
+        </property>
+        <property name="cursorPosition">
+         <number>5</number>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string>33333</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cb_STSclientConnected">
+        <property name="geometry">
+         <rect>
+          <x>13</x>
+          <y>43</y>
+          <width>60</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>TCP OK</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>41</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>12</y>
+          <width>81</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Server Port:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="bu_closeSTSServer">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>42</y>
+          <width>110</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>close</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="IEC104">
        <attribute name="title">

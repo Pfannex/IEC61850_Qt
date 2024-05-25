@@ -21,6 +21,7 @@
 #include "ui_mainwindow.h"
 #include <iec61850_control.h>
 #include <sitipe_master.h>
+#include <sitipe_slave.h>
 #include <IEC104.h>
 
 
@@ -59,6 +60,10 @@ private slots:
     void on_ioUpdate_clicked(int id);
     void on_bu_setGroup_clicked();
 
+    //SITIPE Slave
+    void on_bu_openSTSServer_clicked();
+    void on_bu_closeSTSServer_clicked();
+
     //IEC104
     void on_bu_open104Server_clicked();
     void on_bu_close104Server_clicked();
@@ -78,12 +83,16 @@ private:
     TcpSocket sitipe_socket;
 private slots:
     void writePTMLog(QString txt, QColor fColor, QColor bColor);
+    void writeSTSLog(QString txt, QColor fColor, QColor bColor);
     void write104Log(QString txt, QColor fColor, QColor bColor);
     void setPTMstate();
 
 //SITIPE Master
 private:
     SITIPE_Master sitipe_master;
+//SITIPE Slave
+private:
+    SITIPE_Slave sitipe_slave;
 
 //IEC 61870-5-104 Server
 private:

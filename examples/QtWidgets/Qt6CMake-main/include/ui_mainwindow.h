@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowqlqQsw.ui'
+** Form generated from reading UI file 'mainwindowKzkYDg.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWQLQQSW_H
-#define MAINWINDOWQLQQSW_H
+#ifndef MAINWINDOWKZKYDG_H
+#define MAINWINDOWKZKYDG_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -155,6 +155,12 @@ public:
     QRadioButton *rb_groupTransmit;
     QPushButton *bu_setGroup;
     QWidget *SITIPESlave;
+    QListWidget *lw_STSserverLog;
+    QPushButton *bu_openSTSServer;
+    QLineEdit *tb_STSport;
+    QCheckBox *cb_STSclientConnected;
+    QLabel *label_5;
+    QPushButton *bu_closeSTSServer;
     QWidget *IEC104;
     QPushButton *bu_open104Server;
     QCheckBox *cb_clientConnected;
@@ -1134,6 +1140,36 @@ public:
         tabWidget->addTab(SITIPEMaster, QString());
         SITIPESlave = new QWidget();
         SITIPESlave->setObjectName(QString::fromUtf8("SITIPESlave"));
+        lw_STSserverLog = new QListWidget(SITIPESlave);
+        lw_STSserverLog->setObjectName(QString::fromUtf8("lw_STSserverLog"));
+        lw_STSserverLog->setGeometry(QRect(10, 79, 301, 290));
+        lw_STSserverLog->setFont(font2);
+        lw_STSserverLog->setAutoScroll(true);
+        lw_STSserverLog->setItemAlignment(Qt::AlignRight);
+        bu_openSTSServer = new QPushButton(SITIPESlave);
+        bu_openSTSServer->setObjectName(QString::fromUtf8("bu_openSTSServer"));
+        bu_openSTSServer->setGeometry(QRect(79, 42, 110, 30));
+        bu_openSTSServer->setFont(font);
+        tb_STSport = new QLineEdit(SITIPESlave);
+        tb_STSport->setObjectName(QString::fromUtf8("tb_STSport"));
+        tb_STSport->setGeometry(QRect(97, 15, 71, 21));
+        tb_STSport->setFont(font);
+        tb_STSport->setCursorPosition(5);
+        tb_STSport->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        cb_STSclientConnected = new QCheckBox(SITIPESlave);
+        cb_STSclientConnected->setObjectName(QString::fromUtf8("cb_STSclientConnected"));
+        cb_STSclientConnected->setGeometry(QRect(13, 43, 60, 29));
+        cb_STSclientConnected->setStyleSheet(QString::fromUtf8(""));
+        cb_STSclientConnected->setIconSize(QSize(41, 30));
+        label_5 = new QLabel(SITIPESlave);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setGeometry(QRect(10, 12, 81, 30));
+        label_5->setFont(font1);
+        bu_closeSTSServer = new QPushButton(SITIPESlave);
+        bu_closeSTSServer->setObjectName(QString::fromUtf8("bu_closeSTSServer"));
+        bu_closeSTSServer->setGeometry(QRect(200, 42, 110, 30));
+        bu_closeSTSServer->setFont(font);
+        bu_closeSTSServer->setFlat(false);
         tabWidget->addTab(SITIPESlave, QString());
         IEC104 = new QWidget();
         IEC104->setObjectName(QString::fromUtf8("IEC104"));
@@ -1185,8 +1221,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(1);
         bu_disconnect->setDefault(false);
+        bu_closeSTSServer->setDefault(false);
         bu_close104Server->setDefault(false);
 
 
@@ -1276,6 +1313,13 @@ public:
         rb_groupTransmit->setText(QCoreApplication::translate("MainWindow", "group Transmit", nullptr));
         bu_setGroup->setText(QCoreApplication::translate("MainWindow", "SET", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SITIPEMaster), QCoreApplication::translate("MainWindow", "SITIPE-Master - Client", nullptr));
+        bu_openSTSServer->setText(QCoreApplication::translate("MainWindow", "open", nullptr));
+        tb_STSport->setInputMask(QString());
+        tb_STSport->setText(QCoreApplication::translate("MainWindow", "23000", nullptr));
+        tb_STSport->setPlaceholderText(QCoreApplication::translate("MainWindow", "33333", nullptr));
+        cb_STSclientConnected->setText(QCoreApplication::translate("MainWindow", "TCP OK", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "Server Port:", nullptr));
+        bu_closeSTSServer->setText(QCoreApplication::translate("MainWindow", "close", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SITIPESlave), QCoreApplication::translate("MainWindow", "SITIPE-Slave - Server", nullptr));
         bu_open104Server->setText(QCoreApplication::translate("MainWindow", "open", nullptr));
         cb_clientConnected->setText(QCoreApplication::translate("MainWindow", "TCP OK", nullptr));
@@ -1296,4 +1340,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWQLQQSW_H
+#endif // MAINWINDOWKZKYDG_H

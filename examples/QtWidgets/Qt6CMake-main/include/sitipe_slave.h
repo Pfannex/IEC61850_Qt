@@ -1,5 +1,4 @@
 #pragma
-
 #include <QObject>
 #include <QTcpSocket>
 #include <QAbstractSocket>
@@ -24,6 +23,8 @@
 // SITIPE Slave Server
 //#############################################################################
 
+
+
 class SITIPE_Slave : public QObject
 {
     Q_OBJECT
@@ -38,7 +39,7 @@ public:
 public slots:
     void newConnection();
 signals:
-    void do_write104Log(QString txt, QColor fColor, QColor bColor);
+    void do_writeSTSLog(QString txt, QColor fColor, QColor bColor);
 
     //Sockts
 public slots:
@@ -46,10 +47,24 @@ public slots:
     void readyRead();
     void errorOccurred();
     void write(QByteArray data);
+    void KeepAllive();
 
 private:
-    QTcpServer* server104;
-    QTcpSocket* socket104;
+    QTcpServer* serverSTS;
+    QTcpSocket* socketSTS;
+    bool socketOpen = false;
+
+    struct Header {
+        int type;
+        int size;
+        uint64_t ts_sec;
+        uint64_t ts_ms;
+        QDateTime ts;
+        QString str_ts;
+    };
+    void receiveFrame(QByteArray data);
+    bool getHeader(QByteArray data, Header& h);
+
 
     //void appendToSocketList(QTcpSocket* socket);
 

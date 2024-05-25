@@ -12,13 +12,12 @@ MainWindow::MainWindow(QWidget* parent) :
     //Dialog Events
     QObject::connect(ui->lw_PTM, SIGNAL(itemSelectionChanged()), this, SLOT(on_lw_PTM_selection_changed()));
 
-  //----[ SITIPE Client ]-----------------------
+//----[ SITIPE Master Client ]-----------------------
     //sitipe SOCKET -> mainwindow
     connect(&sitipe_socket, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
     connect(&sitipe_socket, SIGNAL(do_setConnectionStatus(bool)), this, SLOT(setConnectionStatus(bool)));
     //mainwindow -> sitipe SOCKET
     connect(this, SIGNAL(on_ptm_change(int)), &sitipe_master, SLOT(ptm_change(int)));
-
 
     //sitipe MASTER -> mainwindow 
     connect(&sitipe_master, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
@@ -34,7 +33,15 @@ MainWindow::MainWindow(QWidget* parent) :
     //sitipe MASTER -> sitipe SOCKET
     connect(&sitipe_master, SIGNAL(sendFrame(QByteArray)), &sitipe_socket, SLOT(write(QByteArray)));
 
-    //----[ 104 Server ]-----------------------
+//----[ SITIPE Slave Server ]-----------------------
+    //104Server -> mainwindow
+    connect(&sitipe_slave, &SITIPE_Slave::do_writeSTSLog, this, &MainWindow::writeSTSLog);
+    //connect(&sitipe_master, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
+    //connect(&sitipe_socket, SIGNAL(do_setConnectionStatus(bool)), this, SLOT(setConnectionStatus(bool)));
+    //mainwindow -> 104ServerT
+    //connect(this, SIGNAL(on_ptm_change(int)), &sitipe_master, SLOT(ptm_change(int)));
+
+//----[ 104 Server ]-----------------------
     //104Server -> mainwindow
     connect(&iec104, &IEC104_Server::do_write104Log, this, &MainWindow::write104Log);
     //connect(&sitipe_master, SIGNAL(do_writePTMLog(QString, QColor, QColor)), this, SLOT(writePTMLog(QString, QColor, QColor)));
@@ -298,6 +305,36 @@ void MainWindow::on_bu_delPTM_clicked() {
         }
     }
     //emit on_ptm_change(ptmID);
+
+}
+
+//#############################################################################
+// SITIPE Slave Server handle
+//#############################################################################
+void MainWindow::writeSTSLog(QString txt, QColor fColor, QColor bColor) {
+    ui->lw_STSserverLog->addItem(txt);
+    ui->lw_STSserverLog->item(ui->lw_STSserverLog->count() - 1)->setForeground(bColor);
+    ui->lw_STSserverLog->item(ui->lw_STSserverLog->count() - 1)->setBackground(fColor);
+
+    ui->lw_STSserverLog->scrollToBottom();
+
+    //ui->lw_serverLog->setAutoScroll(true);
+
+}
+
+void MainWindow::on_bu_openSTSServer_clicked() {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::on_bu_openSTSServer_clicked()]";
+    quint16 port = ui->tb_STSport->text().toUInt();
+    qDebug() << "Port to open: " << port;
+
+    sitipe_slave.open(port);
+
+}
+void MainWindow::on_bu_closeSTSServer_clicked() {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[MainWindow::on_bu_closeSTSServer_clicked()]";
+    sitipe_slave.close();
 
 }
 

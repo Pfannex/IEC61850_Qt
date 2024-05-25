@@ -1,69 +1,95 @@
-#include <IEC104.h>
+#include <sitipe_slave.h>
 //https://github.com/manfredipist/QTcpSocket/blob/master/QTCPServer/mainwindow.cpp
 
 //#############################################################################
-// SITIPE server handling
+// SITIPE slave handling
 //#############################################################################
 
-IEC104_Server::IEC104_Server(QObject* parent) :
+SITIPE_Slave::SITIPE_Slave(QObject* parent) :
     QObject(parent)
 {
-    server104 = new QTcpServer(this);
-    connect(server104, &QTcpServer::newConnection, this, &IEC104_Server::newConnection);
-    server104->setMaxPendingConnections(1);
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(KeepAllive()));
+    timer->start(300);
+
 
     //foreach(QTcpSocket * socket, connection_set) {
-        //if (socket104 != NULL) socket104->close();
-        //socket104->deleteLater();
+        //if (socketSTS != NULL) socketSTS->close();
+        //socketSTS->deleteLater();
     //}
-    //server104->close();
-    //server104->deleteLater();
+    //serverSTS->close();
+    //serverSTS->deleteLater();
 }
 
 
-void IEC104_Server::open(quint16 port) {
+void SITIPE_Slave::open(quint16 port) {
     qDebug() << "--------------------------------------------------------";
-    qDebug() << "[IEC104_Server::open()]";
-    //server104->close();
+    qDebug() << "[SITIPE_Slave::open()]";
 
-    if (server104->listen(QHostAddress::Any, port)) {
-        emit do_write104Log("server is listening on Port: " + QString::number(port),
+    serverSTS = new QTcpServer(this);
+    connect(serverSTS, &QTcpServer::newConnection, this, &SITIPE_Slave::newConnection);
+    serverSTS->setMaxPendingConnections(1);
+
+    if (serverSTS->listen(QHostAddress::Any, port)) {
+        emit do_writeSTSLog("server is listening on Port: " + QString::number(port),
             Qt::white, Qt::blue);
         qDebug() << "server is listening on Port: " << port;
     }
     else {
-        emit do_write104Log("Unable to start the server!",
+        emit do_writeSTSLog("Unable to start the server!",
             Qt::white, Qt::blue);
         qDebug() << "Unable to start the server";
     }
 }
 
-void IEC104_Server::close() {
+void SITIPE_Slave::close() {
     qDebug() << "--------------------------------------------------------";
     qDebug() << "[IEC104_Server::close()]";
-    emit do_write104Log("server closing..",
+    emit do_writeSTSLog("server closing..",
         Qt::white, Qt::blue);
-    server104->close();
-    //server104->deleteLater();
+    socketOpen = false;
+    serverSTS->close();
+    serverSTS->deleteLater();
 }
 
-void IEC104_Server::newConnection() {
+void SITIPE_Slave::newConnection() {
     qDebug() << "--------------------------------------------------------";
-    qDebug() << "[IEC104_Server::newConnection()]";
-    while (server104->hasPendingConnections()) {
-        socket104 = server104->nextPendingConnection();
+    qDebug() << "[SITIPE_Slave::newConnection()]";
+    while (serverSTS->hasPendingConnections()) {
+        socketSTS = serverSTS->nextPendingConnection();
+        socketOpen = true;
 
-        connect(socket104, &QTcpSocket::readyRead, this, &IEC104_Server::readyRead);
-        connect(socket104, &QTcpSocket::disconnected, this, &IEC104_Server::disconnected);
-        connect(socket104, &QAbstractSocket::errorOccurred, this, &IEC104_Server::errorOccurred);
+        connect(socketSTS, &QTcpSocket::readyRead, this, &SITIPE_Slave::readyRead);
+        connect(socketSTS, &QTcpSocket::disconnected, this, &SITIPE_Slave::disconnected);
+        connect(socketSTS, &QAbstractSocket::errorOccurred, this, &SITIPE_Slave::errorOccurred);
 
-        QString socStr = QString::number(socket104->socketDescriptor());
-        emit do_write104Log("socket " + socStr + " connected",
+        QString socStr = QString::number(socketSTS->socketDescriptor());
+        emit do_writeSTSLog("socket " + socStr + " connected",
             Qt::white, Qt::blue);
-        qDebug() << "INFO :: new client: " << socket104->socketDescriptor();
+        qDebug() << "INFO :: new client: " << socketSTS->socketDescriptor();
+
+
 
     }
 }
+void SITIPE_Slave::KeepAllive() {
+    if (socketOpen) {
+        qDebug() << "--------------------------------------------------------";
+        qDebug() << "[SITIPE_Slave::KeepAllive()]";
+
+        QByteArray data = QByteArray::fromHex(
+                "0005000000100000"
+                "0000E1F6931D3888"
+                "980000000000");
+
+            write(data);
+    }
+    //masterKeepAlive_0002();
+
+
+}
+
 
 //#############################################################################
 // SITIPE client socket handling
@@ -79,45 +105,137 @@ void IEC104_Server::appendToSocketList(QTcpSocket* socket){
     connect(socket, &QAbstractSocket::errorOccurred, this, &IEC104_Server::errorOccurred);
 
     QString socStr = QString::number(socket->socketDescriptor());
-    emit do_write104Log("socket " + socStr + " connected",
+    emit do_writeSTSLog("socket " + socStr + " connected",
         Qt::white, Qt::blue);
     qDebug() << "INFO :: new client: " << socket->socketDescriptor();
 }
 */
 
-void IEC104_Server::disconnected() {
+void SITIPE_Slave::disconnected() {
 }
 
-void IEC104_Server::readyRead() {
+void SITIPE_Slave::readyRead() {
     qDebug() << "--------------------------------------------------------";
-    qDebug() << "[IEC104_Server::readyRead()]";
+    qDebug() << "[SITIPE_Slave::readyRead()]";
 
     QByteArray data;
-    while (socket104->bytesAvailable()) {
-        data.append(socket104->read(1));
+    while (socketSTS->bytesAvailable())
+    {
+        data = socketSTS->read(6);
+
+        int size = getInt_fromData(data.mid(2, 4));
+        //qDebug() << "Size: " << size;
+
+        data.append(socketSTS->read(size));
+
+        //emit do_writePTMLog(data.toHex());
+        //emit do_receiveFrame(data);
     }
-    emit do_write104Log("dataRead: " + QString(data),
+
+    emit do_writeSTSLog("dataRead: " + QString(data.toHex()),
         color_in, Qt::white);
-    qDebug() << "dataRead: " << QString(data);
+    qDebug() << "dataRead: " << QString(data.toHex());
 
-    write(data);
+    receiveFrame(data);
 }
 
-void IEC104_Server::errorOccurred() {
+void SITIPE_Slave::errorOccurred() {
 }
 
-void IEC104_Server::write(QByteArray data) {
+void SITIPE_Slave::write(QByteArray data) {
     qDebug() << "--------------------------------------------------------";
-    qDebug() << "[IEC104_Server::write(QByteArray data)]";
+    qDebug() << "[SITIPE_Slave::write(QByteArray data)]";
 
-    socket104->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+    socketSTS->setSocketOption(QAbstractSocket::LowDelayOption, 1);
 
-    socket104->write(data);
-    socket104->flush();
+    socketSTS->write(data);
+    socketSTS->flush();
 
-    emit do_write104Log("dataWite: " + QString(data),
+    emit do_writeSTSLog("dataWite: " + QString(data),
         color_out, Qt::white);
     qDebug() << "dataWited: " << QString(data);
 
 }
 
+//#############################################################################
+// SITIPE Master handling
+//#############################################################################
+
+void SITIPE_Slave::receiveFrame(QByteArray data) {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Slave::receiveFrame(QByteArray data)]";
+
+    Header h;
+
+    if (getHeader(data, h)) {
+        /*
+        qDebug() << "------------------------------";
+        qDebug() << "Typ:     " << h.type;
+        qDebug() << "Size:    " << h.size;
+        //qDebug() << "ts_sec:  " << h.ts_sec;
+        //qDebug() << "ts_ms:   " << h.ts_ms;
+        qDebug() << h.str_ts;
+        qDebug() << "------------------------------";
+        */
+        if (h.type == 0) {
+            qDebug() << "Type 0000";
+            QByteArray data = QByteArray::fromHex(
+                "00040000002C0000"
+                "0000E1F13D43CBBF"
+                "4000000000000000"
+                "0000000100000005"
+                "3030303438");
+
+            write(data);
+
+        }
+        else if (h.type == 1)
+            qDebug() << "Type 0001";
+        else if (h.type == 2)
+            qDebug() << "Type 0002";
+        else if (h.type == 3)
+            qDebug() << "Type 0003";
+        else if (h.type == 10)
+            qDebug() << "Type 0010";
+        else
+            qDebug() << "unknown type";
+            //emit do_writePTMLog("unknown type!", Qt::yellow, Qt::red);
+    }
+    else {
+        qDebug() << "FrameSize NOT OK";
+        //emit do_writePTMLog("FrameSize NOT OK", Qt::yellow, Qt::red);
+    }
+}
+
+//#############################################################################
+// Helper
+//#############################################################################
+
+bool SITIPE_Slave::getHeader(QByteArray data, Header& h) {
+    bool frameOK = false;
+
+    h.size = getInt_fromData(data.mid(2, 4)) + 6;
+    if (h.size != data.size()) {
+        qDebug() << "Frame size ERROR!";
+        return frameOK;
+    }
+    else {
+        frameOK = true;
+
+        h.type = getInt_fromData(data.mid(0, 2));
+        h.ts_sec = getInt_fromData(data.mid(6, 8));
+        h.ts_ms = getInt_fromData(data.mid(14, 8));
+
+        h.ts.setMSecsSinceEpoch((h.ts_sec * 1000) + (h.ts_ms * pow(2, -64) * 1000));
+        h.str_ts = h.ts.toString("dd:MM:yyyy hh:mm:ss,zzz");
+    }
+    /*
+    qDebug() << "+++++++++++++++++++++";
+    qDebug() << "Typ:    " << h.type;
+    qDebug() << "Size:   " << h.size;
+    qDebug() << "ts_sec: " << h.ts_sec;
+    qDebug() << "ts_ms:  " << h.ts_ms;
+    */
+    return frameOK;
+
+}
