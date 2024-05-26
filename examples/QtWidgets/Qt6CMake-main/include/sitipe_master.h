@@ -116,6 +116,8 @@ signals:
     void do_writePTMLog(QString txt, QColor fColor, QColor bColor);
     void do_setPTMConnectionStatus(bool value);
 
+    void do_sendToSlave(QByteArray data);
+
 
 public slots:
     void receiveFrame(QByteArray data);
@@ -125,6 +127,9 @@ public slots:
     void setIO(QByteArray io);
     void TEST();
     void ptm_change(int ptmID);
+
+    //connection handling to SITIPE Master
+    void writeToSlave(QByteArray data, bool firstInit);
 
 private:
     const int MASTER_STOPPED = 0;
@@ -160,7 +165,8 @@ private:
     void slaveTransmit_0007(QByteArray data, Header h);
     void slaveQuit_0008(QByteArray data, Header h);
     void slaveAcceptedPTMUpdate_0009(QByteArray data, Header h);
-    
+
+   
     //Helper
     bool getHeader(QByteArray data, Header &h);
     QColor color_master = QColor(84, 130, 53, 255);

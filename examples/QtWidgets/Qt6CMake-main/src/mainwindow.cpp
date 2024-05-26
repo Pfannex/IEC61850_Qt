@@ -32,6 +32,11 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&sitipe_socket, SIGNAL(do_receiveFrame(QByteArray)), &sitipe_master, SLOT(receiveFrame(QByteArray)));
     //sitipe MASTER -> sitipe SOCKET
     connect(&sitipe_master, SIGNAL(sendFrame(QByteArray)), &sitipe_socket, SLOT(write(QByteArray)));
+    
+    //sitipe MASTER <-> sitipe SLAVE
+    connect(&sitipe_master, SIGNAL(do_sendToSlave(QByteArray)), &sitipe_slave, SLOT(write(QByteArray)));
+    connect(&sitipe_slave, SIGNAL(do_sendToMaster(QByteArray, bool)), &sitipe_master, SLOT(writeToSlave(QByteArray, bool)));
+
 
 //----[ SITIPE Slave Server ]-----------------------
     //104Server -> mainwindow

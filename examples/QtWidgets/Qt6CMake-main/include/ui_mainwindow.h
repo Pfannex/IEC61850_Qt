@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowKzkYDg.ui'
+** Form generated from reading UI file 'mainwindowEZuFSO.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWKZKYDG_H
-#define MAINWINDOWKZKYDG_H
+#ifndef MAINWINDOWEZUFSO_H
+#define MAINWINDOWEZUFSO_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -1315,7 +1315,7 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(SITIPEMaster), QCoreApplication::translate("MainWindow", "SITIPE-Master - Client", nullptr));
         bu_openSTSServer->setText(QCoreApplication::translate("MainWindow", "open", nullptr));
         tb_STSport->setInputMask(QString());
-        tb_STSport->setText(QCoreApplication::translate("MainWindow", "23000", nullptr));
+        tb_STSport->setText(QCoreApplication::translate("MainWindow", "24000", nullptr));
         tb_STSport->setPlaceholderText(QCoreApplication::translate("MainWindow", "33333", nullptr));
         cb_STSclientConnected->setText(QCoreApplication::translate("MainWindow", "TCP OK", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "Server Port:", nullptr));
@@ -1340,4 +1340,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWKZKYDG_H
+#endif // MAINWINDOWEZUFSO_H

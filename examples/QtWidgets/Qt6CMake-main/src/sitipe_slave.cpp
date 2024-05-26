@@ -8,20 +8,10 @@
 SITIPE_Slave::SITIPE_Slave(QObject* parent) :
     QObject(parent)
 {
-
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(KeepAllive()));
-    timer->start(300);
-
-
-    //foreach(QTcpSocket * socket, connection_set) {
-        //if (socketSTS != NULL) socketSTS->close();
-        //socketSTS->deleteLater();
-    //}
-    //serverSTS->close();
-    //serverSTS->deleteLater();
+    timer->start(200);
 }
-
 
 void SITIPE_Slave::open(quint16 port) {
     qDebug() << "--------------------------------------------------------";
@@ -73,43 +63,12 @@ void SITIPE_Slave::newConnection() {
 
     }
 }
-void SITIPE_Slave::KeepAllive() {
-    if (socketOpen) {
-        qDebug() << "--------------------------------------------------------";
-        qDebug() << "[SITIPE_Slave::KeepAllive()]";
 
-        QByteArray data = QByteArray::fromHex(
-                "0005000000100000"
-                "0000E1F6931D3888"
-                "980000000000");
-
-            write(data);
-    }
-    //masterKeepAlive_0002();
-
-
-}
 
 
 //#############################################################################
 // SITIPE client socket handling
 //#############################################################################
-/*
-void IEC104_Server::appendToSocketList(QTcpSocket* socket){
-    qDebug() << "--------------------------------------------------------";
-    qDebug() << "[IEC104_Server::appendToSocketList(QTcpSocket* socket)";
-
-    connection_set.insert(socket);
-    connect(socket, &QTcpSocket::readyRead, this, &IEC104_Server::readyRead);
-    connect(socket, &QTcpSocket::disconnected, this, &IEC104_Server::disconnected);
-    connect(socket, &QAbstractSocket::errorOccurred, this, &IEC104_Server::errorOccurred);
-
-    QString socStr = QString::number(socket->socketDescriptor());
-    emit do_writeSTSLog("socket " + socStr + " connected",
-        Qt::white, Qt::blue);
-    qDebug() << "INFO :: new client: " << socket->socketDescriptor();
-}
-*/
 
 void SITIPE_Slave::disconnected() {
 }
@@ -131,111 +90,80 @@ void SITIPE_Slave::readyRead() {
         //emit do_writePTMLog(data.toHex());
         //emit do_receiveFrame(data);
     }
-
     emit do_writeSTSLog("dataRead: " + QString(data.toHex()),
         color_in, Qt::white);
     qDebug() << "dataRead: " << QString(data.toHex());
 
-    receiveFrame(data);
+    int type = getInt_fromData(data.mid(0, 2));
+
+    if (firstInit){
+        if (type == 0) {
+            qDebug() << "  receive type 0000";
+            qDebug() << "  send SlaveInitResponse_0004";
+            data.clear();
+            data = QByteArray::fromHex(
+                "00040000002300000000e278e05a5c43"
+                "d8000000000000000000000100000005"
+                "303032303100000000");
+            emit write(data);
+
+            //QThread::msleep(100);
+            
+            qDebug() << "  send SlaveInitResponse_0006";
+            data.clear();
+            data = QByteArray::fromHex(
+                "00060000005200000000e2790f6bacb9"
+                "80000000000000000001000000053030"
+                "32303101000000300000000000000000"
+                "00000000000000000000000000000000"
+                "00000000000000000000000000000000"
+                "0000000000000000"
+            );
+            emit write(data);
+
+
+        }
+        else if (type == 10) {
+            qDebug() << "  receive type 0010";
+            firstInit = false;
+            emit do_sendToMaster(data, firstInit);
+        }
+    }
+    else {
+        qDebug() << "  connected send normal";
+        emit do_sendToMaster(data, false);
+    }
 }
 
 void SITIPE_Slave::errorOccurred() {
 }
 
 void SITIPE_Slave::write(QByteArray data) {
-    qDebug() << "--------------------------------------------------------";
-    qDebug() << "[SITIPE_Slave::write(QByteArray data)]";
+    if (socketOpen) {
+        qDebug() << "--------------------------------------------------------";
+        qDebug() << "[SITIPE_Slave::write(QByteArray data)]";
 
-    socketSTS->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+        socketSTS->setSocketOption(QAbstractSocket::LowDelayOption, 1);
 
-    socketSTS->write(data);
-    socketSTS->flush();
+        socketSTS->write(data);
+        socketSTS->flush();
 
-    emit do_writeSTSLog("dataWite: " + QString(data),
-        color_out, Qt::white);
-    qDebug() << "dataWited: " << QString(data);
+        emit do_writeSTSLog("dataWrite: " + QString(data),
+            color_out, Qt::white);
+        qDebug() << "dataWrited: " << QString(data);
+    }else
+        qDebug() << "NO dataWrite Slave Socket closed";
 
 }
 
-//#############################################################################
-// SITIPE Master handling
-//#############################################################################
-
-void SITIPE_Slave::receiveFrame(QByteArray data) {
-    qDebug() << "--------------------------------------------------------";
-    qDebug() << "[SITIPE_Slave::receiveFrame(QByteArray data)]";
-
-    Header h;
-
-    if (getHeader(data, h)) {
-        /*
-        qDebug() << "------------------------------";
-        qDebug() << "Typ:     " << h.type;
-        qDebug() << "Size:    " << h.size;
-        //qDebug() << "ts_sec:  " << h.ts_sec;
-        //qDebug() << "ts_ms:   " << h.ts_ms;
-        qDebug() << h.str_ts;
-        qDebug() << "------------------------------";
-        */
-        if (h.type == 0) {
-            qDebug() << "Type 0000";
-            QByteArray data = QByteArray::fromHex(
-                "00040000002C0000"
-                "0000E1F13D43CBBF"
-                "4000000000000000"
-                "0000000100000005"
-                "3030303438");
-
-            write(data);
-
-        }
-        else if (h.type == 1)
-            qDebug() << "Type 0001";
-        else if (h.type == 2)
-            qDebug() << "Type 0002";
-        else if (h.type == 3)
-            qDebug() << "Type 0003";
-        else if (h.type == 10)
-            qDebug() << "Type 0010";
-        else
-            qDebug() << "unknown type";
-            //emit do_writePTMLog("unknown type!", Qt::yellow, Qt::red);
-    }
-    else {
-        qDebug() << "FrameSize NOT OK";
-        //emit do_writePTMLog("FrameSize NOT OK", Qt::yellow, Qt::red);
+void SITIPE_Slave::keepAlive() {
+    if (!firstInit){
+        QByteArray data = QByteArray::fromHex(
+            "00050000001000000000E1F6931D3888"
+            "980000000000");
+        write(data);
     }
 }
 
-//#############################################################################
-// Helper
-//#############################################################################
 
-bool SITIPE_Slave::getHeader(QByteArray data, Header& h) {
-    bool frameOK = false;
 
-    h.size = getInt_fromData(data.mid(2, 4)) + 6;
-    if (h.size != data.size()) {
-        qDebug() << "Frame size ERROR!";
-        return frameOK;
-    }
-    else {
-        frameOK = true;
-
-        h.type = getInt_fromData(data.mid(0, 2));
-        h.ts_sec = getInt_fromData(data.mid(6, 8));
-        h.ts_ms = getInt_fromData(data.mid(14, 8));
-
-        h.ts.setMSecsSinceEpoch((h.ts_sec * 1000) + (h.ts_ms * pow(2, -64) * 1000));
-        h.str_ts = h.ts.toString("dd:MM:yyyy hh:mm:ss,zzz");
-    }
-    /*
-    qDebug() << "+++++++++++++++++++++";
-    qDebug() << "Typ:    " << h.type;
-    qDebug() << "Size:   " << h.size;
-    qDebug() << "ts_sec: " << h.ts_sec;
-    qDebug() << "ts_ms:  " << h.ts_ms;
-    */
-    return frameOK;
-
-}

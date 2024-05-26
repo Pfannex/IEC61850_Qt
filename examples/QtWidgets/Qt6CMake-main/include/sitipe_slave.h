@@ -38,8 +38,11 @@ public:
     //Server
 public slots:
     void newConnection();
+    void keepAlive();
+
 signals:
     void do_writeSTSLog(QString txt, QColor fColor, QColor bColor);
+    void do_sendToMaster(QByteArray data, bool firstInit);
 
     //Sockts
 public slots:
@@ -47,24 +50,14 @@ public slots:
     void readyRead();
     void errorOccurred();
     void write(QByteArray data);
-    void KeepAllive();
 
 private:
     QTcpServer* serverSTS;
     QTcpSocket* socketSTS;
     bool socketOpen = false;
+    bool firstInit = true;
 
-    struct Header {
-        int type;
-        int size;
-        uint64_t ts_sec;
-        uint64_t ts_ms;
-        QDateTime ts;
-        QString str_ts;
-    };
-    void receiveFrame(QByteArray data);
-    bool getHeader(QByteArray data, Header& h);
-
+ 
 
     //void appendToSocketList(QTcpSocket* socket);
 

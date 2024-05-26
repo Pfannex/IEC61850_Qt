@@ -230,6 +230,8 @@ SITIPE_Master::SITIPE_Master(QObject* parent) :
 }
 
 void SITIPE_Master::receiveFrame(QByteArray data) {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::receiveFrame(QByteArray data)]";
     Header h;
 
     if (getHeader(data, h)) {
@@ -242,19 +244,36 @@ void SITIPE_Master::receiveFrame(QByteArray data) {
         qDebug() << h.str_ts;
         qDebug() << "------------------------------";
         */
-        if (h.type == 4)
+        if (h.type == 4) {
+            qDebug() << "  slaveInitResponse_0004";
             slaveInitResponse_0004(data, h);
-        else if (h.type == 5)
+        }
+        else if (h.type == 5){
+            qDebug() << "  slaveKeepAlive_0005";
             slaveKeepAlive_0005(data, h);
-        else if (h.type == 6)
+            //emit do_sendToSlave(data);
+        }
+        else if (h.type == 6) {
+            qDebug() << "  slavePTMStatus_0006";
             slavePTMStatus_0006(data, h);
-        else if (h.type == 7)
+            emit do_sendToSlave(data);
+        }
+        else if (h.type == 7) {
+            qDebug() << "  slaveTransmit_0007";
             slaveTransmit_0007(data, h);
-        else if (h.type == 8)
+            emit do_sendToSlave(data);
+        }
+        else if (h.type == 8) {
+            qDebug() << "  slaveQuit_0008";
             slaveQuit_0008(data, h);
-        else if (h.type == 9)
+            emit do_sendToSlave(data);
+        }
+        else if (h.type == 9) {
+            qDebug() << "  slaveAcceptedPTMUpdate_0009";
             slaveAcceptedPTMUpdate_0009(data, h);
-        else  
+            emit do_sendToSlave(data);
+        }
+        else
             emit do_writePTMLog("unknown type!", Qt::yellow, Qt::red);
     }
     else {
@@ -704,6 +723,74 @@ void SITIPE_Master::slaveQuit_0008(QByteArray data, Header h) {
 void SITIPE_Master::slaveAcceptedPTMUpdate_0009(QByteArray data, Header h) {
     emit do_writePTMLog("--> [0009] slaveAcceptedPTMUpdate", color_slave, Qt::white);
 }
+
+//#############################################################################
+// connection handling to SITIPE Master
+//#############################################################################
+
+void SITIPE_Master::writeToSlave(QByteArray data, bool firstInit) {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::writeToSlave(QByteArray data)]";
+
+    Header h;
+    if (getHeader(data, h)) {
+        /*
+        qDebug() << "------------------------------";
+        qDebug() << "Typ:     " << h.type;
+        qDebug() << "Size:    " << h.size;
+        //qDebug() << "ts_sec:  " << h.ts_sec;
+        //qDebug() << "ts_ms:   " << h.ts_ms;
+        qDebug() << h.str_ts;
+        qDebug() << "------------------------------";
+        */
+        if (h.type == 99){
+            //slaveInitResponse_0004(data, h);
+            qDebug() << "  send -> slaveInitResponse_0004";
+            data.clear();
+            data = QByteArray::fromHex(
+                "00040000002300000000e278e05a5c43"
+                "d8000000000000000000000100000005"
+                "303032303100000000");
+            emit do_sendToSlave(data);
+
+            //slavePTMStatus_0006(data, h);
+            /*
+            qDebug() << "  send -> slavePTMStatus_0006";
+            data.clear();
+            data = QByteArray::fromHex(
+                "00060000005200000000e278e05a5e92"
+                "60000000000000000001000000053030"
+                "32303101000000300000000000000000"
+                "00000000000000000000000000000000"
+                "00000000000000000000000000000000"
+                "0000000000000000");
+            emit do_sendToSlave(data);
+            */
+        
+        }else if(h.type == 99 and firstInit == true) {
+            qDebug() << "  send -> firstInit SlavePTMstatus_0006";
+            data.clear();
+            data = QByteArray::fromHex(
+                "00060000005200000000e2790f6bacb9"
+                "80000000000000000001000000053030"
+                "32303101000000300000000000000000"
+                "00000000000000000000000000000000"
+                "00000000000000000000000000000000"
+                "0000000000000000"
+            );
+            emit do_sendToSlave(data);
+
+        }
+        else{
+            qDebug() << "  send -> Type " << h.type << " to Slave";
+            emit sendFrame(data);
+        }
+    }
+
+}
+//void SITIPE_Master::do_sendToSlave(QByteArray data) {
+
+//}
 
 
 //#############################################################################
