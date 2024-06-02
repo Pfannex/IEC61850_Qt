@@ -49,6 +49,7 @@ public slots:
     void disconnected();
     void readyRead();
     void errorOccurred();
+    void readHandle(QByteArray data);
     void write(QByteArray data);
 
 private:

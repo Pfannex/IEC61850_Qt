@@ -249,7 +249,7 @@ void SITIPE_Master::receiveFrame(QByteArray data) {
             slaveInitResponse_0004(data, h);
         }
         else if (h.type == 5){
-            qDebug() << "  slaveKeepAlive_0005";
+            //qDebug() << "  slaveKeepAlive_0005";
             slaveKeepAlive_0005(data, h);
             //emit do_sendToSlave(data);
         }

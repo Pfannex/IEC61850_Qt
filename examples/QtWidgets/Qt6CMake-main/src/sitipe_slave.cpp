@@ -9,8 +9,8 @@ SITIPE_Slave::SITIPE_Slave(QObject* parent) :
     QObject(parent)
 {
     QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(KeepAllive()));
-    timer->start(200);
+    connect(timer, SIGNAL(timeout()), this, SLOT(keepAlive()));
+    timer->start(500);
 }
 
 void SITIPE_Slave::open(quint16 port) {
@@ -39,6 +39,7 @@ void SITIPE_Slave::close() {
     emit do_writeSTSLog("server closing..",
         Qt::white, Qt::blue);
     socketOpen = false;
+    firstInit = false;
     serverSTS->close();
     serverSTS->deleteLater();
 }
@@ -71,6 +72,9 @@ void SITIPE_Slave::newConnection() {
 //#############################################################################
 
 void SITIPE_Slave::disconnected() {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Slave::disconnected()]";
+    firstInit = false;
 }
 
 void SITIPE_Slave::readyRead() {
@@ -87,28 +91,38 @@ void SITIPE_Slave::readyRead() {
 
         data.append(socketSTS->read(size));
 
+        readHandle(data);
+
         //emit do_writePTMLog(data.toHex());
         //emit do_receiveFrame(data);
     }
+
     emit do_writeSTSLog("dataRead: " + QString(data.toHex()),
         color_in, Qt::white);
     qDebug() << "dataRead: " << QString(data.toHex());
 
-    int type = getInt_fromData(data.mid(0, 2));
+ 
 
-    if (firstInit){
+}
+void SITIPE_Slave::readHandle(QByteArray data) {
+//++++++ cahnge to read header
+    int type = getInt_fromData(data.mid(0, 2));
+    qDebug() << "  receive type: " << type;
+
+    if (firstInit) {
         if (type == 0) {
-            qDebug() << "  receive type 0000";
             qDebug() << "  send SlaveInitResponse_0004";
             data.clear();
             data = QByteArray::fromHex(
                 "00040000002300000000e278e05a5c43"
                 "d8000000000000000000000100000005"
                 "303032303100000000");
-            emit write(data);
+            write(data);
 
             //QThread::msleep(100);
-            
+
+        }
+        else if (type == 10) {
             qDebug() << "  send SlaveInitResponse_0006";
             data.clear();
             data = QByteArray::fromHex(
@@ -119,14 +133,13 @@ void SITIPE_Slave::readyRead() {
                 "00000000000000000000000000000000"
                 "0000000000000000"
             );
-            emit write(data);
-
-
-        }
-        else if (type == 10) {
-            qDebug() << "  receive type 0010";
+            write(data);
             firstInit = false;
-            emit do_sendToMaster(data, firstInit);
+            //emit do_sendToMaster(data, firstInit);
+        }
+        else if (type == 2 and firstInit == false) {
+            qDebug() << "  send SlaveKeepAlive_0005";
+            keepAlive();
         }
     }
     else {
@@ -158,6 +171,8 @@ void SITIPE_Slave::write(QByteArray data) {
 
 void SITIPE_Slave::keepAlive() {
     if (!firstInit){
+        qDebug() << "--------------------------------------------------------";
+        qDebug() << "[SITIPE_Slave::keepAlive()]";
         QByteArray data = QByteArray::fromHex(
             "00050000001000000000E1F6931D3888"
             "980000000000");
