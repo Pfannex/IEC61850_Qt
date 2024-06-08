@@ -230,8 +230,8 @@ SITIPE_Master::SITIPE_Master(QObject* parent) :
 }
 
 void SITIPE_Master::receiveFrame(QByteArray data) {
-    qDebug() << "--------------------------------------------------------";
-    qDebug() << "[SITIPE_Master::receiveFrame(QByteArray data)]";
+    //qDebug() << "--------------------------------------------------------";
+    //qDebug() << "[SITIPE_Master::receiveFrame(QByteArray data)]";
     Header h;
 
     if (getHeader(data, h)) {
