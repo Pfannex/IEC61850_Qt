@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'mainwindowEZuFSO.ui'
+** Form generated from reading UI file 'mainwindowqoSYpf.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.3.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef MAINWINDOWEZUFSO_H
-#define MAINWINDOWEZUFSO_H
+#ifndef MAINWINDOWQOSYPF_H
+#define MAINWINDOWQOSYPF_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -176,7 +176,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(848, 519);
+        MainWindow->resize(845, 519);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -1201,7 +1201,7 @@ public:
         tb_104port->setObjectName(QString::fromUtf8("tb_104port"));
         tb_104port->setGeometry(QRect(97, 15, 71, 21));
         tb_104port->setFont(font);
-        tb_104port->setCursorPosition(5);
+        tb_104port->setCursorPosition(4);
         tb_104port->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         tabWidget->addTab(IEC104, QString());
         SIM = new QWidget();
@@ -1213,7 +1213,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 848, 22));
+        menubar->setGeometry(QRect(0, 0, 845, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -1221,7 +1221,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(2);
         bu_disconnect->setDefault(false);
         bu_closeSTSServer->setDefault(false);
         bu_close104Server->setDefault(false);
@@ -1326,7 +1326,7 @@ public:
         bu_close104Server->setText(QCoreApplication::translate("MainWindow", "close", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Server Port:", nullptr));
         tb_104port->setInputMask(QString());
-        tb_104port->setText(QCoreApplication::translate("MainWindow", "23000", nullptr));
+        tb_104port->setText(QCoreApplication::translate("MainWindow", "2404", nullptr));
         tb_104port->setPlaceholderText(QCoreApplication::translate("MainWindow", "33333", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(IEC104), QCoreApplication::translate("MainWindow", "IEC61870-5-104 - Server", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(SIM), QCoreApplication::translate("MainWindow", "Simulation", nullptr));
@@ -1340,4 +1340,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // MAINWINDOWEZUFSO_H
+#endif // MAINWINDOWQOSYPF_H

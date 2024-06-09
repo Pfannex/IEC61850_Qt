@@ -93,15 +93,87 @@ void IEC104_Server::readyRead() {
     qDebug() << "[IEC104_Server::readyRead()]";
 
     QByteArray data;
+
+    while (socket104->bytesAvailable())
+    {
+        data = socket104->read(2);
+
+        int size = getInt_fromData(data.mid(1, 1));
+        qDebug() << "Size: " << size;
+        data.append(socket104->read(size));
+
+
+        qDebug() << "dataRead: " << QString(data.toHex());
+        readHandle(data);
+
+        //emit do_writePTMLog(data.toHex());
+    }
+    /*
     while (socket104->bytesAvailable()) {
         data.append(socket104->read(1));
     }
     emit do_write104Log("dataRead: " + QString(data),
         color_in, Qt::white);
     qDebug() << "dataRead: " << QString(data);
-
-    write(data);
+    readHandle(data);
+    //write(data);
+    */
 }
+
+void IEC104_Server::readHandle(QByteArray data) {
+
+    if (data[0] == 0x68) {  //start
+        //01 S-Frame
+        if (data[2] && 0x00000011 == 0x01) {
+            emit do_write104Log("--> S-Frame", color_in, Qt::white);
+            S_FrameHandle(data);
+        }
+        //#11 U-Frame
+        else if (data[2] && 0b00000011 == 0b11) {
+            emit do_write104Log("--> U-Frame", color_in, Qt::white);
+            U_FrameHandle(data);
+        }
+        //11 I-Frame
+        else if (data[2] && 0b00000001 == 0b0) {
+            emit do_write104Log("--> I-Frame", color_in, Qt::white);
+            I_FrameHandle(data);
+        }
+        else {
+            qDebug() << "Wrong size of incomming IEC 60870-5-104 Frame";
+        }
+    }
+}
+
+void IEC104_Server::S_FrameHandle(QByteArray data) {
+}
+
+void IEC104_Server::U_FrameHandle(QByteArray data) {
+    if (data[2] == 0x07) {
+        emit do_write104Log("--> U (STARTDT act)", color_in, Qt::white);
+        data[2] = 0x0B;
+        emit do_write104Log("<-- U (STARTDT con)", color_out, Qt::white);
+        write(data);
+    }
+    else if (data[2] == 0x13) {
+        emit do_write104Log("--> U (STOPDT act)", color_in, Qt::white);
+        data[2] = 0x23;
+        emit do_write104Log("<-- U (STOPDT con)", color_out, Qt::white);
+        write(data);
+    }
+    else if (data[2] == 0x43) {
+        emit do_write104Log("--> U (TESTFR act)", color_in, Qt::white);
+        data[2] = 0x83;
+        emit do_write104Log("<-- U (TESTFR act)", color_out, Qt::white);
+        write(data);
+    }
+    else {
+        emit do_write104Log("--> unknown U {}", color_in, Qt::white);
+    }
+}
+
+void IEC104_Server::I_FrameHandle(QByteArray data) {
+}
+
 
 void IEC104_Server::errorOccurred() {
 }

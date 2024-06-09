@@ -44,8 +44,13 @@ signals:
 public slots:
     void disconnected();
     void readyRead();
+    void readHandle(QByteArray data);
     void errorOccurred();
     void write(QByteArray data);
+
+    void S_FrameHandle(QByteArray data);
+    void U_FrameHandle(QByteArray data);
+    void I_FrameHandle(QByteArray data);
 
 private:
     QTcpServer* server104;
