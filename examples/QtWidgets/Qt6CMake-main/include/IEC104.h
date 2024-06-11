@@ -33,6 +33,7 @@ public:
 
     void open(quint16 port);
     void close();
+    bool socketOnline = false;
 
     //Server
 public slots:
@@ -52,9 +53,13 @@ public slots:
     void U_FrameHandle(QByteArray data);
     void I_FrameHandle(QByteArray data);
 
+    void send_TESTFR();
+
 private:
     QTcpServer* server104;
     QTcpSocket* socket104;
+    quint16 rx_count = 0;
+    quint16 tx_count = 0;
 
     //void appendToSocketList(QTcpSocket* socket);
 
