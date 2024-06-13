@@ -123,6 +123,7 @@ public slots:
     void receiveFrame(QByteArray data);
     void KeepAllive();
     void updateSocketState(bool online);
+    void setIO(int ptmID, int channel, bool value);
     void setIO(int channel, bool value);
     void setIO(QByteArray io);
     void TEST();

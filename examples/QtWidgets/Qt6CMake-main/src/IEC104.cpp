@@ -159,7 +159,11 @@ void IEC104_Server::readHandle(QByteArray data) {
 }
 
 void IEC104_Server::S_FrameHandle(QByteArray data) {
-    emit do_write104Log("--> S-Frame", color_in, Qt::white);
+    uint s_rx_count = data[5] << 8;
+    s_rx_count += (data[4] & 0b11111110) >> 1;
+
+    emit do_write104Log("--> S-Frame (rx = " + QString::number(s_rx_count) + ")",
+        color_in, Qt::white);
 }
 
 void IEC104_Server::U_FrameHandle(QByteArray data) {
@@ -171,26 +175,26 @@ void IEC104_Server::U_FrameHandle(QByteArray data) {
         rx_count = 0;
         tx_count = 0;
 
-        emit do_write104Log("--> U (STARTDT act)", color_in, Qt::white);
+        emit do_write104Log("--> U (STARTDT Act)", color_in, Qt::white);
         data[2] = 0x0B;
-        emit do_write104Log("<-- U (STARTDT con)", color_out, Qt::white);
+        emit do_write104Log("<-- U (STARTDT Con)", color_out, Qt::white);
         write(data);
     }
     else if (type == "13") {
         socketOnline = false;
-        emit do_write104Log("--> U (STOPDT act)", color_in, Qt::white);
+        emit do_write104Log("--> U (STOPDT Act)", color_in, Qt::white);
         data[2] = 0x23;
-        emit do_write104Log("<-- U (STOPDT con)", color_out, Qt::white);
+        emit do_write104Log("<-- U (STOPDT Con)", color_out, Qt::white);
         write(data);
     }
     else if (type == "43") {
-        emit do_write104Log("--> U (TESTFR act)", color_in, Qt::white);
+        emit do_write104Log("--> U (TESTFR Act)", color_in, Qt::white);
         data[2] = 0x83;
-        emit do_write104Log("<-- U (TESTFR con)", color_out, Qt::white);
+        emit do_write104Log("<-- U (TESTFR on)", color_out, Qt::white);
         write(data);
     }
     else if (type == "83") {
-        emit do_write104Log("<-- U (TESTFR con)", color_out, Qt::white);
+        emit do_write104Log("<-- U (TESTFR Con)", color_out, Qt::white);
     }
     else {
         emit do_write104Log("--> unknown U {}", color_in, Qt::white);
@@ -201,10 +205,10 @@ void IEC104_Server::I_FrameHandle(QByteArray data) {
     qDebug() << "--------------------------------------------------------";
     qDebug() << "[IEC104_Server::I_FrameHandle(QByteArray data)]";
     
-    rx_count = data[2] << 8;
-    rx_count += (data[3] & 0b11111110) << 1;
-    tx_count = data[4] << 8;
-    tx_count += (data[5] & 0b11111110) << 1;
+    tx_count = data[3] << 8;
+    tx_count += (data[2] & 0b11111110) >> 1;
+    rx_count = data[5] << 8;
+    rx_count += (data[4] & 0b11111110) >> 1;
     uint ti = data[6];
     quint8 cot = (data[8] & 0b00111111);
 
@@ -214,25 +218,54 @@ void IEC104_Server::I_FrameHandle(QByteArray data) {
     qDebug() << "  COT:      " << cot;
     rx_count++;
 
-    emit do_write104Log("--> I-Frame (TI " + QString::number(ti) + " act)"
+    emit do_write104Log("--> I-Frame (TI " + QString::number(ti) + " Act)"
         , color_in, Qt::white);
+    
+    data[2] = (tx_count & 0b0000000001111111) << 1;
+    data[3] = (tx_count & 0b0111111110000000) >> 7;
+    data[4] = (rx_count & 0b0000000001111111) << 1;
+    data[5] = (rx_count & 0b0111111110000000) >> 7;
+    data[8] = (data[8] & 0b11000000) | 7;
+    QString myStringOfBits(QString::number(data[8], 2));
+    qDebug() << "  COT:      " << myStringOfBits;
 
-    if (ti == 100) {
-        data[2] = (tx_count & 0b0000000001111111) << 1;
-        data[3] = (tx_count & 0b0111111110000000) >> 7;
-        data[4] = (rx_count & 0b0000000001111111) << 1;
-        data[5] = (rx_count & 0b0111111110000000) >> 7;
-        data[8] = (data[8] & 0b11000000) | 7;
-        QString myStringOfBits(QString::number(data[8], 2));
-        qDebug() << "  COT:      " << myStringOfBits;
+    emit do_write104Log("<-- I-Frame (TI " + QString::number(ti) + " ActCon)"
+        , color_in, Qt::white);
+    write(data);
+    tx_count++;
 
-        emit do_write104Log("<-- I-Frame (TI 100 ActCon)", color_out, Qt::white);
-        write(data);
-        tx_count++;
+    if (ti != 100) I_FrameControl(data);
+}
+
+void IEC104_Server::I_FrameControl(QByteArray data) {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[I_FrameControl(QByteArray data)]";
+    uint ti = data[6];
+
+    if (ti == 45) {
+        uint CASDU1 = data[10];
+        uint CASDU2 = data[11];
+        uint IO1    = data[12];
+        uint IO2    = data[13];
+        uint IO3    = data[14];
+        bool value  = data[15] & 0b00000001;
+
+        emit do_write104Log("    CASDU  " + QString::number(CASDU1) + " | " + QString::number(CASDU2)
+            , color_inSub, Qt::white);
+        emit do_write104Log("    IO     " + QString::number(IO1) + 
+                                       " | " + QString::number(IO2) +
+                                       " | " + QString::number(IO3)
+            , color_inSub, Qt::white);
+        emit do_write104Log("    IO/Val  " + QString::number(IO3) + " | " + QString::number(value)
+            , color_inSub, Qt::white);
+
+
+
+        emit do_setIO(CASDU2, IO3, value);
 
     }
-
 }
+
 
 void IEC104_Server::send_TESTFR() {
     if (socketOnline == true) {
@@ -241,7 +274,7 @@ void IEC104_Server::send_TESTFR() {
 
         QByteArray data = QByteArray::fromHex(
             "680443000000");
-        emit do_write104Log("--> U (TESTFR act)", color_in, Qt::white);
+        emit do_write104Log("--> U (TESTFR Act)", color_in, Qt::white);
         write(data);
     }
 }

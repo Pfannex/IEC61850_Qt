@@ -54,7 +54,9 @@ MainWindow::MainWindow(QWidget* parent) :
     //mainwindow -> 104ServerT
     //connect(this, SIGNAL(on_ptm_change(int)), &sitipe_master, SLOT(ptm_change(int)));
 
-
+    //104Server -> sitipe_master
+    connect(&iec104, SIGNAL(do_setIO(int, int, bool)), &sitipe_master, SLOT(setIO(int, int, bool)));
+    
 
     //OUTPUT
     outputGroup = new QButtonGroup(this);

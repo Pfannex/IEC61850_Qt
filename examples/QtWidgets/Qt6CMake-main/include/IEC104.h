@@ -40,6 +40,7 @@ public slots:
     void newConnection();
 signals:
     void do_write104Log(QString txt, QColor fColor, QColor bColor);
+    void do_setIO(int ptmID, int channel, bool value);
 
     //Sockts
 public slots:
@@ -52,6 +53,7 @@ public slots:
     void S_FrameHandle(QByteArray data);
     void U_FrameHandle(QByteArray data);
     void I_FrameHandle(QByteArray data);
+    void I_FrameControl(QByteArray data);
 
     void send_TESTFR();
 

@@ -321,6 +321,22 @@ void SITIPE_Master::ptm_change(int ptmID) {
 
 }
 
+void SITIPE_Master::setIO(int ptmID, int channel, bool value) {
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "--------------------------------------------------------";
+    qDebug() << "[SITIPE_Master::setIO]";
+    qDebug() << "  ptmID:   " << ptmID;
+    qDebug() << "  channel: " << channel;
+    qDebug() << "  value:   " << value;
+
+    if (ptm.index.count() > 0) {
+        ptm.index[ptm.getptmIndexfromPtmID(ptmID)].io[channel - 1].outValue = value;
+
+        if (ptm.index[ptm.getptmIndexfromPtmID(ptmID)].connected)
+            masterTransmit_0001(ptmID, channel, value);
+    }
+}
 void SITIPE_Master::setIO(int channel, bool value) {
     qDebug() << "--------------------------------------------------------";
     qDebug() << "[SITIPE_Master::setIO]";
