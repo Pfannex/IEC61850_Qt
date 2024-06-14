@@ -243,26 +243,24 @@ void IEC104_Server::I_FrameControl(QByteArray data) {
     uint ti = data[6];
 
     if (ti == 45) {
-        uint CASDU1 = data[10];
-        uint CASDU2 = data[11];
-        uint IO1    = data[12];
-        uint IO2    = data[13];
-        uint IO3    = data[14];
+        uint CASDU1 = unsigned char(data[10]);
+        uint CASDU2 = unsigned char(data[11]);
+        uint IO1    = unsigned char(data[12]);
+        uint IO2    = unsigned char(data[13]);
+        uint IO3    = unsigned char(data[14]);
         bool value  = data[15] & 0b00000001;
 
-        emit do_write104Log("    CASDU  " + QString::number(CASDU1) + " | " + QString::number(CASDU2)
+        emit do_write104Log("      CASDU  " + QString::number(CASDU1) + " | " + QString::number(CASDU2)
             , color_inSub, Qt::white);
-        emit do_write104Log("    IO     " + QString::number(IO1) + 
+        emit do_write104Log("      IO     " + QString::number(IO1) + 
                                        " | " + QString::number(IO2) +
                                        " | " + QString::number(IO3)
             , color_inSub, Qt::white);
-        emit do_write104Log("    IO/Val  " + QString::number(IO3) + " | " + QString::number(value)
+        emit do_write104Log("      IO/Val " + QString::number(IO3) + " | " + QString::number(value)
             , color_inSub, Qt::white);
 
 
-
         emit do_setIO(CASDU2, IO3, value);
-
     }
 }
 
